@@ -1,4 +1,4 @@
-import { environment } from './../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { HttpHandlerFn, HttpRequest } from '@angular/common/http';
 
 export function urlInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) {
