@@ -18,7 +18,7 @@ export function errorInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn)
       errorModel.errorCode = err.error['error_code'];
       console.log(errorModel.errorMsg);
 
-      if (errorModel.statusCode == 401) {
+      if (errorModel.statusCode == 401 || errorModel.statusCode == 403) {
         return handleRefreshToken(req, next, authFacade);
       }
       if (
@@ -31,8 +31,8 @@ export function errorInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn)
         console.log('Server is busy try again later');
       }
 
-      if (req.url.includes('grant_type=refresh_token')) {
-        //TODO: ADD LOGOUT FUNCTION WHEN FEATURE IS ADDED
+      if (req.url.includes('grant_type=refresh_token') || errorModel.errorMsg.includes('token')) {
+        return handleRefreshToken(req, next, authFacade);
       }
       return throwError(() => err);
     }),
@@ -44,8 +44,6 @@ function handleRefreshToken(
   next: HttpHandlerFn,
   authFacade: AuthFacade,
 ) {
-  console.log('in refresh func');
-
   if (isTokenRefreshing) {
     return accessTokenSubject.pipe(
       filter(token => token != null),
@@ -53,12 +51,11 @@ function handleRefreshToken(
       switchMap(token => next(addToken(req, token!))),
     );
   } else {
-    isTokenRefreshing = true;
     accessTokenSubject.next(null);
+    isTokenRefreshing = true;
     return authFacade.refreshToken().pipe(
       catchError(err => {
         //TODO: ADD LOGOUT FUNCTION WHEN FEATURE IS ADDED
-        authFacade.authDomainService.clearUserExpriedSession();
         return throwError(() => err);
       }),
       switchMap(val => {
@@ -80,7 +77,6 @@ function handleRefreshToken(
 function addToken(request: HttpRequest<unknown>, token: string): HttpRequest<unknown> {
   return request.clone({
     setHeaders: {
-      apikey: 'sb_publishable_pehy5R7dZ7ohRWxQLOEH7Q_G2uLEUBV',
       Authorization: `Bearer ${token}`,
     },
   });

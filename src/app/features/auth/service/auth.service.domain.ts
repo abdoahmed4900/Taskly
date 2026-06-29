@@ -50,7 +50,7 @@ export class AuthDomainService {
   }
 
   getRefreshToken() {
-    return localStorage.getItem('refreshToken');
+    return localStorage.getItem('refreshToken') || sessionStorage.getItem('refreshToken');
   }
 
   isUserSessionValid() {
@@ -104,10 +104,14 @@ export class AuthDomainService {
 
   resetUserTokensAfterRefresh(v: unknown) {
     const user = JSON.parse(JSON.stringify(v));
+
     if (this.isUserRemembered()) {
       localStorage.setItem('token', user.access_token);
-      localStorage.setItem('refreshToken', user.refreshToken);
+      localStorage.setItem('refreshToken', user.refresh_token);
+    } else {
+      sessionStorage.setItem('token', user.access_token);
+      sessionStorage.setItem('refreshToken', user.refresh_token);
     }
-    return { refreshToken: user.refreshToken, token: user.access_token };
+    return { refreshToken: user.refresh_token, token: user.access_token };
   }
 }
