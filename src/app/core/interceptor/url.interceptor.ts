@@ -1,5 +1,5 @@
-import { environment } from '../../../environments/environment';
 import { HttpHandlerFn, HttpRequest } from '@angular/common/http';
+import { environment } from '../../env/environment';
 
 export function urlInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) {
   const newReq = req.clone({
