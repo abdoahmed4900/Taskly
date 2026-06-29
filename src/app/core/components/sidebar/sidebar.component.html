@@ -1,0 +1,141 @@
+@if (isLoggedIn()) {
+  @if (isOpen()) {
+    <div class="fixed inset-0 z-2 w-72 transition-all transition-1000">
+      <aside
+        appClickOutside
+        (clickOutside)="close()"
+        class="absolute left-0 top-0 h-screen w-64 bg-(--surface-low) shadow-xl flex flex-col justify-between transition-all duration-300"
+      >
+        <div class="p-6">
+          <section class="logo flex flex-row gap-1 items-center">
+            <app-website-icon></app-website-icon>
+            <p class="text-[20px] font-bold leading-7 tracking-[-0.5px] text-(--slate-nature-first)">Taskly</p>
+          </section>
+          <nav class="mt-8">
+            <ul class="space-y-10">
+              <li class="flex flex-row gap-2 justify-start items-center">
+                <app-projects-icon class="lg:hidden"></app-projects-icon>
+                <app-projects-desktop-icon class="lg:block hidden"></app-projects-desktop-icon>
+
+                <p class="text-[14px] leading-5 font-medium tracking-normal text-(--primary)">Projects</p>
+              </li>
+
+              <li class="flex flex-row gap-2 justify-start items-center">
+                <app-epics-icon></app-epics-icon>
+
+                <p class="text-[14px] leading-5 font-medium tracking-normal text-(--slate-nature-first)">
+                  Project Epics
+                </p>
+              </li>
+
+              <li class="flex flex-row gap-2 justify-start items-center">
+                <app-tasks-icon></app-tasks-icon>
+
+                <p class="text-[14px] leading-5 font-medium tracking-normal text-(--slate-nature-first)">
+                  Project Tasks
+                </p>
+              </li>
+
+              <li class="flex flex-row gap-2 justify-start items-center">
+                <app-memebers-icon></app-memebers-icon>
+
+                <p class="text-[14px] leading-5 font-medium tracking-normal text-(--slate-nature-first)">
+                  Project Members
+                </p>
+              </li>
+
+              <li class="flex flex-row gap-2 justify-start items-center">
+                <app-details-icon></app-details-icon>
+
+                <p class="text-[14px] leading-5 font-medium tracking-normal text-(--slate-nature-first)">
+                  Project Details
+                </p>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <section>
+          <button (click)="toggleSideBar()" class="hidden px-6 py-3 lg:flex flex-row items-center gap-2 justify-start">
+            <svg width="12" height="20" viewBox="0 0 12 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 20L0 10L10 0L11.775 1.775L3.55 10L11.775 18.225L10 20Z" fill="#041B3C" />
+            </svg>
+
+            <p class="text-[14px] font-medium leading-5 tracking-normal text-(--slate-nature-first) transition">
+              Collapse
+            </p>
+          </button>
+          <div class="px-6 py-3 flex flex-row items-center gap-2 justify-start">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M2 18C1.45 18 0.979167 17.8042 0.5875 17.4125C0.195833 17.0208 0 16.55 0 16V2C0 1.45 0.195833 0.979167 0.5875 0.5875C0.979167 0.195833 1.45 0 2 0H9V2H2V16H9V18H2ZM13 14L11.625 12.55L14.175 10H6V8H14.175L11.625 5.45L13 4L18 9L13 14Z"
+                fill="#BA1A1A"
+              />
+            </svg>
+            <button
+              (click)="logout()"
+              class="text-[14px] font-medium leading-5 tracking-normal text-(--error) transition"
+            >
+              Logout
+            </button>
+          </div>
+        </section>
+      </aside>
+    </div>
+  } @else {
+    <div class="fixed w-25 lg:block hidden inset-0 z-2 transition-all">
+      <aside
+        appClickOutside
+        (clickOutside)="close()"
+        class="absolute left-0 top-0 h-screen bg-(--surface-low) shadow-xl flex flex-col justify-between transition-all duration-300"
+      >
+        <div class="p-6">
+          <app-website-icon class="me-2"></app-website-icon>
+          <nav class="mt-8">
+            <ul class="space-y-10">
+              <li class="flex flex-row gap-2 justify-start items-center">
+                <app-projects-icon></app-projects-icon>
+              </li>
+
+              <li class="flex flex-row gap-2 justify-start items-center">
+                <app-epics-icon></app-epics-icon>
+              </li>
+
+              <li class="flex flex-row gap-2 justify-start items-center">
+                <app-tasks-icon></app-tasks-icon>
+              </li>
+
+              <li class="flex flex-row gap-2 justify-start items-center">
+                <app-memebers-icon></app-memebers-icon>
+              </li>
+
+              <li class="flex flex-row gap-2 justify-start items-center">
+                <app-details-icon></app-details-icon>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <div class="p-6 flex flex-col items-center gap-5 justify-start">
+          <button (click)="toggleSideBar()">
+            <svg width="12" height="20" viewBox="0 0 12 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M1.78301 6.16699e-06L11.7787 10.0043L1.77442 20L0.000178955 18.2242L8.22871 10.0028L0.00725113 1.77424L1.78301 6.16699e-06Z"
+                fill="#041B3C"
+              />
+            </svg>
+          </button>
+
+          <button (click)="logout()">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M2 18C1.45 18 0.979167 17.8042 0.5875 17.4125C0.195833 17.0208 0 16.55 0 16V2C0 1.45 0.195833 0.979167 0.5875 0.5875C0.979167 0.195833 1.45 0 2 0H9V2H2V16H9V18H2ZM13 14L11.625 12.55L14.175 10H6V8H14.175L11.625 5.45L13 4L18 9L13 14Z"
+                fill="#BA1A1A"
+              />
+            </svg>
+          </button>
+        </div>
+      </aside>
+    </div>
+  }
+}

@@ -1,0 +1,108 @@
+<nav class="navbar relative flex flex-row items-center justify-between w-full">
+  <section class="logo flex flex-row gap-1 items-center">
+    @if (isLoggedIn()) {
+      <button class="lg:hidden block me-3" (click)="toggleSidebar(); $event.stopPropagation()">
+        <svg width="26" height="20" viewBox="0 0 26 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 16V14H22V16H4ZM4 11V9H22V11H4ZM4 6V4H22V6H4Z" fill="#041B3C" />
+        </svg>
+      </button>
+    }
+    <app-website-icon></app-website-icon>
+    <p class="text-[20px] font-bold leading-7 tracking-[-0.5px] text-(--slate-nature-first)">Taskly</p>
+  </section>
+  @if (isLoggedIn()) {
+    <section class="user-info flex gap-3 flex-row">
+      <div class="md:flex hidden flex-col text-right gap-2">
+        <p class="text-[14px] text-(--slate-nature-first) font-bold leading-5 tracking-normal">{{ name() }}</p>
+        <p class="text-[10px] font-bold text-(--primary) leading-5 tracking-[1px] uppercase">{{ job() }}</p>
+      </div>
+      <button
+        (click)="toggleDropDown()"
+        class="rounded-åmd font-bold text-[16px] leading-6 tracking-normal text-center h-fit self-center p-3 shadow-[0px_1px_2px_0px_#0000000D] text-white bg-(--primary-container)"
+      >
+        {{ initials() }}
+      </button>
+    </section>
+  }
+  @if (dropDownOpened()) {
+    <div
+      class="absolute right-0 top-14 z-50 w-64 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl"
+    >
+      <!-- Header -->
+      <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+        <div>
+          <h3 class="text-sm font-semibold text-slate-800">Account</h3>
+          <p class="text-xs text-slate-500">Manage your session</p>
+        </div>
+
+        <button
+          (click)="toggleDropDown()"
+          class="flex h-8 w-8 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-700"
+        >
+          ✕
+        </button>
+      </div>
+
+      <!-- Menu -->
+      <div class="p-2">
+        <button
+          class="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-slate-700 transition hover:bg-blue-50 hover:text-blue-700"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M5.121 17.804A9 9 0 1118.88 6.196M15 12H3m0 0l4-4m-4 4l4 4" />
+          </svg>
+
+          Profile
+        </button>
+
+        <button
+          class="mt-1 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-slate-700 transition hover:bg-blue-50 hover:text-blue-700"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M12 15.5A3.5 3.5 0 1012 8.5a3.5 3.5 0 000 7z" />
+          </svg>
+
+          Settings
+        </button>
+
+        <hr class="my-2 border-slate-100" />
+
+        <button
+          (click)="logout()"
+          class="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-red-600 transition hover:bg-red-50"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M17 16l4-4m0 0l-4-4m4 4H9" />
+            <path d="M13 20H5a2 2 0 01-2-2V6a2 2 0 012-2h8" />
+          </svg>
+
+          Logout
+        </button>
+      </div>
+    </div>
+  }
+</nav>
+@if (sidebarOpened() || isBiggerThanLarge()) {
+  <app-sidebar (closed)="closeSidebar()"></app-sidebar>
+}
