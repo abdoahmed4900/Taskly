@@ -137,27 +137,6 @@ http://localhost:4200
 
 ---
 
-# 📸 Screenshots
-
-| Login          | Dashboard      |
-| -------------- | -------------- |
-| Add screenshot | Add screenshot |
-
----
-
-# 📈 Roadmap
-
-- [ ] Task CRUD
-- [ ] Drag & Drop
-- [ ] Team Collaboration
-- [ ] Due Dates
-- [ ] Search & Filtering
-- [ ] Notifications
-- [ ] Activity Log
-- [ ] Dark Mode
-
----
-
 # 👨‍💻 Author
 
 **Abdelrahman Ahmed**
