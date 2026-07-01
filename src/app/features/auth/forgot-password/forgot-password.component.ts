@@ -3,11 +3,12 @@ import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@
 import { RouterLink } from '@angular/router';
 import { AuthFacade } from '../facade/auth.facade';
 import { Subject, takeUntil } from 'rxjs';
+import { SubmitButtonComponent } from '../components/submit-button/submit-button.component';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, SubmitButtonComponent],
   templateUrl: './forgot-password.component.html',
   styleUrl: './forgot-password.component.css',
 })

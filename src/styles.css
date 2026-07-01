@@ -16,6 +16,7 @@
   --form-control-error-bg: #ffdad6;
   --icon-bg-color: #e8edff;
   --bg-primary-gradient: linear-gradient(90deg, rgba(0, 61, 155, 1) 0%, rgba(0, 82, 204, 1) 100%);
+  --form-padding: 3rem;
 }
 
 @layer components {
@@ -98,23 +99,31 @@
   }
 
   .form-control {
-    opacity: 1;
-    padding-top: 13px;
+    width: 100%;
+    padding-top: 14px;
     padding-right: 16px;
-    padding-bottom: 14px;
+    padding-bottom: 15px;
     padding-left: 16px;
     border-radius: 4px;
+    height: 3rem;
+    background-color: var(--form-control-bg);
+    border-radius: 8px;
+    outline: var(--primary);
+    @media (max-width: 767px) {
+      padding-top: 18px;
+      padding-bottom: 19px;
+    }
   }
 
-  .form-title {
-    font-family: Inter;
-    font-weight: 700;
-    font-style: Bold;
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 1.4px;
+  .form-control-label {
+    font-weight: Bold;
+    font-size: 11px;
+    line-height: 16.5px;
+    letter-spacing: 0.55px;
     vertical-align: middle;
-    color: #737685;
+    padding-bottom: 6px;
+    padding-inline-start: 4px;
+    color: var(--slate-nature-second);
     text-transform: uppercase;
   }
 

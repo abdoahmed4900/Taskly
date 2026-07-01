@@ -26,10 +26,17 @@ import {
 import { PasswordVisibilityIcon } from '../components/password-visibility-icon/password-visibility-icon';
 import { Router, RouterLink } from '@angular/router';
 import { PasswordChecksComponent } from '../components/password-checks/password-checks.component';
+import { SubmitButtonComponent } from '../components/submit-button/submit-button.component';
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [ReactiveFormsModule, PasswordVisibilityIcon, RouterLink, PasswordChecksComponent],
+  imports: [
+    ReactiveFormsModule,
+    PasswordVisibilityIcon,
+    RouterLink,
+    PasswordChecksComponent,
+    SubmitButtonComponent,
+  ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

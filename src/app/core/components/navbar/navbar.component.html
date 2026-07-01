@@ -1,4 +1,4 @@
-<nav class="navbar relative flex flex-row items-center justify-between w-full">
+<nav class="navbar relative h-20 py-6.5 lg:px-10 ps-6 flex flex-row items-center justify-between w-full">
   <section class="logo flex flex-row gap-1 items-center">
     @if (isLoggedIn()) {
       <button class="lg:hidden block me-3" (click)="toggleSidebar(); $event.stopPropagation()">
@@ -8,7 +8,7 @@
       </button>
     }
     <app-website-icon></app-website-icon>
-    <p class="text-[20px] font-bold leading-7 tracking-[-0.5px] text-(--slate-nature-first)">Taskly</p>
+    <p class="text-[20px] font-bold leading-7 tracking-[-0.5px] py-1 text-(--slate-nature-first)">Taskly</p>
   </section>
   @if (isLoggedIn()) {
     <section class="user-info flex gap-3 flex-row">

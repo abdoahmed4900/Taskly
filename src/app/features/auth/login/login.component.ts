@@ -10,12 +10,19 @@ import {
 import { PasswordVisibilityIcon } from '../components/password-visibility-icon/password-visibility-icon';
 import { Router, RouterLink } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { SubmitButtonComponent } from '../components/submit-button/submit-button.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PasswordVisibilityIcon, RouterLink, ReactiveFormsModule, FormsModule],
+  imports: [
+    PasswordVisibilityIcon,
+    RouterLink,
+    ReactiveFormsModule,
+    FormsModule,
+    SubmitButtonComponent,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
