@@ -30,6 +30,14 @@ export class AuthDomainService {
     this.isUserLoggedIn.set(true);
   }
 
+  storeAttribute(key: string, val: string) {
+    if (this.isUserRemembered()) {
+      localStorage.setItem(key, val);
+    } else {
+      sessionStorage.setItem(key, val);
+    }
+  }
+
   storeUserNameAndJob(name: string, job: string) {
     if (this.isUserRemembered()) {
       localStorage.setItem('name', name);

@@ -18,7 +18,15 @@ export class AuthApiService {
   }
 
   sendResetPasswordEmail(email: string) {
-    return this.httpClient.post('recover', { email: email });
+    return this.httpClient.post(
+      'recover',
+      { email: email },
+      {
+        headers: {
+          redirect_to: 'https://taskly-lime-nine.vercel.app/reset-password',
+        },
+      },
+    );
   }
 
   resetPassword(password: string) {
