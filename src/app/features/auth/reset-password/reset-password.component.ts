@@ -69,6 +69,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       } else {
         this.token = arr[0].split('=')[1];
         this.refreshToken = arr[3].split('=')[1];
+        this.authFacade.refreshToken().pipe(takeUntil(this.destroy$)).subscribe();
       }
     });
   }

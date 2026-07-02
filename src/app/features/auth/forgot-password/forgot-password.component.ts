@@ -21,6 +21,7 @@ export class ForgotPasswordComponent implements OnDestroy {
   destroy$ = new Subject<void>();
   trials = signal(3);
   buttonElement = viewChild<ElementRef<HTMLButtonElement>>('submitButton');
+  isLoading = signal(false);
 
   forgotPasswordForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -50,17 +51,20 @@ export class ForgotPasswordComponent implements OnDestroy {
 
   sendEmail() {
     if (this.forgotPasswordForm.valid && this.resendTime() == 0 && this.trials() > 0) {
-      this.buttonElement()!.nativeElement.disabled = true;
+      this.isLoading.set(true);
       setTimeout(() => {
         this.authFacade
           .sendResetPasswordEmail(this.getControl('email')!.value)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
             next: () => {
-              this.buttonElement()!.nativeElement.disabled = false;
               console.log('email sent successfully!');
+              this.isLoading.set(false);
               this.setResetEmailInterval();
               this.trials.update(v => v - 1);
+            },
+            error: () => {
+              this.isLoading.set(false);
             },
           });
       }, 5000);
