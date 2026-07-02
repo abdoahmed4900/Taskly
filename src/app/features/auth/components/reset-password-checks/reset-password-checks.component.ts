@@ -22,21 +22,34 @@ export class ResetPasswordChecksComponent implements OnDestroy {
   passwordFourthCheck = computed(() => /[1-9]/.test(this.password()));
   passwordFifthCheck = computed(() => /[^a-zA-Z0-9_ ]/.test(this.password()));
   destroy$ = new Subject<void>();
-  passwordFirstCheckComponent = computed(() => {
-    return this.isPasswordCheckCorrect(this.passwordFirstCheck());
-  });
-  passwordSecondCheckComponent = computed(() => {
-    return this.isPasswordCheckCorrect(this.passwordSecondCheck());
-  });
-  passwordThirdCheckComponent = computed(() => {
-    return this.isPasswordCheckCorrect(this.passwordThirdCheck());
-  });
-  passwordFourthCheckComponent = computed(() => {
-    return this.isPasswordCheckCorrect(this.passwordFourthCheck());
-  });
-  passwordFifthCheckComponent = computed(() => {
-    return this.isPasswordCheckCorrect(this.passwordFifthCheck());
-  });
+
+  components = [
+    computed(() =>
+      this.passwordFirstCheck() ? CheckPasswordValidComponent : CheckPasswordInvalidComponent,
+    ),
+
+    computed(() =>
+      this.passwordSecondCheck() ? CheckPasswordValidComponent : CheckPasswordInvalidComponent,
+    ),
+
+    computed(() =>
+      this.passwordThirdCheck() ? CheckPasswordValidComponent : CheckPasswordInvalidComponent,
+    ),
+
+    computed(() =>
+      this.passwordFourthCheck() ? CheckPasswordValidComponent : CheckPasswordInvalidComponent,
+    ),
+
+    computed(() =>
+      this.passwordFifthCheck() ? CheckPasswordValidComponent : CheckPasswordInvalidComponent,
+    ),
+
+    computed(() =>
+      this.passwordSecondCheck() && this.passwordThirdCheck()
+        ? CheckPasswordValidComponent
+        : CheckPasswordInvalidComponent,
+    ),
+  ];
 
   isPasswordStrong = computed(() => {
     this.setPasswordStrongOutPut.emit(
@@ -60,7 +73,7 @@ export class ResetPasswordChecksComponent implements OnDestroy {
   setPasswordStrongOutPut = output<boolean>();
 
   isPasswordCheckCorrect(check: boolean) {
-    return check ? CheckPasswordValidComponent : CheckPasswordInvalidComponent;
+    return check;
   }
 
   ngOnDestroy(): void {

@@ -54,6 +54,10 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       this.password.set(val.password ?? '');
       console.log(`password: ${this.password()}`);
     });
+    this.checkLinkValidity();
+  }
+
+  private checkLinkValidity() {
     this.activatedRoute.fragment.pipe(takeUntil(this.destroy$)).subscribe(val => {
       const arr = JSON.stringify(val).split('&');
       console.log(arr[0].split('=')[1]);
