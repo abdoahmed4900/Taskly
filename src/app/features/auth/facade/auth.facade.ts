@@ -26,8 +26,6 @@ export class AuthFacade {
     return this.authApiService.login(user).pipe(
       tap(u => {
         const user = JSON.parse(JSON.stringify(u));
-        console.log(rememberMe);
-
         this.authDomainService.storeUserCredentials(
           user.access_token,
           user.refresh_token,
@@ -37,10 +35,6 @@ export class AuthFacade {
           user.user.user_metadata.name,
           user.user.user_metadata.jobTitle,
         );
-        console.log(JSON.stringify(localStorage));
-        console.log(JSON.stringify(sessionStorage));
-
-        console.log(`in tap`);
       }),
     );
   }
@@ -50,7 +44,11 @@ export class AuthFacade {
   }
 
   resetPassword(password: string) {
-    return this.authApiService.resetPassword(password);
+    return this.authApiService.resetPassword(password).pipe(
+      tap(() => {
+        this.authDomainService.isUserLoggedIn.set(true);
+      }),
+    );
   }
 
   refreshToken() {

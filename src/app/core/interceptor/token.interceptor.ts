@@ -5,12 +5,10 @@ import { AuthDomainService } from '../../features/auth/service/auth.service.doma
 export function tokenInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) {
   // Inject the current `AuthService` and use it to get an authentication token:
   if (inject(AuthDomainService).isLoggedIn()) {
-    const authToken = inject(AuthDomainService).userToken();
+    const authToken = inject(AuthDomainService).getUserToken();
     const newReq = req.clone({
       headers: req.headers.append('Authorization', `Bearer ${authToken}`),
     });
-    console.log(`headers : ${JSON.stringify(newReq.headers)}`);
-
     return next(newReq);
   }
   return next(req);

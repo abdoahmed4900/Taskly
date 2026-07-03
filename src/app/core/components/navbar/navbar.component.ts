@@ -38,8 +38,6 @@ export class NavbarComponent implements OnDestroy {
     this.sidebarOpened.update(val => !val);
   }
   toggleDropDown() {
-    console.log('toggled');
-
     this.dropDownOpened.update(val => !val);
   }
   initials = computed(() => {

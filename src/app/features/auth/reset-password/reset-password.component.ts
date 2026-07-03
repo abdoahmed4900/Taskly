@@ -52,7 +52,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.resetPasswordForm.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(val => {
       this.password.set(val.password ?? '');
-      console.log(`password: ${this.password()}`);
     });
     this.checkLinkValidity();
   }
@@ -60,9 +59,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   private checkLinkValidity() {
     this.activatedRoute.fragment.pipe(takeUntil(this.destroy$)).subscribe(val => {
       const arr = JSON.stringify(val).split('&');
-      console.log(arr[0].split('=')[1]);
-      console.log(arr[3].split('=')[1]);
-      console.log(arr);
       if (arr[6].split('=')[1].substring(0, 8) != 'recovery') {
         console.log('Invalid or expired reset link.');
         this.router.navigateByUrl('/login', { replaceUrl: true });
@@ -82,6 +78,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
+            this.router.navigateByUrl('/');
             console.log('password updated');
           },
         });

@@ -15,5 +15,3 @@ const environment = `export const environment = {
 `;
 
 fs.writeFileSync(path.join(envDir, 'environment.ts'), environment);
-
-console.log('✅ environment.production.ts generated');

@@ -120,6 +120,13 @@ export class AuthDomainService {
       sessionStorage.setItem('token', user.access_token);
       sessionStorage.setItem('refreshToken', user.refresh_token);
     }
+    this.userToken.set(user.access_token);
     return { refreshToken: user.refresh_token, token: user.access_token };
+  }
+
+  getUserToken() {
+    return this.isUserRemembered()
+      ? localStorage.getItem('token')
+      : sessionStorage.getItem('token');
   }
 }

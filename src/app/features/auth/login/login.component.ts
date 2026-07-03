@@ -58,11 +58,6 @@ export class LoginComponent implements OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
-            console.log(localStorage.getItem('name'));
-            console.log(sessionStorage.getItem('name'));
-            console.log(this.rememberUserForMonth());
-
-            console.log('login is success');
             this.router.navigateByUrl('/project', { replaceUrl: true });
           },
         });
