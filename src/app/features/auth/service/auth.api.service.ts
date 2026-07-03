@@ -11,10 +11,10 @@ export class AuthApiService {
   authDomainService = inject(AuthDomainService);
 
   registerUser(user: User) {
-    return this.httpClient.post('signup', { ...user });
+    return this.httpClient.post('auth/v1/signup', { ...user });
   }
   login(user: User) {
-    return this.httpClient.post('token?grant_type=password', { ...user });
+    return this.httpClient.post('auth/v1/token?grant_type=password', { ...user });
   }
 
   sendResetPasswordEmail(email: string) {
@@ -30,20 +30,20 @@ export class AuthApiService {
   }
 
   resetPassword(password: string) {
-    return this.httpClient.put('user', { password: password });
+    return this.httpClient.put('auth/v1/user', { password: password });
   }
 
   refreshToken() {
-    return this.httpClient.post('token?grant_type=refresh_token', {
+    return this.httpClient.post('auth/v1/token?grant_type=refresh_token', {
       refresh_token: `${this.authDomainService.getRefreshToken()}`,
     });
   }
 
   logout() {
-    return this.httpClient.post('logout', {});
+    return this.httpClient.post('auth/v1/logout', {});
   }
 
   getUser() {
-    return this.httpClient.get('user');
+    return this.httpClient.get('auth/v1/user');
   }
 }

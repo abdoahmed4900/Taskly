@@ -37,6 +37,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'add-project',
+    canActivate: [userGuard],
+    loadComponent: () =>
+      import('./features/projects/add-project/add-project.component').then(
+        m => m.AddProjectComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: 'project',
   },

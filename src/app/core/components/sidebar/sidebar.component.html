@@ -1,6 +1,6 @@
 @if (isLoggedIn()) {
   @if (isOpen()) {
-    <div class="fixed inset-0 z-2 w-72 transition-all transition-1000">
+    <div class="fixed inset-0 z-2 w-64 transition-all transition-1000">
       <aside
         appClickOutside
         (clickOutside)="close()"
@@ -83,7 +83,7 @@
       </aside>
     </div>
   } @else {
-    <div class="fixed w-25 lg:block hidden inset-0 z-2 transition-all">
+    <div class="fixed w-20 lg:block hidden inset-0 z-2 transition-all">
       <aside
         appClickOutside
         (clickOutside)="close()"
