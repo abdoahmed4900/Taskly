@@ -1,4 +1,4 @@
-<nav class="navbar relative h-20 py-6.5 lg:px-10 px-6 flex flex-row items-center justify-between w-full">
+<nav class="navbar relative h-20 py-6.5 px-6 flex flex-row items-center justify-between w-full">
   <section class="logo flex flex-row gap-2 items-center">
     @if (isLoggedIn()) {
       <button class="lg:hidden block me-3" (click)="toggleSidebar(); $event.stopPropagation()">
@@ -8,7 +8,7 @@
       </button>
     }
     <app-website-icon></app-website-icon>
-    <p class="text-[20px] font-bold leading-7 tracking-[-0.5px] py-1 text-(--slate-nature-first)">Taskly</p>
+    <p class="text-[20px] lg:hidden font-bold leading-7 tracking-[-0.5px] py-1 text-(--slate-nature-first)">Taskly</p>
   </section>
   @if (isLoggedIn()) {
     <section class="user-info flex gap-3 flex-row">
@@ -26,7 +26,7 @@
   }
   @if (dropDownOpened()) {
     <div
-      class="absolute right-0 top-14 z-50 w-64 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl"
+      class="absolute right-0 me-6 top-17 z-50 w-64 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl"
     >
       <!-- Header -->
       <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
@@ -103,6 +103,4 @@
     </div>
   }
 </nav>
-@if (sidebarOpened() || isBiggerThanLarge()) {
-  <app-sidebar (closed)="closeSidebar()"></app-sidebar>
-}
+<app-sidebar></app-sidebar>

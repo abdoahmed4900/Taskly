@@ -12,8 +12,8 @@
     Add New Project
   </p>
 </header>
-<form [formGroup]="addProjectForm" class="flex w-full flex-col gap-10 justify-start">
-  <section class="flex flex-col md:bg-white bg-transparent mx-6 md:mb-29 mb-53 md:mt-11 mt-8">
+<form [formGroup]="addProjectForm" (ngSubmit)="addNewProject()" class="flex w-full flex-col gap-10 justify-start">
+  <section class="flex flex-col md:bg-white bg-transparent md:mb-29 mb-53 md:mt-11 mt-8">
     <div class="flex flex-row border-b md:p-8 md:pb-10 py-6 px-8 border-(--surface-low) md:items-center gap-4">
       <svg
         class="hidden md:block"

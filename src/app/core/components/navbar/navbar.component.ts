@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, computed, inject, signal } from '@angular/core';
+import { Component, OnDestroy, computed, inject, output, signal } from '@angular/core';
 import { AuthDomainService } from '../../../features/auth/service/auth.service.domain';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { WebsiteIconComponent } from '../../../shared/ui/components/website-icon/website-icon.component';
@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnDestroy {
   authDomainService = inject(AuthDomainService);
+  isSideBarOpened = output<boolean>();
   authFacade = inject(AuthFacade);
   isLoggedIn = computed(() => this.authDomainService.isUserLoggedIn());
   name = computed(() => {
@@ -32,6 +33,7 @@ export class NavbarComponent implements OnDestroy {
     this.sidebarOpened.set(true);
   }
   closeSidebar() {
+    console.log('closed');
     this.sidebarOpened.set(false);
   }
   toggleSidebar() {
@@ -53,14 +55,6 @@ export class NavbarComponent implements OnDestroy {
 
     return val;
   });
-
-  @HostListener('window:resize', [])
-  isBiggerThanLarge() {
-    if (window.innerWidth >= 1024) {
-      return true;
-    }
-    return false;
-  }
 
   logout() {
     this.dropDownOpened.set(false);

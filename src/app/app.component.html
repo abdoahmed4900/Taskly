@@ -1,7 +1,23 @@
-<main class="flex flex-col bg-(--background) w-full mb-2 min-h-screen">
-  <app-navbar></app-navbar>
-  <section class="max-w-350 h-full z-1 mx-auto">
-    <router-outlet></router-outlet>
-  </section>
+<main class="min-h-screen flex flex-col bg-(--background)">
+  <app-navbar (isSideBarOpened)="setSideBarToggle($event)"></app-navbar>
+
+  @if (isLoggedIn()) {
+    <div class="flex flex-1">
+      <!-- Desktop Sidebar -->
+      <aside class="hidden h-screen lg:block shrink-0">
+        <app-sidebar (isSidebarToggled)="setSideBarToggle($event)"></app-sidebar>
+      </aside>
+
+      <!-- Page -->
+      <section class="flex-1 px-6" [class.lg:ms-18]="!isSideBarToggled()" [class.lg:ms-65]="isSideBarToggled()">
+        <router-outlet></router-outlet>
+      </section>
+    </div>
+  } @else {
+    <section class="flex-1">
+      <router-outlet></router-outlet>
+    </section>
+  }
+
   <app-tab-bar></app-tab-bar>
 </main>

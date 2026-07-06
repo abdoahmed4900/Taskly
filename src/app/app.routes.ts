@@ -45,6 +45,22 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'projects',
+    canActivate: [userGuard],
+    loadComponent: () =>
+      import('./features/projects/show-projects/show-projects.component').then(
+        m => m.ShowProjectsComponent,
+      ),
+  },
+  {
+    path: 'project/:projectId/epics',
+    canActivate: [userGuard],
+    loadComponent: () =>
+      import('./features/epics/project-epics/project-epics.component').then(
+        m => m.ProjectEpicsComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: 'project',
   },

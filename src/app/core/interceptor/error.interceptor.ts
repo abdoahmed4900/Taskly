@@ -12,9 +12,9 @@ export function errorInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn)
   const authFacade = inject(AuthFacade);
   return next(req).pipe(
     catchError(err => {
-      const errorModel: ErrorModel = { statusCode: 0, errorCode: '', errorMsg: '' };
+      const errorModel: ErrorModel = { statusCode: 0, errorCode: '', errorMsg: '', message: '' };
       errorModel.statusCode = err.error['code'];
-      errorModel.errorMsg = err.error['msg'];
+      errorModel.errorMsg = err.error['msg'] ?? err.error['message'];
       errorModel.errorCode = err.error['error_code'];
       console.log(errorModel.errorMsg);
 
@@ -31,7 +31,12 @@ export function errorInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn)
         console.log('Server is busy try again later');
       }
 
-      if (req.url.includes('grant_type=refresh_token') || errorModel.errorMsg.includes('token')) {
+      if (
+        req.url.includes('grant_type=refresh_token') ||
+        errorModel.errorMsg.includes('token') ||
+        errorModel.errorMsg.includes('JWT') ||
+        errorModel.errorMsg.includes('jwt')
+      ) {
         return handleRefreshToken(req, next, authFacade);
       }
       return throwError(() => err);

@@ -1,24 +1,26 @@
-<nav class="fixed bottom-0 hidden left-0 right-0 z-1 bg-(--surface-low) shadow-lg lg:hidden">
-  <ul class="flex h-16 items-center justify-around">
-    <li class="flex flex-col items-center gap-2">
-      <app-projects-icon></app-projects-icon>
-      <span class="text-[10px] leading-3.75 font-semibold tracking-normal text-(--primary-container)">Projects</span>
-    </li>
-    <li class="flex flex-col items-center gap-2">
-      <app-epics-icon></app-epics-icon>
-      <span class="text-[10px] leading-3.75 font-regular tracking-normal text-[#041B3CB2]">Epics</span>
-    </li>
-    <li class="flex flex-col items-center gap-2">
-      <app-tasks-icon></app-tasks-icon>
-      <span class="text-[10px] leading-3.75 font-regular tracking-normal text-[#041B3CB2]">Tasks</span>
-    </li>
-    <li class="flex flex-col items-center gap-2">
-      <app-memebers-icon></app-memebers-icon>
-      <span class="text-[10px] leading-3.75 font-regular tracking-normal text-[#041B3CB2]">Members</span>
-    </li>
-    <li class="flex flex-col items-center gap-2">
-      <app-details-icon></app-details-icon>
-      <span class="text-[10px] leading-3.75 font-regular tracking-normal text-[#041B3CB2]">Details</span>
-    </li>
-  </ul>
-</nav>
+@if (isLoggedIn()) {
+  <nav class="fixed bottom-0 left-0 right-0 z-1 bg-(--surface-low) shadow-lg lg:hidden">
+    <ul class="flex h-16 items-center justify-around">
+      <li routerLink="/projects" class="flex flex-col items-center gap-2">
+        <app-projects-icon></app-projects-icon>
+        <span class="text-[10px] leading-3.75 font-semibold tracking-normal text-(--primary-container)">Projects</span>
+      </li>
+      <li class="flex flex-col items-center gap-2">
+        <app-epics-icon></app-epics-icon>
+        <span class="text-[10px] leading-3.75 font-regular tracking-normal text-[#041B3CB2]">Epics</span>
+      </li>
+      <li class="flex flex-col items-center gap-2">
+        <app-tasks-icon></app-tasks-icon>
+        <span class="text-[10px] leading-3.75 font-regular tracking-normal text-[#041B3CB2]">Tasks</span>
+      </li>
+      <li class="flex flex-col items-center gap-2">
+        <app-memebers-icon></app-memebers-icon>
+        <span class="text-[10px] leading-3.75 font-regular tracking-normal text-[#041B3CB2]">Members</span>
+      </li>
+      <li class="flex flex-col items-center gap-2">
+        <app-details-icon></app-details-icon>
+        <span class="text-[10px] leading-3.75 font-regular tracking-normal text-[#041B3CB2]">Details</span>
+      </li>
+    </ul>
+  </nav>
+}

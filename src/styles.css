@@ -17,9 +17,27 @@
   --icon-bg-color: #e8edff;
   --bg-primary-gradient: linear-gradient(90deg, rgba(0, 61, 155, 1) 0%, rgba(0, 82, 204, 1) 100%);
   --form-padding: 3rem;
+  --skeleton: linear-gradient(90deg, #e8edff 25%, #e8ede8 50%, #e8edfe 75%);
 }
 
 @layer components {
+  .skeleton-basic {
+    background: var(--skeleton);
+    background-size: 200% 100%;
+    border-radius: 12px;
+    animation: shimmer 1.5s infinite;
+    will-change: background-position;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+
+    100% {
+      background-position: -200% 0;
+    }
+  }
   .display-lg {
     font-size: 56px;
     font-weight: 700;

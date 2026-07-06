@@ -1,0 +1,345 @@
+<main class="relative flex h-screen flex-col gap-10 mt-10">
+  @defer (when isLoaded() === true) {
+    <header class="flex flex-row gap-3 flex-wrap justify-between w-full">
+      <div class="flex flex-col gap-2">
+        <h1 class="font-semibold text-4xl leading-9 tracking-[0.75px] align-middle">Projects</h1>
+        <p class="font-normal text-[1rem] tracking-normal leading-6 align-middle text-[#434654]">
+          Manage and curate your projects
+        </p>
+      </div>
+      <button
+        type="button"
+        class="flex flex-row items-center gap-2 px-4 py-3 bg-linear-[135deg,#003D9B_0%,#0052CC_100%]"
+        routerLink="/add-project"
+      >
+        <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4.5 6H0V4.5H4.5V0H6V4.5H10.5V6H6V10.5H4.5V6Z" fill="white" />
+        </svg>
+
+        <span class="inline-block text-white font-medium text-[1rem] leading-6 tracking-normal align-middle"
+          >Create New Project</span
+        >
+      </button>
+    </header>
+    <section class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4 items-center flex-wrap">
+      @for (item of currentProjects(); track item.id) {
+        <div
+          [routerLink]="['/project', item.id, 'epics']"
+          class="rounded-xl w-full cursor-pointer gap-3 bg-white flex flex-col p-4 shadow-sm border border-slate-200"
+        >
+          <h3
+            class="text-lg font-medium text-[1.125rem] leading-7 tracking-normal text-(--slate-nature-first) align-middle"
+          >
+            {{ item.name }}
+          </h3>
+
+          <p class="font-normal line-clamp-1 text-[0.875rem] leading-[1.1rem] tracking-normal align-middle">
+            {{ item.description }}
+          </p>
+          <div class="date-row mt-4 flex flex-row justify-between">
+            <p class="font-bold text-[#737685] text-[0.7rem] leading-4 tracking-[-0.55px] uppercase align-middle">
+              Created At
+            </p>
+            <p class="font-medium text-[#434654] text-[0.875rem] leading-5 tracking-normal align-middle">
+              {{ item.createdAt }}
+            </p>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-projects-section col-span-full flex flex-col justify-center items-center gap-10.75">
+          <svg
+            class="mx-auto"
+            width="288"
+            height="288"
+            viewBox="0 0 288 288"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g clip-path="url(#clip0_15_619)">
+              <rect width="288" height="288" rx="8" fill="#F1F3FF" />
+              <g opacity="0.1">
+                <rect width="288" height="288" fill="url(#paint0_linear_15_619)" />
+                <rect width="288" height="288" fill="url(#paint1_linear_15_619)" />
+              </g>
+              <g filter="url(#filter0_d_15_619)">
+                <rect
+                  x="197.62"
+                  y="42.64"
+                  width="48"
+                  height="48"
+                  rx="4"
+                  transform="rotate(-5.99997 197.62 42.64)"
+                  fill="white"
+                  shape-rendering="crispEdges"
+                />
+                <path
+                  d="M224.993 73.4727L215.31 67.4518L216.821 66.0361L224.726 70.9366L231.44 64.4996L233.212 65.5703L224.993 73.4727ZM224.465 68.4503L214.782 62.4294L223.001 54.527L232.684 60.5479L224.465 68.4503ZM224.198 65.9143L229.452 60.8876L223.268 57.0631L218.015 62.0897L224.198 65.9143Z"
+                  fill="#0052CC"
+                />
+              </g>
+              <g filter="url(#filter1_d_15_619)">
+                <rect
+                  x="44.6001"
+                  y="196.27"
+                  width="40"
+                  height="40"
+                  rx="4"
+                  transform="rotate(12 44.6001 196.27)"
+                  fill="white"
+                  shape-rendering="crispEdges"
+                />
+                <path
+                  d="M52.065 227.002C51.4618 226.874 50.9965 226.558 50.6692 226.054C50.3418 225.55 50.2422 224.996 50.3704 224.393L53.2188 210.992C53.3193 210.52 53.6096 210.236 54.0896 210.142C54.5696 210.048 54.938 210.199 55.1947 210.595L56.9278 213.263L55.3266 214.303L55.8658 215.133L57.4669 214.093L59.4696 217.177L57.8684 218.217L58.4075 219.047L60.0087 218.007L62.0113 221.091L60.4101 222.131L60.9493 222.961L62.5505 221.921L64.5531 225.005L62.9519 226.045L63.4911 226.875L65.0923 225.835L66.6327 228.208C66.8895 228.603 66.8773 229.001 66.5963 229.401C66.3153 229.801 65.9384 229.951 65.4656 229.851L52.065 227.002ZM53.4712 224.234L61.5898 225.96L55.1969 216.116L53.4712 224.234Z"
+                  fill="#737685"
+                />
+              </g>
+              <rect x="96" y="96" width="96" height="96" rx="12" fill="#D7E2FF" />
+              <g filter="url(#filter2_dd_15_619)">
+                <rect
+                  x="96"
+                  y="96"
+                  width="96"
+                  height="96"
+                  rx="12"
+                  fill="white"
+                  fill-opacity="0.01"
+                  shape-rendering="crispEdges"
+                />
+              </g>
+              <path
+                d="M131.837 165.154L131.5 162.538L137.952 144.74C138.288 145.035 138.637 145.268 138.998 145.44C139.358 145.611 139.731 145.753 140.115 145.865L133.817 163.298L131.837 165.154ZM156.163 165.154L154.183 163.298L147.885 145.865C148.269 145.753 148.642 145.611 149.002 145.44C149.363 145.268 149.712 145.035 150.048 144.74L156.5 162.538L156.163 165.154ZM144 141.596C142.269 141.596 140.795 140.987 139.577 139.769C138.359 138.551 137.75 137.077 137.75 135.346C137.75 133.721 138.259 132.361 139.276 131.267C140.294 130.172 141.452 129.519 142.75 129.308V122.846H145.25V129.308C146.548 129.519 147.706 130.172 148.724 131.267C149.741 132.361 150.25 133.721 150.25 135.346C150.25 137.077 149.641 138.551 148.423 139.769C147.205 140.987 145.731 141.596 144 141.596ZM144 139.096C145.029 139.096 145.911 138.728 146.647 137.993C147.382 137.257 147.75 136.375 147.75 135.346C147.75 134.317 147.382 133.435 146.647 132.7C145.911 131.964 145.029 131.596 144 131.596C142.971 131.596 142.089 131.964 141.353 132.7C140.618 133.435 140.25 134.317 140.25 135.346C140.25 136.375 140.618 137.257 141.353 137.993C142.089 138.728 142.971 139.096 144 139.096Z"
+                fill="#003D9B"
+              />
+            </g>
+            <defs>
+              <filter
+                id="filter0_d_15_619"
+                x="195.62"
+                y="36.6227"
+                width="56.7544"
+                height="56.7544"
+                filterUnits="userSpaceOnUse"
+                color-interpolation-filters="sRGB"
+              >
+                <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                <feColorMatrix
+                  in="SourceAlpha"
+                  type="matrix"
+                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                  result="hardAlpha"
+                />
+                <feOffset dy="1" />
+                <feGaussianBlur stdDeviation="1" />
+                <feComposite in2="hardAlpha" operator="out" />
+                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0" />
+                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_15_619" />
+                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_15_619" result="shape" />
+              </filter>
+              <filter
+                id="filter1_d_15_619"
+                x="34.2837"
+                y="195.27"
+                width="51.4424"
+                height="51.4424"
+                filterUnits="userSpaceOnUse"
+                color-interpolation-filters="sRGB"
+              >
+                <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                <feColorMatrix
+                  in="SourceAlpha"
+                  type="matrix"
+                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                  result="hardAlpha"
+                />
+                <feOffset dy="1" />
+                <feGaussianBlur stdDeviation="1" />
+                <feComposite in2="hardAlpha" operator="out" />
+                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0" />
+                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_15_619" />
+                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_15_619" result="shape" />
+              </filter>
+              <filter
+                id="filter2_dd_15_619"
+                x="76"
+                y="96"
+                width="136"
+                height="136"
+                filterUnits="userSpaceOnUse"
+                color-interpolation-filters="sRGB"
+              >
+                <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                <feColorMatrix
+                  in="SourceAlpha"
+                  type="matrix"
+                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                  result="hardAlpha"
+                />
+                <feMorphology radius="6" operator="erode" in="SourceAlpha" result="effect1_dropShadow_15_619" />
+                <feOffset dy="8" />
+                <feGaussianBlur stdDeviation="5" />
+                <feComposite in2="hardAlpha" operator="out" />
+                <feColorMatrix
+                  type="matrix"
+                  values="0 0 0 0 0.0156863 0 0 0 0 0.105882 0 0 0 0 0.235294 0 0 0 0.05 0"
+                />
+                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_15_619" />
+                <feColorMatrix
+                  in="SourceAlpha"
+                  type="matrix"
+                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                  result="hardAlpha"
+                />
+                <feMorphology radius="5" operator="erode" in="SourceAlpha" result="effect2_dropShadow_15_619" />
+                <feOffset dy="20" />
+                <feGaussianBlur stdDeviation="12.5" />
+                <feComposite in2="hardAlpha" operator="out" />
+                <feColorMatrix
+                  type="matrix"
+                  values="0 0 0 0 0.0156863 0 0 0 0 0.105882 0 0 0 0 0.235294 0 0 0 0.05 0"
+                />
+                <feBlend mode="normal" in2="effect1_dropShadow_15_619" result="effect2_dropShadow_15_619" />
+                <feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_15_619" result="shape" />
+              </filter>
+              <linearGradient
+                id="paint0_linear_15_619"
+                x1="0"
+                y1="144"
+                x2="288"
+                y2="144"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop offset="0.0416667" stop-color="#003D9B" />
+                <stop offset="0.0416667" stop-color="#003D9B" stop-opacity="0" />
+              </linearGradient>
+              <linearGradient
+                id="paint1_linear_15_619"
+                x1="144"
+                y1="0"
+                x2="144"
+                y2="288"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop offset="0.0416667" stop-color="#003D9B" />
+                <stop offset="0.0416667" stop-color="#003D9B" stop-opacity="0" />
+              </linearGradient>
+              <clipPath id="clip0_15_619">
+                <rect width="288" height="288" rx="8" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+          <div class="empty-projects-text text-center items-center justify-center gap-4">
+            <h2 class="font-semibold text-4xl leading-10 tracking-[-0.9px] align-middle">No Projects</h2>
+            <p class="font-normal text-[#434654] text-[1.125rem] leading-7.25 tracking-normal align-middle">
+              You don’t have any projects yet. Start by defining your first architectural workspace to begin tracking
+              tasks and epics.
+            </p>
+          </div>
+          <div class="flex flex-row items-center bg-(--primary) p-4 justify-start gap-2">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M9 15H11V11H15V9H11V5H9V9H5V11H9V15ZM10 20C8.61667 20 7.31667 19.7375 6.1 19.2125C4.88333 18.6875 3.825 17.975 2.925 17.075C2.025 16.175 1.3125 15.1167 0.7875 13.9C0.2625 12.6833 0 11.3833 0 10C0 8.61667 0.2625 7.31667 0.7875 6.1C1.3125 4.88333 2.025 3.825 2.925 2.925C3.825 2.025 4.88333 1.3125 6.1 0.7875C7.31667 0.2625 8.61667 0 10 0C11.3833 0 12.6833 0.2625 13.9 0.7875C15.1167 1.3125 16.175 2.025 17.075 2.925C17.975 3.825 18.6875 4.88333 19.2125 6.1C19.7375 7.31667 20 8.61667 20 10C20 11.3833 19.7375 12.6833 19.2125 13.9C18.6875 15.1167 17.975 16.175 17.075 17.075C16.175 17.975 15.1167 18.6875 13.9 19.2125C12.6833 19.7375 11.3833 20 10 20ZM10 18C12.2333 18 14.125 17.225 15.675 15.675C17.225 14.125 18 12.2333 18 10C18 7.76667 17.225 5.875 15.675 4.325C14.125 2.775 12.2333 2 10 2C7.76667 2 5.875 2.775 4.325 4.325C2.775 5.875 2 7.76667 2 10C2 12.2333 2.775 14.125 4.325 15.675C5.875 17.225 7.76667 18 10 18Z"
+                fill="white"
+              />
+            </svg>
+            <p class="font-bold text-white text-[1.125rem] tracking-normal leading-7 align-middle">
+              Create New Project
+            </p>
+          </div>
+        </div>
+      }
+      @if (currentProjects().length > 0) {
+        <div
+          routerLink="/add-project"
+          class="rounded-xl hidden gap-3 bg-white md:flex flex-col md:h-full h-48 py-8 justify-center items-center shadow-sm border border-slate-200"
+        >
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="48" height="48" rx="12" fill="#F1F3FF" />
+            <path
+              d="M23 29H25V25H29V23H25V19H23V23H19V25H23V29ZM24 34C22.6167 34 21.3167 33.7375 20.1 33.2125C18.8833 32.6875 17.825 31.975 16.925 31.075C16.025 30.175 15.3125 29.1167 14.7875 27.9C14.2625 26.6833 14 25.3833 14 24C14 22.6167 14.2625 21.3167 14.7875 20.1C15.3125 18.8833 16.025 17.825 16.925 16.925C17.825 16.025 18.8833 15.3125 20.1 14.7875C21.3167 14.2625 22.6167 14 24 14C25.3833 14 26.6833 14.2625 27.9 14.7875C29.1167 15.3125 30.175 16.025 31.075 16.925C31.975 17.825 32.6875 18.8833 33.2125 20.1C33.7375 21.3167 34 22.6167 34 24C34 25.3833 33.7375 26.6833 33.2125 27.9C32.6875 29.1167 31.975 30.175 31.075 31.075C30.175 31.975 29.1167 32.6875 27.9 33.2125C26.6833 33.7375 25.3833 34 24 34ZM24 32C26.2333 32 28.125 31.225 29.675 29.675C31.225 28.125 32 26.2333 32 24C32 21.7667 31.225 19.875 29.675 18.325C28.125 16.775 26.2333 16 24 16C21.7667 16 19.875 16.775 18.325 18.325C16.775 19.875 16 21.7667 16 24C16 26.2333 16.775 28.125 18.325 29.675C19.875 31.225 21.7667 32 24 32Z"
+              fill="#041B3C"
+            />
+          </svg>
+          <p class="font-bold text-[0.875rem] leading-5 tracking-[1.4px] text-center align-middle uppercase">
+            ADD PROJECT
+          </p>
+        </div>
+      }
+    </section>
+    <button
+      routerLink="/add-project"
+      class="block md:hidden absolute bottom-17 right-5 px-6 py-4 text-[1.25rem] rounded-xl bg-(--primary) text-white"
+    >
+      +
+    </button>
+    <div class="change-page-section mt-auto mb-[8%] flex flex-row items-center col-span-full justify-between">
+      <p class="font-medium text-[0.75rem] text-[#434654] leading-4 tracking-normal align-middle">
+        Showing {{ currentProjects().length }} of {{ totalProjects() }} active projects
+      </p>
+      <div class="buttons hidden lg:flex flex-row gap-3">
+        <button class="p-4 bg-white" (click)="previousPage()" [disabled]="currentPage() === 1">
+          <svg width="5" height="7" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.5 7L0 3.5L3.5 0L4.31667 0.816667L1.63333 3.5L4.31667 6.18333L3.5 7Z" fill="#434654" />
+          </svg>
+        </button>
+        @for (item of currentPages(); track $index) {
+          <button
+            [class.bg-white]="item !== currentPage()"
+            [class.bg-(--primary)]="item === currentPage()"
+            [class.text-[#434654]]="item !== currentPage()"
+            [class.text-white]="item === currentPage()"
+            class="font-bold text-[0.75rem] tracking-normal leading-4 align-middle text-center p-4"
+            (click)="goToPage(item)"
+          >
+            {{ item }}
+          </button>
+        }
+        <button class="p-4 bg-white" (click)="nextPage()" [disabled]="rangeEnd() === totalProjects()">
+          <svg width="5" height="7" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.68333 3.5L0 0.816667L0.816667 0L4.31667 3.5L0.816667 7L0 6.18333L2.68333 3.5Z" fill="#434654" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  } @loading (minimum 2s) {
+    <header class="flex flex-row gap-3 flex-wrap justify-between w-full">
+      <div class="flex flex-col gap-2">
+        <h1 class="font-semibold text-4xl leading-9 tracking-[0.75px] align-middle">Projects</h1>
+        <p class="font-normal text-[1rem] tracking-normal leading-6 align-middle text-[#434654]">
+          Manage and curate your projects
+        </p>
+      </div>
+      <div class="w-46 h-15 skeleton-basic self-end"></div>
+    </header>
+    <div class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-5">
+      @for (item of [1, 2, 3]; track $index) {
+        <div class="p-6 bg-white shadow-[0px_1px_2px_0px_#0000000D] rounded-lg flex flex-col gap-4">
+          <div class="skeleton-basic h-36"></div>
+          <div class="skeleton-basic w-[70%] h-6"></div>
+          <div class="skeleton-basic w-[33%] h-4"></div>
+        </div>
+      }
+    </div>
+  } @error {
+    <div class="flex flex-col justify-center gap-3 items-center m-auto h-screen">
+      <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="64" height="64" rx="12" fill="#FFDAD6" />
+        <path
+          d="M41.75 44.375L38.4375 41.125H25.125C23.2083 41.125 21.5833 40.4583 20.25 39.125C18.9167 37.7917 18.25 36.1667 18.25 34.25C18.25 32.6458 18.7448 31.2188 19.7344 29.9688C20.724 28.7188 22 27.9167 23.5625 27.5625C23.625 27.3958 23.6875 27.2344 23.75 27.0781C23.8125 26.9219 23.875 26.75 23.9375 26.5625L18.75 21.375L20.5 19.625L43.5 42.625L41.75 44.375ZM25.125 38.625H35.9375L25.875 28.5625C25.8333 28.7917 25.8021 29.0104 25.7812 29.2188C25.7604 29.4271 25.75 29.6458 25.75 29.875H25.125C23.9167 29.875 22.8854 30.3021 22.0312 31.1562C21.1771 32.0104 20.75 33.0417 20.75 34.25C20.75 35.4583 21.1771 36.4896 22.0312 37.3438C22.8854 38.1979 23.9167 38.625 25.125 38.625ZM44 39.5625L42.1875 37.8125C42.5417 37.5208 42.8073 37.1823 42.9844 36.7969C43.1615 36.4115 43.25 35.9792 43.25 35.5C43.25 34.625 42.9479 33.8854 42.3438 33.2812C41.7396 32.6771 41 32.375 40.125 32.375H38.25V29.875C38.25 28.1458 37.6406 26.6719 36.4219 25.4531C35.2031 24.2344 33.7292 23.625 32 23.625C31.4375 23.625 30.8958 23.6927 30.375 23.8281C29.8542 23.9635 29.3542 24.1771 28.875 24.4688L27.0625 22.6562C27.7917 22.1562 28.5677 21.776 29.3906 21.5156C30.2135 21.2552 31.0833 21.125 32 21.125C34.4375 21.125 36.5052 21.974 38.2031 23.6719C39.901 25.3698 40.75 27.4375 40.75 29.875C42.1875 30.0417 43.3802 30.6615 44.3281 31.7344C45.276 32.8073 45.75 34.0625 45.75 35.5C45.75 36.3125 45.5938 37.0677 45.2812 37.7656C44.9688 38.4635 44.5417 39.0625 44 39.5625Z"
+          fill="#BA1A1A"
+        />
+      </svg>
+      <h3 class="font-semibold text-[1.25rem] leading-7 tracking-normal text-center align-middle">
+        Something went wrong
+      </h3>
+      <p class="font-normal text-[1rem] leading-6 text-[#434654] tracking-normal text-center align-middle">
+        We're having trouble retrieving your projects right now. Please try again in a moment.
+      </p>
+      <button
+        routerLink="/projects"
+        class="bg-(--primary) font-semibold text-[1rem] leading-6 text-center align-middle px-6 py-2.5 rounded-lg text-white"
+      >
+        Retry Connection
+      </button>
+    </div>
+  }
+</main>
