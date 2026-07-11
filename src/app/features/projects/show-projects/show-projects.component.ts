@@ -58,7 +58,8 @@ export class ShowProjectsComponent implements OnInit, OnDestroy {
   onScroll(): void {
     if (
       window.innerHeight + window.scrollY >= document.body.offsetHeight &&
-      this.currentProjects().length < this.totalProjects()
+      this.currentProjects().length < this.totalProjects() &&
+      window.innerWidth < 768
     ) {
       console.log('On Scroll Down');
       this.nextPage();

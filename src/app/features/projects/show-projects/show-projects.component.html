@@ -3,7 +3,7 @@
     <header class="flex flex-row gap-3 flex-wrap justify-between w-full">
       <div class="flex flex-col gap-2">
         <h1 class="font-semibold text-4xl leading-9 tracking-[0.75px] align-middle">Projects</h1>
-        <p class="font-normal text-[1rem] tracking-normal leading-6 align-middle text-[#434654]">
+        <p class="font-normal text-[1rem] tracking-normal leading-6 align-middle text-(--paragraph-text-common-color)">
           Manage and curate your projects
         </p>
       </div>
@@ -40,7 +40,9 @@
             <p class="font-bold text-[#737685] text-[0.7rem] leading-4 tracking-[-0.55px] uppercase align-middle">
               Created At
             </p>
-            <p class="font-medium text-[#434654] text-[0.875rem] leading-5 tracking-normal align-middle">
+            <p
+              class="font-medium text-(--paragraph-text-common-color) text-[0.875rem] leading-5 tracking-normal align-middle"
+            >
               {{ item.createdAt }}
             </p>
           </div>
@@ -229,7 +231,9 @@
           </svg>
           <div class="empty-projects-text text-center items-center justify-center gap-4">
             <h2 class="font-semibold text-4xl leading-10 tracking-[-0.9px] align-middle">No Projects</h2>
-            <p class="font-normal text-[#434654] text-[1.125rem] leading-7.25 tracking-normal align-middle">
+            <p
+              class="font-normal text-(--paragraph-text-common-color) text-[1.125rem] leading-7.25 tracking-normal align-middle"
+            >
               You don’t have any projects yet. Start by defining your first architectural workspace to begin tracking
               tasks and epics.
             </p>
@@ -271,11 +275,11 @@
     >
       +
     </button>
-    <div class="change-page-section mt-auto mb-[8%] flex flex-row items-center col-span-full justify-between">
-      <p class="font-medium text-[0.75rem] text-[#434654] leading-4 tracking-normal align-middle">
+    <div class="change-page-section mt-auto mb-[9%] hidden md:flex flex-row items-center col-span-full justify-between">
+      <p class="font-medium text-[0.75rem] text-(--paragraph-text-common-color) leading-4 tracking-normal align-middle">
         Showing {{ currentProjects().length }} of {{ totalProjects() }} active projects
       </p>
-      <div class="buttons hidden lg:flex flex-row gap-3">
+      <div class="buttons flex-row gap-3">
         <button class="p-4 bg-white" (click)="previousPage()" [disabled]="currentPage() === 1">
           <svg width="5" height="7" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M3.5 7L0 3.5L3.5 0L4.31667 0.816667L1.63333 3.5L4.31667 6.18333L3.5 7Z" fill="#434654" />
@@ -285,7 +289,7 @@
           <button
             [class.bg-white]="item !== currentPage()"
             [class.bg-(--primary)]="item === currentPage()"
-            [class.text-[#434654]]="item !== currentPage()"
+            [class.text-(--paragraph-text-common-color)]="item !== currentPage()"
             [class.text-white]="item === currentPage()"
             class="font-bold text-[0.75rem] tracking-normal leading-4 align-middle text-center p-4"
             (click)="goToPage(item)"
@@ -304,7 +308,7 @@
     <header class="flex flex-row gap-3 flex-wrap justify-between w-full">
       <div class="flex flex-col gap-2">
         <h1 class="font-semibold text-4xl leading-9 tracking-[0.75px] align-middle">Projects</h1>
-        <p class="font-normal text-[1rem] tracking-normal leading-6 align-middle text-[#434654]">
+        <p class="font-normal text-[1rem] tracking-normal leading-6 align-middle text-(--paragraph-text-common-color)">
           Manage and curate your projects
         </p>
       </div>
@@ -312,7 +316,7 @@
     </header>
     <div class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-5">
       @for (item of [1, 2, 3]; track $index) {
-        <div class="p-6 bg-white shadow-[0px_1px_2px_0px_#0000000D] rounded-lg flex flex-col gap-4">
+        <div class="p-6 bg-white shadow-(--card-or-button-shadow) rounded-lg flex flex-col gap-4">
           <div class="skeleton-basic h-36"></div>
           <div class="skeleton-basic w-[70%] h-6"></div>
           <div class="skeleton-basic w-[33%] h-4"></div>
@@ -331,7 +335,9 @@
       <h3 class="font-semibold text-[1.25rem] leading-7 tracking-normal text-center align-middle">
         Something went wrong
       </h3>
-      <p class="font-normal text-[1rem] leading-6 text-[#434654] tracking-normal text-center align-middle">
+      <p
+        class="font-normal text-[1rem] leading-6 text-(--paragraph-text-common-color) tracking-normal text-center align-middle"
+      >
         We're having trouble retrieving your projects right now. Please try again in a moment.
       </p>
       <button

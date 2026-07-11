@@ -1,1 +1,83 @@
-<input [type]="type()" [placeholder]="label()" [formControlName]="formControlName()" />
+<label [class.form-control-error!]="control()!.invalid && control()!.touched" for="email" class="form-control-label">{{
+  label()
+}}</label>
+<div class="form-control-container relative">
+  <input
+    [type]="type()"
+    class="form-control"
+    [formControl]="control()!"
+    [placeholder]="placeholder()"
+    [class.bg-(--form-control-error-bg)]="control()!.invalid && control()!.touched"
+    [class.outline-(--primary)]="control()!.valid && control()!.touched"
+    [class.outline-(--form-control-error-bg)]="control()!.invalid && control()!.touched"
+    [class.focus:outline-(--form-control-error-bg)]="control()!.invalid && control()!.touched"
+  />
+  <ng-content></ng-content>
+</div>
+
+@switch (controlName()) {
+  @case ('Email') {
+    @if (control()!.invalid && control()!.touched) {
+      <p class="form-control-error">Please enter a valid email address.</p>
+    }
+  }
+  @case ('Password') {
+    @if (control()!.hasError('required') && control()!.touched) {
+      <p class="form-control-error">Password is required.</p>
+    }
+    @if (control()!.hasError('minLength') && control()!.touched) {
+      <p class="form-control-error">Password must be at least 8 characters long.</p>
+    }
+    @if (control()!.hasError('maxLength') && control()!.touched) {
+      <p class="form-control-error">Password must not exceed 64 characters.</p>
+    }
+    @if (control()!.hasError('whiteSpace') && control()!.touched) {
+      <p class="form-control-error">Password must not include white spaces.</p>
+    }
+    @if (control()!.hasError('noLowerCase') && control()!.touched) {
+      <p class="form-control-error">Password must include a lowercase letter.</p>
+    }
+    @if (control()!.hasError('noUpperCase') && control()!.touched) {
+      <p class="form-control-error">Password must include an uppercase letter.</p>
+    }
+    @if (control()!.hasError('specialChar') && control()!.touched) {
+      <p class="form-control-error">Password must include a number and a special character.</p>
+    }
+    @if (control()!.hasError('noSpecialChar') && control()!.touched) {
+      <p class="form-control-error">Password must include a special character.</p>
+    }
+    @if (control()!.hasError('hasNumber') && control()!.touched) {
+      <p class="form-control-error">Password must include a number.</p>
+    }
+  }
+  @case ('confirmPassword') {
+    @if (control()!.hasError('passwordMismatch') && control()!.touched) {
+      <p class="form-control-error">Passwords do not match.</p>
+    }
+    @if (control()!.hasError('required') && control()!.touched) {
+      <p class="form-control-error">Confirm Password is required.</p>
+    }
+  }
+
+  @case ('username') {
+    @if (control()!.hasError('required') && control()!.touched) {
+      <p class="form-control-error">Username is required.</p>
+    }
+    @if (control()!.hasError('minlength') && control()!.touched) {
+      <p class="form-control-error">Username must be between 3 and 50 characters.</p>
+    }
+
+    @if (control()!.hasError('consecutiveSpaces') && control()!.touched) {
+      <p class="form-control-error">Username cannot contain consecutive spaces.</p>
+    }
+    @if (control()!.hasError('specialChar') && control()!.touched) {
+      <p class="form-control-error">Username must not contain special characters.</p>
+    }
+    @if (control()!.hasError('noNumber') && control()!.touched) {
+      <p class="form-control-error">Username must not contain any numbers.</p>
+    }
+    @if (control()!.hasError('noWhiteSpace') && control()!.touched) {
+      <p class="form-control-error">Username must not contain any white spaces.</p>
+    }
+  }
+}

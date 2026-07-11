@@ -8,9 +8,14 @@ import {
   signal,
 } from '@angular/core';
 import {
+  controlMaxLengthValidator,
+  controlMinLengthValidator,
+  doesControlIncludeLowerCase,
   doesControlIncludeNumber,
   doesControlIncludeSpecialCharacter,
+  doesControlIncludeUpperCase,
   doesControlIncludeWhiteSpace,
+  emailValidator,
   passwordMatchValidator,
 } from '../../../shared/utils';
 import { CheckPasswordInvalidComponent } from '../components/check-password-invalid/check-password-invalid.component';
@@ -19,23 +24,28 @@ import { Subject, takeUntil } from 'rxjs';
 import {
   AbstractControl,
   FormBuilder,
+  FormControl,
   ReactiveFormsModule,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { PasswordVisibilityIcon } from '../components/password-visibility-icon/password-visibility-icon';
-import { Router, RouterLink } from '@angular/router';
-import { PasswordChecksComponent } from '../components/password-checks/password-checks.component';
+import { Router } from '@angular/router';
 import { SubmitButtonComponent } from '../components/submit-button/submit-button.component';
+import { ToastService } from '../../../shared/service/toast.service';
+import { FormFieldComponent } from '../components/form-field/form-field.component';
+import { NavigateToLoginComponent } from './components/navigate-to-login/navigate-to-login.component';
+import { PasswordChecksComponent } from './components/password-checks/password-checks.component';
 @Component({
   selector: 'app-signup',
   standalone: true,
   imports: [
     ReactiveFormsModule,
     PasswordVisibilityIcon,
-    RouterLink,
+    NavigateToLoginComponent,
     PasswordChecksComponent,
     SubmitButtonComponent,
+    FormFieldComponent,
   ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css',
@@ -47,6 +57,8 @@ export class SignupComponent implements OnInit, OnDestroy {
   authFacade = inject(AuthFacade);
   isPasswordVisible = signal(false);
   isPasswordStrong = signal(false);
+  toastService = inject(ToastService);
+  isLoading = signal(false);
 
   setPasswordVisiblity(value: boolean) {
     this.isPasswordVisible.set(value);
@@ -72,14 +84,16 @@ export class SignupComponent implements OnInit, OnDestroy {
           this.hasControlConsecutiveSpaces(),
         ],
       ],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, emailValidator()]],
       password: [
         '',
         [
           Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(64),
+          controlMinLengthValidator(8),
+          controlMaxLengthValidator(64),
           doesControlIncludeWhiteSpace(),
+          doesControlIncludeUpperCase(),
+          doesControlIncludeLowerCase(),
           doesControlIncludeSpecialCharacter(),
           doesControlIncludeNumber(),
         ],
@@ -118,6 +132,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       this.passwordSecondCheck() &&
       this.passwordThirdCheck()
     ) {
+      this.isLoading.set(true);
       this.authFacade
         .registerUser({
           email: this.getControl('email')?.value,
@@ -130,14 +145,19 @@ export class SignupComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
+            this.isLoading.set(false);
+            this.toastService.success('Registered user successfully');
             this.router.navigateByUrl('/', { replaceUrl: true });
+          },
+          error: () => {
+            this.isLoading.set(false);
           },
         });
     }
   }
 
-  getControl(controlName: string): AbstractControl | null {
-    return this.registerForm.get(controlName);
+  getControl(controlName: string) {
+    return this.registerForm.get(controlName) as FormControl;
   }
 
   hasControlConsecutiveSpaces(): ValidatorFn {

@@ -7,10 +7,11 @@ import {
   passwordMatchValidator,
 } from '../../../shared/utils';
 import { PasswordVisibilityIcon } from '../components/password-visibility-icon/password-visibility-icon';
-import { ResetPasswordChecksComponent } from '../components/reset-password-checks/reset-password-checks.component';
+import { ResetPasswordChecksComponent } from './components/reset-password-checks/reset-password-checks.component';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthFacade } from '../facade/auth.facade';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastService } from '../../../shared/service/toast.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -28,6 +29,8 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   newAccessToken = '';
   activatedRoute = inject(ActivatedRoute);
   router = inject(Router);
+  toastService = inject(ToastService);
+
   token = '';
   refreshToken = '';
 
@@ -79,7 +82,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
         .subscribe({
           next: () => {
             this.router.navigateByUrl('/');
-            console.log('password updated');
+            this.toastService.success('Password updated successfully');
           },
         });
     }

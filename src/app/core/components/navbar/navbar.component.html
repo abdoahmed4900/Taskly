@@ -1,5 +1,5 @@
-<nav class="navbar relative h-20 py-6.5 px-6 flex flex-row items-center justify-between w-full">
-  <section class="logo flex flex-row gap-2 items-center">
+<nav class="navbar relative md:py-6.5 py-3 px-6 flex flex-row items-center justify-between w-full">
+  <section class="logo flex flex-row gap-2 items-center py-1">
     @if (isLoggedIn()) {
       <button class="lg:hidden block me-3" (click)="toggleSidebar(); $event.stopPropagation()">
         <svg width="26" height="20" viewBox="0 0 26 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -7,18 +7,25 @@
         </svg>
       </button>
     }
-    <app-website-icon></app-website-icon>
-    <p class="text-[20px] lg:hidden font-bold leading-7 tracking-[-0.5px] py-1 text-(--slate-nature-first)">Taskly</p>
+    <div class="py-1">
+      <app-website-icon></app-website-icon>
+    </div>
+    <p
+      [class.lg:hidden]="isLoggedIn()"
+      class="text-[1.25rem] font-bold leading-7 tracking-[-0.5px] text-(--slate-nature-first)"
+    >
+      Taskly
+    </p>
   </section>
   @if (isLoggedIn()) {
     <section class="user-info flex gap-3 flex-row">
       <div class="md:flex hidden flex-col text-right gap-2">
-        <p class="text-[14px] text-(--slate-nature-first) font-bold leading-5 tracking-normal">{{ name() }}</p>
-        <p class="text-[10px] font-bold text-(--primary) leading-5 tracking-[1px] uppercase">{{ job() }}</p>
+        <p class="text-[0.875rem] text-(--slate-nature-first) font-bold leading-5 tracking-normal">{{ name() }}</p>
+        <p class="text-[0.625rem] font-bold text-(--primary) leading-5 tracking-[1px] uppercase">{{ job() }}</p>
       </div>
       <button
         (click)="toggleDropDown()"
-        class="rounded-åmd font-bold text-[16px] leading-6 tracking-normal text-center h-fit self-center p-3 shadow-[0px_1px_2px_0px_#0000000D] text-white bg-(--primary-container)"
+        class="rounded-xl font-bold text-[1rem] leading-6 tracking-normal text-center h-fit self-center p-3 shadow-(--card-or-button-shadow) text-white bg-(--primary-container)"
       >
         {{ initials() }}
       </button>
@@ -103,4 +110,3 @@
     </div>
   }
 </nav>
-<app-sidebar></app-sidebar>

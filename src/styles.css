@@ -17,7 +17,9 @@
   --icon-bg-color: #e8edff;
   --bg-primary-gradient: linear-gradient(90deg, rgba(0, 61, 155, 1) 0%, rgba(0, 82, 204, 1) 100%);
   --form-padding: 3rem;
-  --skeleton: linear-gradient(90deg, #e8edff 25%, #e8ede8 50%, #e8edfe 75%);
+  --container-shadow: 0px 24px 48px 0px #041b3c0f;
+  --card-or-button-shadow: 0px 1px 2px 0px #0000000d --paragraph-text-common-color: #434654
+    --skeleton: linear-gradient(90deg, #e8edff 25%, #e8ede8 50%, #e8edfe 75%);
 }
 
 @layer components {
@@ -66,7 +68,6 @@
     font-size: 14px;
     font-weight: 400;
     line-height: 22.75px;
-    font-family: 'Inter', sans-serif;
     letter-spacing: 0;
     vertical-align: middle;
   }
@@ -128,6 +129,7 @@
     border-radius: 8px;
     outline: var(--primary);
     @media (max-width: 767px) {
+      height: 3.5rem;
       padding-top: 18px;
       padding-bottom: 19px;
     }
@@ -135,25 +137,34 @@
 
   .form-control-label {
     font-weight: Bold;
-    font-size: 11px;
+    font-size: 0.69rem;
     line-height: 16.5px;
     letter-spacing: 0.55px;
     vertical-align: middle;
-    padding-bottom: 6px;
-    padding-inline-start: 4px;
+    padding-bottom: 0.5rem;
+    @media (max-width: 767px) {
+      padding-inline-start: 0.25rem;
+    }
     color: var(--slate-nature-second);
     text-transform: uppercase;
   }
 
-  .form-control-title {
-    font-family: Inter;
-    font-weight: 700;
-    font-style: Bold;
-    font-size: 10px;
-    line-height: 15px;
-    letter-spacing: 1px;
+  .form-control-subtitle {
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 20px;
+    letter-spacing: 0px;
     vertical-align: middle;
-    text-transform: uppercase;
-    color: #737685;
+    color: var(--slate-nature-second);
+  }
+
+  .form-control-error {
+    margin-top: 0.5rem;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0px;
+    vertical-align: middle;
+    color: var(--error);
   }
 }

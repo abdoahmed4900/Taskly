@@ -1,198 +1,77 @@
 <main
-  class="flex flex-col md:mt-4 mt-0 max-w-xl md:mb-43.25 sm:w-full mx-auto md:shadow-[0px_24px_48px_0px_#041B3C0F] rounded-xl p-6 pb-0 md:p-12 mb-12"
+  class="flex flex-col md:mb-31.25 mb-2.5 md:mt-4 mt-0 max-w-xl sm:w-full mx-auto md:shadow-(--container-shadow) rounded-xl px-6 md:p-(--form-padding)"
 >
-  <header class="flex flex-col md:gap-2 gap-[6.8px] pb-10 md:items-center items-start">
-    <h1 class="text-[30px] text-(--slate-nature-first) font-semibold tracking-normal leading-9">
+  <header class="flex flex-col md:pt-0 pt-8 md:gap-2 gap-[6.8px] pb-10 md:items-center items-start">
+    <h1 class="text-[1.875rem] text-(--slate-nature-first) font-semibold tracking-normal leading-9">
       Create your workspace
     </h1>
-    <p class="leading-5 font-normal text-(--slate-nature-second) text-slate-nature-second tracking-normal text-[14px]">
-      Join the editorial approach to task management.
-    </p>
+    <p class="form-control-subtitle">Join the editorial approach to task management.</p>
   </header>
-  <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate class="flex flex-col gap-6">
+  <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate class="flex flex-col gap-6 mb-4">
     <section class="name-field">
-      <label
-        [class.text-(--error)!]="getControl('username')?.invalid && getControl('username')?.touched"
-        for="username"
-        class="form-control-label"
-        >NAME</label
-      >
-
-      <input
-        type="text"
-        class="form-control"
+      <app-form-field-component
+        label="NAME"
+        controlName="username"
         placeholder="Enter Your Username"
-        formControlName="username"
-        [class.bg-(--form-control-error-bg)]="getControl('username')?.invalid && getControl('username')?.touched"
-        [class.focus:outline-(--form-control-error-bg)!]="
-          getControl('username')?.invalid && getControl('username')?.touched
-        "
-        [class.outline-(--primary)]="getControl('username')?.valid && getControl('username')?.touched"
-        [class.outline-(--form-control-error-bg)]="getControl('username')?.invalid && getControl('username')?.touched"
-        [class.focus:outline-(--form-control-error-bg)]="
-          getControl('username')?.invalid && getControl('username')?.touched
-        "
-      />
-
+        [control]="getControl('username')"
+        type="text"
+      ></app-form-field-component>
       <p
-        class="text-[11px] py-1.5 ps-1 hidden md:block font-normal tracking-normal leading-[16.5px] text-(--slate-nature-third)"
+        class="text-[0.69rem] py-1.5 ps-1 hidden md:block font-normal tracking-normal leading-[16.5px] text-(--slate-nature-third)"
       >
         3-50 characters, letters only.
       </p>
     </section>
-    @if (getControl('username')?.hasError('required') && getControl('username')?.touched) {
-      <p class="text-(--error)">Username is required.</p>
-    }
-    @if (getControl('username')?.hasError('minlength') && getControl('username')?.touched) {
-      <p class="text-(--error)">Username must be between 3 and 50 characters.</p>
-    }
 
-    @if (getControl('username')?.hasError('consecutiveSpaces') && getControl('username')?.touched) {
-      <p class="text-(--error)">Username cannot contain consecutive spaces.</p>
-    }
-    @if (getControl('username')?.hasError('specialChar') && getControl('username')?.touched) {
-      <p class="text-(--error)">Username must not contain special characters.</p>
-    }
-    @if (getControl('username')?.hasError('noNumber') && getControl('username')?.touched) {
-      <p class="text-(--error)">Username must not contain any numbers.</p>
-    }
-    <section class="email-section">
-      <label
-        [class.text-(--error)!]="getControl('email')?.invalid && getControl('email')?.touched"
-        for="email"
-        class="form-control-label"
-        >EMAIL</label
+    <app-form-field-component
+      label="EMAIL"
+      controlName="Email"
+      placeholder="yourname@company.com"
+      [control]="getControl('email')"
+      type="email"
+    ></app-form-field-component>
+    <app-form-field-component
+      label="Job Title (Optional)"
+      controlName="jobTitle"
+      placeholder="e.g. Project Manager"
+      [control]="getControl('jobTitle')"
+      type="text"
+    ></app-form-field-component>
+    <section class="passwords-section flex md:flex-row flex-col justify-between md:gap-x-4 gap-y-6">
+      <app-form-field-component
+        class="w-full"
+        [type]="isPasswordVisible() ? 'text' : 'password'"
+        label="PASSWORD"
+        controlName="Password"
+        placeholder="Enter your password"
+        [control]="getControl('password')"
       >
-      <input
-        [class.bg-(--form-control-error-bg)]="getControl('email')?.invalid && getControl('email')?.touched"
-        [class.outline-(--primary)]="getControl('email')?.valid && getControl('email')?.touched"
-        [class.outline-(--form-control-error-bg)]="getControl('email')?.invalid && getControl('email')?.touched"
-        [class.focus:outline-(--form-control-error-bg)]="getControl('email')?.invalid && getControl('email')?.touched"
-        type="email"
-        class="w-full h-12 px-4 md:pt-3.5 md:pb-3.75 pt-4.5 pb-4.75 rounded-lg bg-(--form-control-bg) outline-(--primary)"
-        placeholder="yourname@company.com"
-        formControlName="email"
-      />
-    </section>
-    @if (getControl('email')?.invalid && getControl('email')?.touched) {
-      <p class="text-(--error)">Please enter a valid email address.</p>
-    }
-    <section class="job-section">
-      <label
-        [class.text-(--error)!]="getControl('jobTitle')?.invalid && getControl('jobTitle')?.touched"
-        for="jobTitle"
-        class="form-control-label"
-        >Job Title (Optional)</label
+        <app-password-visibility-icon (visibilityChanged)="setPasswordVisiblity($event)"></app-password-visibility-icon>
+      </app-form-field-component>
+      <app-form-field-component
+        class="w-full"
+        [type]="isPasswordVisible() ? 'text' : 'password'"
+        label="CONFIRM PASSWORD"
+        controlName="confirmPassword"
+        placeholder="Confirm Your Password"
+        [control]="getControl('confirmPassword')"
       >
-      <input
-        [class.bg-(--form-control-error-bg)]="getControl('jobTitle')?.invalid && getControl('jobTitle')?.touched"
-        [class.outline-(--primary)]="getControl('jobTitle')?.valid && getControl('jobTitle')?.touched"
-        [class.outline-(--form-control-error-bg)]="getControl('jobTitle')?.invalid && getControl('jobTitle')?.touched"
-        [class.focus:outline-(--form-control-error-bg)]="
-          getControl('jobTitle')?.invalid && getControl('jobTitle')?.touched
-        "
-        type="text"
-        class="form-control"
-        placeholder="e.g. Project Manager"
-        formControlName="jobTitle"
-      />
+      </app-form-field-component>
     </section>
-    <section class="passwords-section flex md:flex-row flex-col justify-between md:gap-4 gap-6">
-      <div class="flex flex-col w-full">
-        <label
-          [class.text-(--error)!]="getControl('password')?.invalid && getControl('password')?.touched"
-          for="password"
-          class="form-control-label"
-          >PASSWORD</label
-        >
-        <div class="password-field relative">
-          <input
-            [type]="isPasswordVisible() ? 'text' : 'password'"
-            class="form-control"
-            placeholder="Enter Your Password"
-            password
-            [class.bg-(--form-control-error-bg)]="getControl('password')?.invalid && getControl('password')?.touched"
-            [class.outline-(--primary)]="getControl('password')?.valid && getControl('password')?.touched"
-            [class.outline-(--form-control-error-bg)]="
-              getControl('password')?.invalid && getControl('password')?.touched
-            "
-            [class.focus:outline-(--form-control-error-bg)]="
-              getControl('password')?.invalid && getControl('password')?.touched
-            "
-            formControlName="password"
-          />
-
-          <app-password-visibility-icon
-            (visibilityChanged)="setPasswordVisiblity($event)"
-          ></app-password-visibility-icon>
-        </div>
-        @if (getControl('password')?.hasError('required') && getControl('password')?.touched) {
-          <p class="text-(--error)">Password is required.</p>
-        }
-        @if (getControl('password')?.hasError('minlength') && getControl('password')?.touched) {
-          <p class="text-(--error)">Password must be at least 8 characters long.</p>
-        }
-        @if (getControl('password')?.hasError('whiteSpace') && getControl('password')?.touched) {
-          <p class="text-(--error)">Password must not include white spaces.</p>
-        }
-        @if (getControl('password')?.hasError('noSpecialChar') && getControl('password')?.touched) {
-          <p class="text-(--error)">Password must include a special character.</p>
-        }
-        @if (getControl('password')?.hasError('hasNumber') && getControl('password')?.touched) {
-          <p class="text-(--error)">Password must include a number.</p>
-        }
-      </div>
-      <div class="flex flex-col w-full">
-        <label
-          for="confirmPassword"
-          class="form-control-label"
-          [class.text-(--error)!]="getControl('confirmPassword')?.invalid && getControl('confirmPassword')?.touched"
-          >CONFIRM PASSWORD</label
-        >
-        <input
-          [class.bg-(--form-control-error-bg)]="
-            getControl('confirmPassword')?.invalid && getControl('confirmPassword')?.touched
-          "
-          [class.outline-(--primary)]="getControl('confirmPassword')?.valid && getControl('confirmPassword')?.touched"
-          [class.outline-(--form-control-error-bg)]="
-            getControl('confirmPassword')?.invalid && getControl('confirmPassword')?.touched
-          "
-          [class.focus:outline-(--form-control-error-bg)]="
-            getControl('confirmPassword')?.invalid && getControl('confirmPassword')?.touched
-          "
-          [type]="isPasswordVisible() ? 'text' : 'password'"
-          class="form-control"
-          placeholder="Confirm Your Password"
-          formControlName="confirmPassword"
-        />
-        @if (getControl('confirmPassword')?.hasError('passwordMismatch') && getControl('confirmPassword')?.touched) {
-          <p class="text-(--error)">Passwords do not match.</p>
-        }
-        @if (getControl('confirmPassword')?.hasError('required') && getControl('confirmPassword')?.touched) {
-          <p class="text-(--error)">Confirm Password is required.</p>
-        }
-      </div>
-    </section>
-    <app-password-checks
-      [password]="getControl('password')?.value"
-      (setPasswordStrongOutPut)="this.setPasswordStrong($event)"
-    ></app-password-checks>
+    <div class="md:block hidden">
+      <app-password-checks
+        [password]="getControl('password').value"
+        (setPasswordStrongOutPut)="this.setPasswordStrong($event)"
+      ></app-password-checks>
+    </div>
     <app-submit-button
       [isButtonDisabled]="registerForm.invalid || isPasswordStrong()"
       buttonClass="md:h-12 h-14 md:py-3 py-4"
     >
       Create Account
     </app-submit-button>
-    <section class="login-navigation-section m-0 mt-6 flex flex-row gap-1 justify-center">
-      <p class="font-normal text-[14px] leading-5 tracking-normal text-center text-(--slate-nature-second)">
-        Already have an account?
-      </p>
-      <a
-        routerLink="/login"
-        class="font-normal cursor-pointer text-[14px] leading-5 tracking-normal text-center text-(--primary)"
-      >
-        Log in
-      </a>
-    </section>
   </form>
+  <div class="mt-auto">
+    <app-navigate-to-login></app-navigate-to-login>
+  </div>
 </main>

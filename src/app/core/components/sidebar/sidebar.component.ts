@@ -1,12 +1,15 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   OnDestroy,
   OnInit,
   computed,
   inject,
+  model,
   output,
   signal,
+  viewChild,
 } from '@angular/core';
 import { ClickOutsideDirective } from '../click-outside.directive';
 import { AuthFacade } from '../../../features/auth/facade/auth.facade';
@@ -19,6 +22,7 @@ import { MemebersIconComponent } from '../../../shared/ui/components/memebers-ic
 import { DetailsIconComponent } from '../../../shared/ui/components/details-icon/details-icon.component';
 import { WebsiteIconComponent } from '../../../shared/ui/components/website-icon/website-icon.component';
 import { NgComponentOutlet } from '@angular/common';
+import { ToastService } from '../../../shared/service/toast.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -30,9 +34,10 @@ import { NgComponentOutlet } from '@angular/common';
 })
 export class SidebarComponent implements OnDestroy, OnInit {
   router = inject(Router);
-  isSidebarToggled = output<boolean>();
+  isSidebarToggled = model<boolean>(false);
   currentUrl = signal(this.router.url);
-  closed = output();
+  toastService = inject(ToastService);
+  sideBar = viewChild<ElementRef<HTMLElement>>('sidebar');
 
   ngOnInit() {
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe(event => {
@@ -46,7 +51,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
   authFacade = inject(AuthFacade);
   destroy$ = new Subject<void>();
 
-  isOpen = signal(true);
+  isOpen = output<boolean>();
   isLoggedIn = computed(() => this.authFacade.authDomainService.isUserLoggedIn());
 
   readonly items = [
@@ -78,14 +83,12 @@ export class SidebarComponent implements OnDestroy, OnInit {
   ];
 
   toggleSideBar() {
-    this.isOpen.update(v => !v);
-    this.isSidebarToggled.emit(this.isOpen());
-    this.closed.emit();
+    this.isSidebarToggled.update(v => !v);
+    this.isOpen.emit(this.isSidebarToggled());
   }
   close() {
-    this.isOpen.set(false);
-    this.isSidebarToggled.emit(false);
-    this.closed.emit();
+    this.isSidebarToggled.set(false);
+    this.isOpen.emit(false);
   }
 
   logout() {
@@ -94,7 +97,9 @@ export class SidebarComponent implements OnDestroy, OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.isOpen.set(false);
+          this.isSidebarToggled.set(false);
+          this.isOpen.emit(false);
+          this.toastService.success('Logged out successfully');
           this.router.navigateByUrl('/login');
         },
       });

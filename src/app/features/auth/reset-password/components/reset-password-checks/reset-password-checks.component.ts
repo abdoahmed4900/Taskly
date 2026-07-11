@@ -1,6 +1,6 @@
 import { Component, OnDestroy, computed, model, output } from '@angular/core';
-import { CheckPasswordValidComponent } from '../check-password-valid/check-password-valid.component';
-import { CheckPasswordInvalidComponent } from '../check-password-invalid/check-password-invalid.component';
+import { CheckPasswordValidComponent } from '../../../components/check-password-valid/check-password-valid.component';
+import { CheckPasswordInvalidComponent } from '../../../components/check-password-invalid/check-password-invalid.component';
 import { Subject } from 'rxjs';
 import { NgComponentOutlet } from '@angular/common';
 

@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { AuthFacade } from '../facade/auth.facade';
 import { Subject, takeUntil } from 'rxjs';
 import { SubmitButtonComponent } from '../components/submit-button/submit-button.component';
+import { emailValidator } from '../../../shared/utils';
 
 @Component({
   selector: 'app-forgot-password',
@@ -25,7 +26,7 @@ export class ForgotPasswordComponent implements OnDestroy {
   isReqSent = signal(false);
 
   forgotPasswordForm = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required, emailValidator()]],
   });
   private setResetEmailInterval() {
     this.resendTime.set(300);

@@ -1,11 +1,11 @@
 <main class="min-h-screen flex flex-col bg-(--background)">
-  <app-navbar (isSideBarOpened)="setSideBarToggle($event)"></app-navbar>
+  <app-navbar (isSideBarOpened)="setSideBarToggle($event)" [(sidebarOpened)]="isSideBarToggled"></app-navbar>
 
   @if (isLoggedIn()) {
     <div class="flex flex-1">
       <!-- Desktop Sidebar -->
-      <aside class="hidden h-screen lg:block shrink-0">
-        <app-sidebar (isSidebarToggled)="setSideBarToggle($event)"></app-sidebar>
+      <aside [class.hidden]="!isSideBarToggled()" class="z-3 lg:block">
+        <app-sidebar [(isSidebarToggled)]="isSideBarToggled" (isOpen)="setSideBarToggle($event)"></app-sidebar>
       </aside>
 
       <!-- Page -->
@@ -21,3 +21,4 @@
 
   <app-tab-bar></app-tab-bar>
 </main>
+<app-toast-component></app-toast-component>

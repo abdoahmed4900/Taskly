@@ -12,6 +12,7 @@ import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { TabBarComponent } from './core/components/tab-bar/tab-bar.component';
 import { SidebarComponent } from './core/components/sidebar/sidebar.component';
+import { ToastComponent } from './shared/ui/components/toast/toast.component';
 
 @Component({
   selector: 'app-root',
@@ -19,17 +20,14 @@ import { SidebarComponent } from './core/components/sidebar/sidebar.component';
   styleUrls: ['./app.component.css'],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, NavbarComponent, TabBarComponent, SidebarComponent],
+  imports: [RouterOutlet, NavbarComponent, ToastComponent, TabBarComponent, SidebarComponent],
 })
 export class AppComponent implements OnInit {
   authDomainService = inject(AuthDomainService);
   authFacade = inject(AuthFacade);
-  isSideBarToggled = signal(true);
+  isSideBarToggled = signal(false);
   setSideBarToggle(val: boolean) {
-    console.log('set toggle');
-
     this.isSideBarToggled.set(val);
-    console.log(this.isSideBarToggled());
   }
   isLoggedIn = computed(() => this.authDomainService.isUserLoggedIn());
   ngOnInit(): void {

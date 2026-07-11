@@ -19,6 +19,46 @@ export function passwordMatchValidator(
   };
 }
 
+export function controlMinLengthValidator(minLength: number): ValidatorFn {
+  return (control: AbstractControl) => {
+    const value: string = control.value ?? '';
+    if (value.length < minLength) {
+      const errors: ValidationErrors = { minLength: true };
+      control.setErrors(errors);
+      return errors;
+    } else {
+      control.setErrors(null);
+      return null;
+    }
+  };
+}
+
+export function controlMaxLengthValidator(maxLength: number): ValidatorFn {
+  return (control: AbstractControl) => {
+    const value: string = control.value ?? '';
+    if (value.length > maxLength) {
+      const errors: ValidationErrors = { maxLength: true };
+      control.setErrors(errors);
+      return errors;
+    } else {
+      control.setErrors(null);
+      return null;
+    }
+  };
+}
+
+export function emailValidator() {
+  return (control: AbstractControl) => {
+    const value: string = control.value;
+    if (value && /^[\w-.]{2,30}@([\w-]{2,10}\.)+[\w-]{2,4}$/.test(value)) {
+      control.setErrors({ ...control?.errors, emailInValid: null });
+    } else {
+      control?.setErrors({ ...control?.errors, emailInValid: true });
+      return control.errors;
+    }
+    return null;
+  };
+}
 export function doesControlIncludeSpecialCharacter() {
   return (control: AbstractControl) => {
     const value: string = control.value;
@@ -44,6 +84,18 @@ export function doesControlIncludeWhiteSpace(): ValidatorFn {
     return null;
   };
 }
+export function doesNotControlIncludeWhiteSpace(): ValidatorFn {
+  return (control: AbstractControl) => {
+    const value: string = control.value ?? '';
+    if (value && value.includes('  ')) {
+      control.setErrors({ ...control?.errors, noWhiteSpace: true });
+      return control.errors;
+    } else {
+      control?.setErrors({ ...control?.errors, noWhiteSpace: null });
+    }
+    return null;
+  };
+}
 
 export function doesControlIncludeNumber(): ValidatorFn {
   return (control: AbstractControl) => {
@@ -61,11 +113,11 @@ export function doesControlIncludeNumber(): ValidatorFn {
 export function doesControlIncludeLowerCase(): ValidatorFn {
   return (control: AbstractControl) => {
     const value: string = control.value ?? '';
-    if (value && /^[a-z]/) {
+    if (value && /[a-z]/.test(value)) {
+      control.setErrors({ ...control.errors, noLowerCase: null });
+    } else {
       control.setErrors({ ...control.errors, noLowerCase: true });
       return control.errors;
-    } else {
-      control.setErrors({ ...control.errors, noLowerCase: null });
     }
     return null;
   };
@@ -73,24 +125,12 @@ export function doesControlIncludeLowerCase(): ValidatorFn {
 export function doesControlIncludeUpperCase(): ValidatorFn {
   return (control: AbstractControl) => {
     const value: string = control.value ?? '';
-    if (value && /^[A-Z]/) {
+    if (value && /[A-Z]/.test(value)) {
+      control.setErrors({ ...control.errors, noUpperCase: null });
+    } else {
       control.setErrors({ ...control.errors, noUpperCase: true });
       return control.errors;
-    } else {
-      control.setErrors({ ...control.errors, noUpperCase: null });
     }
     return null;
-  };
-}
-
-export function passwordChecksMap(atLeast?: number, atMost?: number) {
-  return {
-    'at least': `At least ${atLeast} characters`,
-    'at most': `At most ${atMost} characters`,
-    '8-64': `${atLeast}-${atMost} characters`,
-    uppercase: 'Uppercase letter',
-    lowercase: 'Lowercase letter',
-    digit: 'One digit',
-    special: 'Special character',
   };
 }

@@ -1,15 +1,24 @@
-import { Component, OnDestroy, computed, inject, output, signal } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  computed,
+  effect,
+  inject,
+  model,
+  output,
+  signal,
+} from '@angular/core';
 import { AuthDomainService } from '../../../features/auth/service/auth.service.domain';
-import { SidebarComponent } from '../sidebar/sidebar.component';
 import { WebsiteIconComponent } from '../../../shared/ui/components/website-icon/website-icon.component';
 import { AuthFacade } from '../../../features/auth/facade/auth.facade';
 import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
+import { ToastService } from '../../../shared/service/toast.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [SidebarComponent, WebsiteIconComponent],
+  imports: [WebsiteIconComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
@@ -17,6 +26,8 @@ export class NavbarComponent implements OnDestroy {
   authDomainService = inject(AuthDomainService);
   isSideBarOpened = output<boolean>();
   authFacade = inject(AuthFacade);
+  toastService = inject(ToastService);
+
   isLoggedIn = computed(() => this.authDomainService.isUserLoggedIn());
   name = computed(() => {
     return this.authDomainService.name();
@@ -25,19 +36,19 @@ export class NavbarComponent implements OnDestroy {
     return this.authDomainService.job();
   });
   router = inject(Router);
-  sidebarOpened = signal(false);
+  sidebarOpened = model(false);
   dropDownOpened = signal(false);
   destroy$ = new Subject<void>();
 
-  openSidebar() {
-    this.sidebarOpened.set(true);
+  constructor() {
+    effect(() => {
+      console.log(`is navbar sidebarOpened : ${this.sidebarOpened()}`);
+    });
   }
-  closeSidebar() {
-    console.log('closed');
-    this.sidebarOpened.set(false);
-  }
+
   toggleSidebar() {
     this.sidebarOpened.update(val => !val);
+    this.isSideBarOpened.emit(this.sidebarOpened());
   }
   toggleDropDown() {
     this.dropDownOpened.update(val => !val);
@@ -63,6 +74,7 @@ export class NavbarComponent implements OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
+          this.toastService.success('Logged out successfully');
           this.router.navigateByUrl('/login');
         },
       });

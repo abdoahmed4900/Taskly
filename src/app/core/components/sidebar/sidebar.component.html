@@ -1,38 +1,43 @@
 @if (isLoggedIn()) {
   <div
-    class="fixed hidden lg:block inset-y-0 left-0 bg-(--surface-low) shadow-xl transition-all duration-300"
-    [class.w-64]="isOpen()"
-    [class.w-20]="!isOpen()"
+    class="fixed inset-y-0 left-0 bg-(--surface-low) shadow-xl transition duration-1000"
+    [class.w-72]="isSidebarToggled()"
+    [class.lg:w-20]="!isSidebarToggled()"
+    [class.translate-x-0]="isSidebarToggled()"
+    [class.-translate-x-full.lg:translate-x-0]="!isSidebarToggled()"
+    #sidebar
   >
     <aside appClickOutside (clickOutside)="close()" class="h-full flex flex-col justify-between">
       <div class="p-4">
-        <section [class.px-4.mt-1]="!isOpen()" class="logo flex flex-row gap-1 items-center">
+        <section [class.px-4.mt-1]="!isSidebarToggled()" class="logo flex flex-row gap-1 items-center">
           <app-website-icon></app-website-icon>
           <p
-            [class.hidden]="!isOpen()"
-            class="text-[20px] font-bold leading-7 tracking-[-0.5px] text-(--slate-nature-first)"
+            [class.lg:hidden]="!isSidebarToggled()"
+            class="text-[1.25rem] font-bold leading-7 tracking-[-0.5px] text-(--slate-nature-first)"
           >
             Taskly
           </p>
         </section>
         <nav class="mt-8">
-          <ul class="flex flex-col gap-7">
+          <ul class="flex flex-col" [class.gap-4]="!isSidebarToggled()" [class.gap-1]="!isSidebarToggled()">
             @for (item of items; track item.route) {
               <li
                 [routerLink]="item.route"
                 class="flex items-center transition rounded-lg"
-                [class.justify-center.items-center]="!isOpen()"
-                [class.p-4]="isOpen()"
-                [class.py-4]="!isOpen()"
-                [class.bg-white]="currentUrl() === item.route"
+                [class.justify-center.items-center]="!isSidebarToggled()"
+                [class.p-4]="isSidebarToggled()"
+                [class.py-4]="!isSidebarToggled()"
+                [class.bg-white.shadow-[0px_1px_2px_0px_#0000000D]]="currentUrl() === item.route"
               >
                 <ng-container *ngComponentOutlet="item.icon"> </ng-container>
 
-                @if (isOpen()) {
-                  <p class="ml-2 text-[14px] font-medium" [class.text-(--primary)]="currentUrl() === item.route">
-                    {{ item.title }}
-                  </p>
-                }
+                <p
+                  [class.lg:hidden]="!isSidebarToggled()"
+                  class="ml-2 text-[0.875rem] font-medium"
+                  [class.text-(--primary)]="currentUrl() === item.route"
+                >
+                  {{ item.title }}
+                </p>
               </li>
             }
           </ul>
@@ -40,13 +45,9 @@
       </div>
 
       <section>
-        <button
-          [class.hidden]="isOpen()"
-          (click)="toggleSideBar()"
-          class="hidden px-6 py-3 lg:flex flex-row items-center gap-2 justify-start"
-        >
+        <button (click)="toggleSideBar()" class="hidden px-6 py-3 lg:flex flex-row items-center gap-2 justify-start">
           <svg
-            [class.hidden]="!isOpen()"
+            [class.hidden]="!isSidebarToggled()"
             width="12"
             height="20"
             viewBox="0 0 12 20"
@@ -57,7 +58,7 @@
           </svg>
 
           <svg
-            [class.hidden]="isOpen()"
+            [class.hidden]="isSidebarToggled()"
             width="12"
             height="20"
             viewBox="0 0 12 20"
@@ -71,8 +72,8 @@
           </svg>
 
           <p
-            [class.hidden]="!isOpen()"
-            class="text-[14px] font-medium leading-5 tracking-normal text-(--slate-nature-first) transition"
+            [class.lg:hidden]="!isSidebarToggled()"
+            class="text-[0.875rem] font-medium leading-5 tracking-normal text-(--slate-nature-first) transition"
           >
             Collapse
           </p>
@@ -85,9 +86,9 @@
             />
           </svg>
           <button
-            [class.hidden]="!isOpen()"
+            [class.lg:hidden]="!isSidebarToggled()"
             (click)="logout()"
-            class="text-[14px] font-medium leading-5 tracking-normal text-(--error) transition"
+            class="text-[0.875rem] font-medium leading-5 tracking-normal text-(--error) transition"
           >
             Logout
           </button>
