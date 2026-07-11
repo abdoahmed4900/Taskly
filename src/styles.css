@@ -18,8 +18,9 @@
   --bg-primary-gradient: linear-gradient(90deg, rgba(0, 61, 155, 1) 0%, rgba(0, 82, 204, 1) 100%);
   --form-padding: 3rem;
   --container-shadow: 0px 24px 48px 0px #041b3c0f;
-  --card-or-button-shadow: 0px 1px 2px 0px #0000000d --paragraph-text-common-color: #434654
-    --skeleton: linear-gradient(90deg, #e8edff 25%, #e8ede8 50%, #e8edfe 75%);
+  --card-or-button-shadow: 0px 1px 2px 0px #0000000d;
+  --paragraph-text-common-color: #434654;
+  --skeleton: linear-gradient(90deg, #e8edff 25%, #e8ede8 50%, #e8edfe 75%);
 }
 
 @layer components {

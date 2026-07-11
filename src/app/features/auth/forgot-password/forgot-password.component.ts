@@ -1,15 +1,16 @@
 import { Component, ElementRef, OnDestroy, inject, signal, viewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthFacade } from '../facade/auth.facade';
 import { Subject, takeUntil } from 'rxjs';
 import { SubmitButtonComponent } from '../components/submit-button/submit-button.component';
 import { emailValidator } from '../../../shared/utils';
+import { FormFieldComponent } from '../components/form-field/form-field.component';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, SubmitButtonComponent],
+  imports: [ReactiveFormsModule, RouterLink, SubmitButtonComponent, FormFieldComponent],
   templateUrl: './forgot-password.component.html',
   styleUrl: './forgot-password.component.css',
 })
@@ -47,8 +48,8 @@ export class ForgotPasswordComponent implements OnDestroy {
     }, 1000);
   }
 
-  getControl(controlName: string): AbstractControl | null {
-    return this.forgotPasswordForm.get(controlName);
+  getControl(controlName: string) {
+    return this.forgotPasswordForm.get(controlName) as FormControl;
   }
 
   sendEmail() {

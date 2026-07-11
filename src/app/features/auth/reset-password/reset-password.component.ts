@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
+  controlMaxLengthValidator,
+  controlMinLengthValidator,
   doesControlIncludeNumber,
   doesControlIncludeSpecialCharacter,
   doesControlIncludeWhiteSpace,
@@ -12,11 +14,19 @@ import { Subject, takeUntil } from 'rxjs';
 import { AuthFacade } from '../facade/auth.facade';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../../shared/service/toast.service';
+import { FormFieldComponent } from '../components/form-field/form-field.component';
+import { SubmitButtonComponent } from '../components/submit-button/submit-button.component';
 
 @Component({
   selector: 'app-reset-password',
   standalone: true,
-  imports: [ReactiveFormsModule, PasswordVisibilityIcon, ResetPasswordChecksComponent],
+  imports: [
+    ReactiveFormsModule,
+    PasswordVisibilityIcon,
+    ResetPasswordChecksComponent,
+    FormFieldComponent,
+    SubmitButtonComponent,
+  ],
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.css',
 })
@@ -29,6 +39,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   newAccessToken = '';
   activatedRoute = inject(ActivatedRoute);
   router = inject(Router);
+  isLoading = signal(false);
   toastService = inject(ToastService);
 
   token = '';
@@ -40,8 +51,8 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
         '',
         [
           Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(64),
+          controlMinLengthValidator(8),
+          controlMaxLengthValidator(64),
           doesControlIncludeWhiteSpace(),
           doesControlIncludeSpecialCharacter(),
           doesControlIncludeNumber(),
@@ -61,7 +72,11 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
   private checkLinkValidity() {
     this.activatedRoute.fragment.pipe(takeUntil(this.destroy$)).subscribe(val => {
-      const arr = JSON.stringify(val).split('&');
+      if (!val) {
+        this.router.navigateByUrl('/login', { replaceUrl: true });
+      }
+      console.log('Fragment:', val);
+      const arr = JSON.stringify(val ?? '').split('&');
       if (arr[6].split('=')[1].substring(0, 8) != 'recovery') {
         console.log('Invalid or expired reset link.');
         this.router.navigateByUrl('/login', { replaceUrl: true });
@@ -76,20 +91,26 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
   resetPassword() {
     if (this.resetPasswordForm.valid) {
+      this.isLoading.set(true);
       this.authFacade
         .resetPassword(this.password())
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
-            this.router.navigateByUrl('/');
-            this.toastService.success('Password updated successfully');
+            this.isLoading.set(false);
+            this.toastService.success(
+              'Your password has been updated successfully. You can now log in',
+            );
+            setTimeout(() => {
+              this.router.navigateByUrl('/login', { replaceUrl: true });
+            }, 3000);
           },
         });
     }
   }
 
   getControl(controlName: string) {
-    return this.resetPasswordForm.get(controlName);
+    return this.resetPasswordForm.get(controlName) as FormControl;
   }
 
   setPasswordVisiblity(value: boolean) {
