@@ -23,7 +23,8 @@ export class AuthApiService {
       { email: email },
       {
         headers: {
-          redirect_to: 'https://taskly-lime-nine.vercel.app/reset-password',
+          redirect_to: `https://taskly-lime-nine.vercel.app/reset-password?access_token=${this.authDomainService.getUserToken()}&refresh_token=${this.authDomainService.getRefreshToken()}&type=recovery`,
+          // redirect_to: 'https://taskly-lime-nine.vercel.app/reset-password',
         },
       },
     );
