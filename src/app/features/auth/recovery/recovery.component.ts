@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../../shared/service/toast.service';
-import { Subject, takeUntil } from 'rxjs';
 import { AuthFacade } from '../facade/auth.facade';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -12,13 +12,12 @@ export class RecoveryComponent implements OnInit {
   private router = inject(Router);
   toastService = inject(ToastService);
   activatedRoute = inject(ActivatedRoute);
-  destroy$ = new Subject<void>();
   authFacade = inject(AuthFacade);
   token = '';
   refreshToken = '';
 
   private checkLinkValidity() {
-    this.activatedRoute.fragment.pipe(takeUntil(this.destroy$)).subscribe(fragment => {
+    this.activatedRoute.fragment.pipe(takeUntilDestroyed()).subscribe(fragment => {
       if (!fragment) {
         this.router.navigate(['/login'], { replaceUrl: true });
         return;
