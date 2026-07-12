@@ -42,9 +42,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   isLoading = signal(false);
   toastService = inject(ToastService);
 
-  token = '';
-  refreshToken = '';
-
   resetPasswordForm = this.fb.group(
     {
       password: [
@@ -67,26 +64,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     this.resetPasswordForm.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(val => {
       this.password.set(val.password ?? '');
     });
-    this.checkLinkValidity();
-  }
-
-  private checkLinkValidity() {
-    this.activatedRoute.fragment.pipe(takeUntil(this.destroy$)).subscribe(val => {
-      if (!val) {
-        this.toastService.error('Invalid or expired reset link.');
-        this.router.navigateByUrl('/login', { replaceUrl: true });
-      }
-      const arr = JSON.stringify(val ?? '').split('&');
-      if (arr[6].split('=')[1].substring(0, 8) != 'recovery') {
-        this.toastService.error('Invalid or expired reset link.');
-        this.router.navigateByUrl('/login', { replaceUrl: true });
-      } else {
-        this.token = arr[0].split('=')[1];
-        this.refreshToken = arr[3].split('=')[1];
-        this.authFacade.authDomainService.storeAttribute('refreshToken', this.refreshToken);
-        this.authFacade.refreshToken().pipe(takeUntil(this.destroy$)).subscribe();
-      }
-    });
   }
 
   resetPassword() {
@@ -104,7 +81,10 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
             setTimeout(() => {
               this.authFacade.authDomainService.clearUserExpriedSession();
               this.router.navigateByUrl('/login', { replaceUrl: true });
-            }, 3000);
+            }, 1000);
+          },
+          error: () => {
+            this.isLoading.set(false);
           },
         });
     }

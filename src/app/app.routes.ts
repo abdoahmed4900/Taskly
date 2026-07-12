@@ -30,6 +30,11 @@ export const routes: Routes = [
     canActivate: [nonUserGuard],
   },
   {
+    path: 'recovery',
+    loadComponent: () =>
+      import('./features/auth/recovery/recovery.component').then(m => m.RecoveryComponent),
+  },
+  {
     path: 'reset-password/:token',
     loadComponent: () =>
       import('./features/auth/reset-password/reset-password.component').then(
