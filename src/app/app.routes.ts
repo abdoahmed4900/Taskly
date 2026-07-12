@@ -30,7 +30,7 @@ export const routes: Routes = [
     canActivate: [nonUserGuard],
   },
   {
-    path: 'reset-password',
+    path: 'reset-password/:token',
     loadComponent: () =>
       import('./features/auth/reset-password/reset-password.component').then(
         m => m.ResetPasswordComponent,
@@ -42,6 +42,14 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/projects/add-project/add-project.component').then(
         m => m.AddProjectComponent,
+      ),
+  },
+  {
+    path: 'edit-project',
+    canActivate: [userGuard],
+    loadComponent: () =>
+      import('./features/projects/edit-project/edit-project.component').then(
+        m => m.EditProjectComponent,
       ),
   },
   {

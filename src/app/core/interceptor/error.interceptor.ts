@@ -18,7 +18,6 @@ export function errorInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn)
       errorModel.statusCode = err.error['code'];
       errorModel.errorMsg = err.error['msg'] ?? err.error['message'];
       errorModel.errorCode = err.error['error_code'];
-      console.log(errorModel.errorMsg);
       if (errorModel.errorMsg == 'Invalid login credentials') {
         toastService.error('Invalid email or password');
       } else {
@@ -33,9 +32,9 @@ export function errorInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn)
         errorModel.statusCode == 429 ||
         errorModel.statusCode == 422
       ) {
-        console.log(errorModel.errorMsg);
+        toastService.error(errorModel.errorMsg);
       } else if (errorModel.statusCode >= 500) {
-        console.log('Server is busy try again later');
+        toastService.error('Server is busy try again later');
       }
 
       if (

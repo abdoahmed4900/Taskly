@@ -43,8 +43,6 @@ export class ProjectApiService {
       })
       .pipe(
         map(val => {
-          console.log(val.headers.get('Content-Range'));
-
           const projects = JSON.parse(JSON.stringify(val.body)).map((i: unknown) => {
             const x = i as {
               name: string;
@@ -59,12 +57,6 @@ export class ProjectApiService {
               createdAt: x.created_at.split('T')[0],
             } as Project;
           }) as Project[];
-          console.log({
-            projects: projects,
-            totalProjects: val.headers.get('Content-Range')?.split('/')[1],
-            rangeStart: val.headers.get('Content-Range')?.split('/')[0].split('-')[0],
-            rangeEnd: val.headers.get('Content-Range')?.split('/')[0].split('-')[1],
-          });
 
           return {
             projects: projects,

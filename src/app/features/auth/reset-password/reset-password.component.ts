@@ -73,12 +73,12 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   private checkLinkValidity() {
     this.activatedRoute.fragment.pipe(takeUntil(this.destroy$)).subscribe(val => {
       if (!val) {
+        this.toastService.error('Invalid or expired reset link.');
         this.router.navigateByUrl('/login', { replaceUrl: true });
       }
-      console.log('Fragment:', val);
       const arr = JSON.stringify(val ?? '').split('&');
       if (arr[6].split('=')[1].substring(0, 8) != 'recovery') {
-        console.log('Invalid or expired reset link.');
+        this.toastService.error('Invalid or expired reset link.');
         this.router.navigateByUrl('/login', { replaceUrl: true });
       } else {
         this.token = arr[0].split('=')[1];
@@ -102,6 +102,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
               'Your password has been updated successfully. You can now log in',
             );
             setTimeout(() => {
+              this.authFacade.authDomainService.clearUserExpriedSession();
               this.router.navigateByUrl('/login', { replaceUrl: true });
             }, 3000);
           },

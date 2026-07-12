@@ -9,7 +9,11 @@
       </aside>
 
       <!-- Page -->
-      <section class="flex-1 px-6" [class.lg:ms-18]="!isSideBarToggled()" [class.lg:ms-65]="isSideBarToggled()">
+      <section
+        class="flex-1 relative lg:px-8 px-6"
+        [class.lg:ms-18]="!isSideBarToggled()"
+        [class.lg:ms-65]="isSideBarToggled()"
+      >
         <router-outlet></router-outlet>
       </section>
     </div>

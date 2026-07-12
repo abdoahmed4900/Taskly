@@ -6,6 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { SubmitButtonComponent } from '../components/submit-button/submit-button.component';
 import { emailValidator } from '../../../shared/utils';
 import { FormFieldComponent } from '../components/form-field/form-field.component';
+import { ToastService } from '../../../shared/service/toast.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -21,6 +22,7 @@ export class ForgotPasswordComponent implements OnDestroy {
   interval!: number;
   authFacade = inject(AuthFacade);
   destroy$ = new Subject<void>();
+  toastService = inject(ToastService);
   trials = signal(3);
   buttonElement = viewChild<ElementRef<HTMLButtonElement>>('submitButton');
   isLoading = signal(false);
@@ -60,7 +62,7 @@ export class ForgotPasswordComponent implements OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
-            console.log('email sent successfully!');
+            this.toastService.success('email sent successfully!');
             this.isLoading.set(false);
             this.isReqSent.set(true);
             setTimeout(() => {

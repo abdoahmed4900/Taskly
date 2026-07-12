@@ -7,17 +7,21 @@
       <svg width="4" height="6" viewBox="0 0 4 6" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M2.3 3L0 0.7L0.7 0L3.7 3L0.7 6L0 5.3L2.3 3Z" fill="#434654" fill-opacity="0.4" />
       </svg>
-      <p class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-(--primary)">
-        ADD NEW PROJECT
+      <p class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-[#43465499]">
+        PROJECT TITLE
       </p>
+      <svg width="4" height="6" viewBox="0 0 4 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2.3 3L0 0.7L0.7 0L3.7 3L0.7 6L0 5.3L2.3 3Z" fill="#434654" fill-opacity="0.4" />
+      </svg>
+      <p class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-(--primary)">EDIT</p>
     </div>
     <p class="font-semibold text-[2.25rem] leading-10 tracking-[-0.9] align-middle text-(--slate-nature-first)">
-      Add New Project
+      Edit Project
     </p>
   </header>
   <form
-    [formGroup]="addProjectForm"
-    (ngSubmit)="addNewProject()"
+    [formGroup]="editProjectForm"
+    (ngSubmit)="editProject()"
     class="flex flex-col lg:gap-10 lg:mx-28 lg:my-2 justify-start"
   >
     <section class="flex flex-col gap-8 lg:bg-white bg-transparent">
@@ -41,7 +45,7 @@
 
         <div class="flex flex-col gap-1 lg:gap-0">
           <h2 class="font-semibold text-(--slate-nature-first) text-[1.5rem] leading-8 tracking-normal align-middle">
-            Initialize New Project
+            Edit Project
           </h2>
           <p class="font-normal text-(--slate-nature-second) text-[0.875rem] leading-5 tracking-normal align-middle">
             Define the scope and foundational details of your project.
@@ -67,7 +71,7 @@
             Back
           </button>
           <app-submit-button class="lg:w-fit w-full" buttonClass="h-14 py-3 px-8 rounded-lg" [isLoading]="isLoading()"
-            >Create Project</app-submit-button
+            >Save Changes</app-submit-button
           >
         </div>
       </div>

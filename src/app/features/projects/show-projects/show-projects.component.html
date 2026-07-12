@@ -1,4 +1,4 @@
-<main class="relative flex h-screen flex-col gap-10 mt-10">
+<main class="flex flex-col gap-10 mt-10 mb-45 lg:mb-0">
   @defer (when isLoaded() === true) {
     <header class="flex flex-row gap-3 flex-wrap justify-between w-full">
       <div class="flex flex-col gap-2">
@@ -269,13 +269,8 @@
         </div>
       }
     </section>
-    <button
-      routerLink="/add-project"
-      class="block md:hidden absolute bottom-17 right-5 px-6 py-4 text-[1.25rem] rounded-xl bg-(--primary) text-white"
-    >
-      +
-    </button>
-    <div class="change-page-section mt-auto mb-[9%] hidden md:flex flex-row items-center col-span-full justify-between">
+
+    <div class="change-page-section mt-auto mb-[9%] hidden lg:flex flex-row items-center col-span-full justify-between">
       <p class="font-medium text-[0.75rem] text-(--paragraph-text-common-color) leading-4 tracking-normal align-middle">
         Showing {{ currentProjects().length }} of {{ totalProjects() }} active projects
       </p>
@@ -348,4 +343,11 @@
       </button>
     </div>
   }
+
+  <button
+    routerLink="/add-project"
+    class="block md:hidden shadow-[0px_4px_6px_-4px_#0000001A] absolute bottom-25 w-14 h-14 right-6 text-[1.5rem] rounded-xl bg-(--primary) text-white"
+  >
+    +
+  </button>
 </main>

@@ -1,13 +1,4 @@
-import {
-  Component,
-  OnDestroy,
-  computed,
-  effect,
-  inject,
-  model,
-  output,
-  signal,
-} from '@angular/core';
+import { Component, OnDestroy, computed, inject, model, output, signal } from '@angular/core';
 import { AuthDomainService } from '../../../features/auth/service/auth.service.domain';
 import { WebsiteIconComponent } from '../../../shared/ui/components/website-icon/website-icon.component';
 import { AuthFacade } from '../../../features/auth/facade/auth.facade';
@@ -39,12 +30,6 @@ export class NavbarComponent implements OnDestroy {
   sidebarOpened = model(false);
   dropDownOpened = signal(false);
   destroy$ = new Subject<void>();
-
-  constructor() {
-    effect(() => {
-      console.log(`is navbar sidebarOpened : ${this.sidebarOpened()}`);
-    });
-  }
 
   toggleSidebar() {
     this.sidebarOpened.update(val => !val);
