@@ -19,7 +19,7 @@ export class AuthApiService {
 
   sendResetPasswordEmail(email: string) {
     return this.httpClient.post(
-      'auth/v1/recover?redirect_to=https://taskly-lime-nine.vercel.app/recovery',
+      `auth/v1/recover?redirect_to=${encodeURIComponent('https://taskly-lime-nine.vercel.app/recovery')}`,
       { email: email },
     );
   }

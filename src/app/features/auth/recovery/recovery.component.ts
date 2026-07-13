@@ -1,23 +1,27 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../../shared/service/toast.service';
 import { AuthFacade } from '../facade/auth.facade';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   standalone: true,
   template: '',
 })
-export class RecoveryComponent implements OnInit {
+export class RecoveryComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   toastService = inject(ToastService);
   activatedRoute = inject(ActivatedRoute);
   authFacade = inject(AuthFacade);
   token = '';
   refreshToken = '';
+  destroy$ = new Subject<void>();
 
+  ngOnInit() {
+    this.checkLinkValidity();
+  }
   private checkLinkValidity() {
-    this.activatedRoute.fragment.pipe(takeUntilDestroyed()).subscribe(fragment => {
+    this.activatedRoute.fragment.pipe(takeUntil(this.destroy$)).subscribe(fragment => {
       if (!fragment) {
         this.router.navigate(['/login'], { replaceUrl: true });
         return;
@@ -44,7 +48,8 @@ export class RecoveryComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.checkLinkValidity();
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
