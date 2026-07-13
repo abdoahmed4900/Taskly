@@ -81,7 +81,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
             setTimeout(() => {
               this.authFacade.authDomainService.clearUserExpriedSession();
               this.router.navigateByUrl('/login', { replaceUrl: true });
-            }, 1000);
+            }, 3000);
           },
           error: () => {
             this.isLoading.set(false);

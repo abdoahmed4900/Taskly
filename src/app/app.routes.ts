@@ -7,7 +7,10 @@ export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'project' },
   {
     path: 'project',
-    loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent),
+    loadComponent: () =>
+      import('./features/projects/show-projects/show-projects.component').then(
+        m => m.ShowProjectsComponent,
+      ),
     canActivate: [userGuard],
   },
   {
@@ -50,19 +53,11 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'edit-project',
+    path: 'project/:projectId/edit',
     canActivate: [userGuard],
     loadComponent: () =>
       import('./features/projects/edit-project/edit-project.component').then(
         m => m.EditProjectComponent,
-      ),
-  },
-  {
-    path: 'projects',
-    canActivate: [userGuard],
-    loadComponent: () =>
-      import('./features/projects/show-projects/show-projects.component').then(
-        m => m.ShowProjectsComponent,
       ),
   },
   {
@@ -72,6 +67,20 @@ export const routes: Routes = [
       import('./features/epics/project-epics/project-epics.component').then(
         m => m.ProjectEpicsComponent,
       ),
+  },
+  {
+    path: 'project/:projectId/members',
+    canActivate: [userGuard],
+    loadComponent: () =>
+      import('./features/members/show-members/show-members.component').then(
+        m => m.ShowMembersComponent,
+      ),
+  },
+  {
+    path: 'project/:projectId/tasks',
+    canActivate: [userGuard],
+    loadComponent: () =>
+      import('./features/tasks/show-tasks/show-tasks.component').then(m => m.ShowTasksComponent),
   },
   {
     path: '**',

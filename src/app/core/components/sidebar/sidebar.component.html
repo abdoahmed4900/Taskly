@@ -20,16 +20,17 @@
         </section>
         <nav class="mt-8">
           <ul class="flex flex-col" [class.gap-4]="!isSidebarToggled()" [class.gap-1]="!isSidebarToggled()">
-            @for (item of items; track item.route) {
+            @for (item of items(); track item.route) {
               <li
                 [routerLink]="item.route"
                 class="flex items-center transition rounded-lg"
                 [class.justify-center.items-center]="!isSidebarToggled()"
                 [class.p-4]="isSidebarToggled()"
                 [class.py-4]="!isSidebarToggled()"
-                [class.bg-white.shadow-[0px_1px_2px_0px_#0000000D]]="currentUrl() === item.route"
+                [class.bg-white.text-red-500.shadow-[0px_1px_2px_0px_#0000000D]]="currentUrl() === item.route"
               >
-                <ng-container *ngComponentOutlet="item.icon"> </ng-container>
+                <ng-container *ngComponentOutlet="item.icon; inputs: { isActive: currentUrl() === item.route }">
+                </ng-container>
 
                 <p
                   [class.lg:hidden]="!isSidebarToggled()"

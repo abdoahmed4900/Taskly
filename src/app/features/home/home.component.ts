@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         tap(() => {
-          this.router.navigateByUrl('/projects');
+          this.router.navigateByUrl('/project');
         }),
       )
       .subscribe();

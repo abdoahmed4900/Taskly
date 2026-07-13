@@ -64,12 +64,12 @@
         </section>
         <app-description-input [control]="getControl('description')"></app-description-input>
         <div class="buttons-section flex lg:flex-row flex-col-reverse lg:gap-3 gap-4 justify-between items-center mt-4">
-          <button
-            routerLink="/projects"
+          <a
+            routerLink="/project"
             class="font-bold text-[0.875rem] md:w-fit w-full leading-5 text-center py-3 align-middle lg:text-(--slate-nature-second) text-(--primary)"
           >
             Back
-          </button>
+          </a>
           <app-submit-button class="lg:w-fit w-full" buttonClass="h-14 py-3 px-8 rounded-lg" [isLoading]="isLoading()"
             >Save Changes</app-submit-button
           >

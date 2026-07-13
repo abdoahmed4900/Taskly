@@ -4,6 +4,7 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
+  Type,
   computed,
   inject,
   model,
@@ -38,12 +39,18 @@ export class SidebarComponent implements OnDestroy, OnInit {
   currentUrl = signal(this.router.url);
   toastService = inject(ToastService);
   sideBar = viewChild<ElementRef<HTMLElement>>('sidebar');
+  projectId = signal('');
 
   ngOnInit() {
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe(event => {
       if (event instanceof NavigationEnd) {
-        // Handle route change here
-        this.currentUrl.set(event.url);
+        this.currentUrl.set(event.url == '/' ? '/project' : event.url);
+        if (event.url.split('/')[2]) {
+          this.projectId.set(this.currentUrl() == '/project' ? '' : event.url.split('/')[2]);
+        }
+        if (this.currentUrl() == '/project') {
+          this.projectId.set('');
+        }
       }
     });
   }
@@ -54,33 +61,31 @@ export class SidebarComponent implements OnDestroy, OnInit {
   isOpen = output<boolean>();
   isLoggedIn = computed(() => this.authFacade.authDomainService.isUserLoggedIn());
 
-  readonly items = [
-    {
-      title: 'Projects',
-      route: '/projects',
-      icon: ProjectsIconComponent,
-    },
-    {
-      title: 'Project Epics',
-      route: '/epics',
-      icon: EpicsIconComponent,
-    },
-    {
-      title: 'Project Tasks',
-      route: '/tasks',
-      icon: TasksIconComponent,
-    },
-    {
-      title: 'Project Members',
-      route: '/members',
-      icon: MemebersIconComponent,
-    },
-    {
-      title: 'Project Details',
-      route: '/details',
-      icon: DetailsIconComponent,
-    },
-  ];
+  items = computed(() => {
+    return [
+      { title: 'Projects', route: '/project', icon: ProjectsIconComponent },
+      {
+        title: 'Project Epics',
+        route: `/project/${this.projectId()}/epics`,
+        icon: EpicsIconComponent,
+      },
+      {
+        title: 'Project Tasks',
+        route: `/project/${this.projectId()}/tasks`,
+        icon: TasksIconComponent,
+      },
+      {
+        title: 'Project Members',
+        route: `/project/${this.projectId()}/members`,
+        icon: MemebersIconComponent,
+      },
+      {
+        title: 'Project Details',
+        route: `/project/${this.projectId()}/edit`,
+        icon: DetailsIconComponent,
+      },
+    ] as { title: string; route: string; icon: Type<unknown> }[];
+  });
 
   toggleSideBar() {
     this.isSidebarToggled.update(v => !v);

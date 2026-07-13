@@ -15,23 +15,15 @@ export class ProjectApiService {
     });
   }
 
+  editProject(id: string, project: Project) {
+    return this.httpClient.patch(`rest/v1/projects?id=eq.${id}`, {
+      name: project.name,
+      description: project.description,
+    });
+  }
+
   getAllProjects() {
-    return this.httpClient.get('rest/v1/rpc/get_projects').pipe(
-      map(val => {
-        return JSON.parse(JSON.stringify(val)).map((i: unknown) => {
-          const x = i as {
-            name: string;
-            description: string;
-            created_at: string;
-          };
-          return {
-            name: x.name,
-            description: x.description,
-            createdAt: x.created_at.split('T')[0],
-          } as Project;
-        });
-      }),
-    );
+    return this.httpClient.get('rest/v1/rpc/get_projects');
   }
   getProjectsWithRange(limit: number, offset: number) {
     return this.httpClient
