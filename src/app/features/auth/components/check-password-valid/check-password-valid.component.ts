@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './check-password-valid.component.html',
-  styleUrl: './check-password-valid.component.css'
+  styleUrl: './check-password-valid.component.css',
 })
-export class CheckPasswordValidComponent {
-
-}
+export class CheckPasswordValidComponent {}
