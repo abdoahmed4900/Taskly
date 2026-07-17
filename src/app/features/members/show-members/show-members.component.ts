@@ -4,11 +4,13 @@ import { MembersFacade } from '../facade/members.facade';
 import { Subject, takeUntil } from 'rxjs';
 import { Member } from '../member';
 import { ToastService } from '../../../shared/service/toast.service';
+import { MembersListMobile } from './components/members-list-mobile/members.list.mobile.component';
+import { MembersTable } from './components/members-table/members.table.component';
 
 @Component({
   selector: 'app-show-members',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, MembersListMobile, MembersTable],
   templateUrl: './show-members.component.html',
 })
 export class ShowMembersComponent implements OnInit {
