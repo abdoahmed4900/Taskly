@@ -17,7 +17,7 @@ import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 
       <!-- Page -->
       <section
-        class="flex-1 relative lg:px-8 px-6"
+        class="flex-1 relative lg:ps-12 lg:pe-6 px-6"
         [class.lg:ms-18]="!isSideBarToggled()"
         [class.lg:ms-65]="isSideBarToggled()"
       >

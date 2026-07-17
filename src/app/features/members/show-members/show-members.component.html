@@ -1,68 +1,91 @@
 <main class="flex flex-col lg:gap-10 lg:m-8 lg:mb-30 mb-53 mt-8">
-  @defer (when isLoaded() === true) {
-    <header class="lg:flex hidden flex-col items-start gap-4">
-      <div class="flex flex-row items-center justify-start gap-2">
-        <p class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-[#43465499]">
-          PROJECTS
-        </p>
-        <svg width="4" height="6" viewBox="0 0 4 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2.3 3L0 0.7L0.7 0L3.7 3L0.7 6L0 5.3L2.3 3Z" fill="#434654" fill-opacity="0.4" />
-        </svg>
-        <p class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-[#43465499]">
-          PROJECT TITLE
-        </p>
-        <svg width="4" height="6" viewBox="0 0 4 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2.3 3L0 0.7L0.7 0L3.7 3L0.7 6L0 5.3L2.3 3Z" fill="#434654" fill-opacity="0.4" />
-        </svg>
-        <p class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-(--primary)">EDIT</p>
-      </div>
-      <p class="font-semibold text-[2.25rem] leading-10 tracking-[-0.9] align-middle text-(--slate-nature-first)">
-        Edit Project
-      </p>
-    </header>
-    <section class="flex flex-col lg:gap-10 lg:mx-28 lg:my-2 justify-start"></section>
-  } @loading (minimum 2s) {
-    <header class="flex flex-row gap-3 flex-wrap justify-between w-full">
-      <div class="flex flex-col gap-2">
-        <h1 class="font-semibold text-4xl leading-9 tracking-[0.75px] align-middle">Projects</h1>
-        <p class="font-normal text-[1rem] tracking-normal leading-6 align-middle text-(--paragraph-text-common-color)">
-          Manage and curate your projects
-        </p>
-      </div>
-      <div class="w-46 h-15 skeleton-basic self-end"></div>
-    </header>
-    <div class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-5">
-      @for (item of [1, 2, 3]; track $index) {
-        <div class="p-6 bg-white shadow-(--card-or-button-shadow) rounded-lg flex flex-col gap-4">
-          <div class="skeleton-basic h-36"></div>
-          <div class="skeleton-basic w-[70%] h-6"></div>
-          <div class="skeleton-basic w-[33%] h-4"></div>
-        </div>
-      }
-    </div>
-  } @error {
-    <div class="flex flex-col justify-center gap-3 items-center m-auto h-screen">
-      <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="64" height="64" rx="12" fill="#FFDAD6" />
-        <path
-          d="M41.75 44.375L38.4375 41.125H25.125C23.2083 41.125 21.5833 40.4583 20.25 39.125C18.9167 37.7917 18.25 36.1667 18.25 34.25C18.25 32.6458 18.7448 31.2188 19.7344 29.9688C20.724 28.7188 22 27.9167 23.5625 27.5625C23.625 27.3958 23.6875 27.2344 23.75 27.0781C23.8125 26.9219 23.875 26.75 23.9375 26.5625L18.75 21.375L20.5 19.625L43.5 42.625L41.75 44.375ZM25.125 38.625H35.9375L25.875 28.5625C25.8333 28.7917 25.8021 29.0104 25.7812 29.2188C25.7604 29.4271 25.75 29.6458 25.75 29.875H25.125C23.9167 29.875 22.8854 30.3021 22.0312 31.1562C21.1771 32.0104 20.75 33.0417 20.75 34.25C20.75 35.4583 21.1771 36.4896 22.0312 37.3438C22.8854 38.1979 23.9167 38.625 25.125 38.625ZM44 39.5625L42.1875 37.8125C42.5417 37.5208 42.8073 37.1823 42.9844 36.7969C43.1615 36.4115 43.25 35.9792 43.25 35.5C43.25 34.625 42.9479 33.8854 42.3438 33.2812C41.7396 32.6771 41 32.375 40.125 32.375H38.25V29.875C38.25 28.1458 37.6406 26.6719 36.4219 25.4531C35.2031 24.2344 33.7292 23.625 32 23.625C31.4375 23.625 30.8958 23.6927 30.375 23.8281C29.8542 23.9635 29.3542 24.1771 28.875 24.4688L27.0625 22.6562C27.7917 22.1562 28.5677 21.776 29.3906 21.5156C30.2135 21.2552 31.0833 21.125 32 21.125C34.4375 21.125 36.5052 21.974 38.2031 23.6719C39.901 25.3698 40.75 27.4375 40.75 29.875C42.1875 30.0417 43.3802 30.6615 44.3281 31.7344C45.276 32.8073 45.75 34.0625 45.75 35.5C45.75 36.3125 45.5938 37.0677 45.2812 37.7656C44.9688 38.4635 44.5417 39.0625 44 39.5625Z"
-          fill="#BA1A1A"
-        />
-      </svg>
-      <h3 class="font-semibold text-[1.25rem] leading-7 tracking-normal text-center align-middle">
-        Something went wrong
-      </h3>
-      <p
-        class="font-normal text-[1rem] leading-6 text-(--paragraph-text-common-color) tracking-normal text-center align-middle"
-      >
-        We're having trouble retrieving your projects right now. Please try again in a moment.
-      </p>
-      <button
+  <header class="lg:flex hidden flex-col items-start gap-4">
+    <div class="flex flex-row items-center justify-start gap-2">
+      <a
         routerLink="/projects"
-        class="bg-(--primary) font-semibold text-[1rem] leading-6 text-center align-middle px-6 py-2.5 rounded-lg text-white"
+        class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-[#43465499]"
       >
-        Retry Connection
-      </button>
+        PROJECTS
+      </a>
+      <svg width="4" height="6" viewBox="0 0 4 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2.3 3L0 0.7L0.7 0L3.7 3L0.7 6L0 5.3L2.3 3Z" fill="#434654" fill-opacity="0.4" />
+      </svg>
+      <p class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-[#43465499]">
+        {{ name() === '' ? 'PROJECT TITLE' : name() }}
+      </p>
+      <svg width="4" height="6" viewBox="0 0 4 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2.3 3L0 0.7L0.7 0L3.7 3L0.7 6L0 5.3L2.3 3Z" fill="#434654" fill-opacity="0.4" />
+      </svg>
+      <p class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-(--primary)">MEMBERS</p>
     </div>
-  }
+    <p class="font-semibold text-[2.25rem] leading-10 tracking-[-0.9] align-middle text-(--slate-nature-first)">
+      Project Members
+    </p>
+  </header>
+
+  <table
+    class="w-full max-w-196.25 mx-auto shadow-[0px_1px_2px_0px_#0000000D] border-4 border-separate border-gray-200 rounded-lg"
+  >
+    <thead class="bg-[#E0E8FF4D]">
+      <tr>
+        <th
+          scope="col"
+          class="font-bold text-[0.7rem] text-left py-5 ps-13 leading-[100%] tracking-[1.1px] align-middle uppercase text-(--paragraph-text-common-color)"
+        >
+          MEMBER
+        </th>
+        <th
+          scope="col"
+          class="font-bold py-5 ps-8 text-[0.7rem] leading-[100%] tracking-[1.1px] align-middle uppercase text-(--paragraph-text-common-color)"
+        >
+          ROLE
+        </th>
+        <th
+          scope="col"
+          class="font-bold py-5 pe-13 text-right text-[0.7rem] leading-[100%] tracking-[1.1px] align-middle uppercase text-(--paragraph-text-common-color)"
+        >
+          ACTIONS
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (item of members(); track item.projectId) {
+        <tr class="border-b border-(--icon-bg-color)">
+          <td class="py-8 ps-8.75 pe-26">
+            <div class="flex flex-row items-center gap-4 whitespace-nowrap">
+              <p
+                class="font-bold text-[0.875rem] leading-5 tracking-normal text-center align-middle bg-[#DAE2FF] text-(--primary) rounded-xl py-3.5 px-3.25"
+              >
+                {{ getNameInitials(item.name) }}
+              </p>
+              <div class="flex flex-col">
+                <p class="font-semibold text-[0.875rem] leading-5 tracking-normal align-middle">{{ item.name }}</p>
+                <p class="font-normal text-[0.75rem] leading-4 tracking-normal align-middle">
+                  {{ item.email }}
+                </p>
+              </div>
+            </div>
+          </td>
+          <td class="ps-8 py-8.5">
+            <p
+              class="font-bold py-1 px-3 text-center rounded-full text-[0.875rem] uppercase tracking-[0.5px] align-middle bg-(--primary) text-white"
+            >
+              {{ item.role }}
+            </p>
+          </td>
+          @if (item.role === 'Owner') {
+            <td class="p-8 text-right ps-32 pe-0">
+              <svg width="4" height="16" viewBox="0 0 4 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M2 16C1.45 16 0.979167 15.8042 0.5875 15.4125C0.195833 15.0208 0 14.55 0 14C0 13.45 0.195833 12.9792 0.5875 12.5875C0.979167 12.1958 1.45 12 2 12C2.55 12 3.02083 12.1958 3.4125 12.5875C3.80417 12.9792 4 13.45 4 14C4 14.55 3.80417 15.0208 3.4125 15.4125C3.02083 15.8042 2.55 16 2 16ZM2 10C1.45 10 0.979167 9.80417 0.5875 9.4125C0.195833 9.02083 0 8.55 0 8C0 7.45 0.195833 6.97917 0.5875 6.5875C0.979167 6.19583 1.45 6 2 6C2.55 6 3.02083 6.19583 3.4125 6.5875C3.80417 6.97917 4 7.45 4 8C4 8.55 3.80417 9.02083 3.4125 9.4125C3.02083 9.80417 2.55 10 2 10ZM2 4C1.45 4 0.979167 3.80417 0.5875 3.4125C0.195833 3.02083 0 2.55 0 2C0 1.45 0.195833 0.979167 0.5875 0.5875C0.979167 0.195833 1.45 0 2 0C2.55 0 3.02083 0.195833 3.4125 0.5875C3.80417 0.979167 4 1.45 4 2C4 2.55 3.80417 3.02083 3.4125 3.4125C3.02083 3.80417 2.55 4 2 4Z"
+                  fill="#434654"
+                />
+              </svg>
+            </td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
 </main>

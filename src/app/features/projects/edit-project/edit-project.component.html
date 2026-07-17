@@ -1,14 +1,17 @@
 <main class="flex flex-col lg:gap-10 lg:m-8 lg:mb-30 mb-53 mt-8">
   <header class="lg:flex hidden flex-col items-start gap-4">
     <div class="flex flex-row items-center justify-start gap-2">
-      <p class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-[#43465499]">
+      <a
+        routerLink="/projects"
+        class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-[#43465499]"
+      >
         PROJECTS
-      </p>
+      </a>
       <svg width="4" height="6" viewBox="0 0 4 6" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M2.3 3L0 0.7L0.7 0L3.7 3L0.7 6L0 5.3L2.3 3Z" fill="#434654" fill-opacity="0.4" />
       </svg>
       <p class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-[#43465499]">
-        PROJECT TITLE
+        {{ name() === '' ? 'PROJECT TITLE' : name() }}
       </p>
       <svg width="4" height="6" viewBox="0 0 4 6" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M2.3 3L0 0.7L0.7 0L3.7 3L0.7 6L0 5.3L2.3 3Z" fill="#434654" fill-opacity="0.4" />
