@@ -7,4 +7,9 @@ export const membersRoutes = [
     loadComponent: () =>
       import('./show-members/show-members.component').then(m => m.ShowMembersComponent),
   },
+  {
+    path: 'invite',
+    canActivate: [],
+    loadComponent: () => import('./invite/invite.component').then(m => m.InviteComponent),
+  },
 ];

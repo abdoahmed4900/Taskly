@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastService } from '../../../shared/service/toast.service';
 import { ProjectFacade } from '../facade/project.facade';
-import { Subject, switchMap, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { FormFieldComponent } from '../../auth/components/form-field/form-field.component';
 import { DescriptionInputComponent } from '../add-project/components/description-input/description-input.component';
 import { SubmitButtonComponent } from '../../auth/components/submit-button/submit-button.component';
@@ -34,28 +34,16 @@ export class EditProjectComponent implements OnInit, OnDestroy {
   });
   isLoading = signal<boolean>(false);
   id = signal('');
+  name = signal<string>('');
+
+  ngOnInit() {
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
+      this.id.set(params.get('projectId')!);
+      this.loadProject();
+    });
+  }
   getControl(name: string) {
     return this.editProjectForm.get(name) as FormControl;
-  }
-  ngOnInit(): void {
-    this.route.url
-      .pipe(
-        takeUntil(this.destroy$),
-        switchMap(params => {
-          this.id.set(params[1].path);
-          return this.projectFacade.getProject(this.id());
-        }),
-      )
-      .subscribe({
-        next: value => {
-          this.editProjectForm.controls.name.setValue(value!.name!);
-          this.editProjectForm.controls.description.setValue(value!.description!);
-        },
-        error: () => {
-          this.toastService.error('Error Loading Project!');
-          this.router.navigateByUrl('/project');
-        },
-      });
   }
   private loadProject() {
     this.projectFacade
@@ -64,6 +52,7 @@ export class EditProjectComponent implements OnInit, OnDestroy {
       .subscribe({
         next: value => {
           this.editProjectForm.controls.name.setValue(value!.name!);
+          this.name.set(value!.name!);
           this.editProjectForm.controls.description.setValue(value!.description!);
         },
         error: () => {

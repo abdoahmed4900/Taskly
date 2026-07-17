@@ -19,11 +19,13 @@ export class ProjectFacade {
             name: string;
             description: string;
             created_at: string;
+            id: string;
           };
           return {
             name: x.name,
             description: x.description,
             createdAt: x.created_at.split('T')[0],
+            id: x.id,
           } as Project;
         }) as Project[];
       }),
@@ -35,7 +37,7 @@ export class ProjectFacade {
   getProject(id: string) {
     return this.getAllProjects().pipe(
       map(projects => {
-        return projects.filter(p => p.id != id).at(0);
+        return projects.filter(p => p.id == id).at(0);
       }),
     );
   }
