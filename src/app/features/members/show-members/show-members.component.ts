@@ -6,6 +6,7 @@ import { Member } from '../member';
 import { ToastService } from '../../../shared/service/toast.service';
 import { MembersListMobile } from './components/members-list-mobile/members.list.mobile.component';
 import { MembersTable } from './components/members-table/members.table.component';
+import { Project } from '../../projects/model/project';
 
 @Component({
   selector: 'app-show-members',
@@ -15,19 +16,20 @@ import { MembersTable } from './components/members-table/members.table.component
 })
 export class ShowMembersComponent implements OnInit {
   isLoaded = signal(false);
-  name = signal('');
   destroy$ = new Subject<void>();
   membersFacade = inject(MembersFacade);
   route = inject(ActivatedRoute);
   id = '';
+  project = signal<Project>({});
   members = signal<Member[]>([]);
   toastService = inject(ToastService);
 
   constructor() {
     effect(() => {
-      console.log(`members : ${JSON.stringify(this.members())}`);
+      console.log(`project : ${this.project()}`);
     });
   }
+
   getNameInitials(val: string) {
     let initials = '';
     const words = val.split(' ');
@@ -46,6 +48,7 @@ export class ShowMembersComponent implements OnInit {
     return initials;
   }
   ngOnInit(): void {
+    this.project.set(JSON.parse(sessionStorage.getItem('project')!));
     this.id = this.route.snapshot.url.at(1)!.toString();
     this.isLoaded.set(false);
     this.membersFacade
