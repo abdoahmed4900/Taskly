@@ -1,0 +1,201 @@
+<main class="mt-8 lg:mb-10 relative h-dvh mb-40 flex flex-col gap-10">
+  <header class="lg:flex flex-row justify-between hidden">
+    <div class="flex flex-col gap-4">
+      <div class="lg:flex hidden flex-row items-center justify-start gap-2">
+        <a
+          routerLink="/projects"
+          class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-[#43465499]"
+        >
+          PROJECTS
+        </a>
+        <svg width="4" height="6" viewBox="0 0 4 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2.3 3L0 0.7L0.7 0L3.7 3L0.7 6L0 5.3L2.3 3Z" fill="#434654" fill-opacity="0.4" />
+        </svg>
+        <p class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-[#43465499]">
+          {{ project().name === '' ? 'PROJECT TITLE' : project().name }}
+        </p>
+        <svg width="4" height="6" viewBox="0 0 4 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2.3 3L0 0.7L0.7 0L3.7 3L0.7 6L0 5.3L2.3 3Z" fill="#434654" fill-opacity="0.4" />
+        </svg>
+        <p class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-(--primary)">Epics</p>
+      </div>
+      <p class="font-bold text-[1.875rem] leading-9 align-middle tracking-[-0.75px] text-(--slate-nature-first)">
+        Project Epics
+      </p>
+    </div>
+    <div class="flex flex-row gap-8 mt-5">
+      <input type="search" class="form-control" placeholder="Search epics..." />
+      <button class="flex bg-(--primary) flex-row gap-2 w-50 rounded-lg items-center px-6 py-3">
+        <span
+          ><svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.5 6H0V4.5H4.5V0H6V4.5H10.5V6H6V10.5H4.5V6Z" fill="white" />
+          </svg>
+        </span>
+        <a [routerLink]="['/project', project().id, 'epics', 'new']" class="text-white cursor-pointer">New Epic</a>
+      </button>
+    </div>
+  </header>
+  <section class="grid lg:grid-cols-2 grid-cols-1 gap-6 mb-30">
+    @for (item of currentEpics(); track item.id) {
+      <div class="flex flex-col bg-white border-l-4 border-[#004E32] lg:p-4 p-5 gap-3 rounded-lg">
+        <div class="flex flex-row justify-between">
+          <p
+            class="font-bold text-[0.625rem] bg-(--success) leading-3.75 tracking-[0.5px] align-middle py-1 lg:px-2.5 px-2"
+          >
+            {{ item.title }}
+          </p>
+          <svg
+            class="hidden lg:block"
+            width="4"
+            height="16"
+            viewBox="0 0 4 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M2 16C1.45 16 0.979167 15.8042 0.5875 15.4125C0.195833 15.0208 0 14.55 0 14C0 13.45 0.195833 12.9792 0.5875 12.5875C0.979167 12.1958 1.45 12 2 12C2.55 12 3.02083 12.1958 3.4125 12.5875C3.80417 12.9792 4 13.45 4 14C4 14.55 3.80417 15.0208 3.4125 15.4125C3.02083 15.8042 2.55 16 2 16ZM2 10C1.45 10 0.979167 9.80417 0.5875 9.4125C0.195833 9.02083 0 8.55 0 8C0 7.45 0.195833 6.97917 0.5875 6.5875C0.979167 6.19583 1.45 6 2 6C2.55 6 3.02083 6.19583 3.4125 6.5875C3.80417 6.97917 4 7.45 4 8C4 8.55 3.80417 9.02083 3.4125 9.4125C3.02083 9.80417 2.55 10 2 10ZM2 4C1.45 4 0.979167 3.80417 0.5875 3.4125C0.195833 3.02083 0 2.55 0 2C0 1.45 0.195833 0.979167 0.5875 0.5875C0.979167 0.195833 1.45 0 2 0C2.55 0 3.02083 0.195833 3.4125 0.5875C3.80417 0.979167 4 1.45 4 2C4 2.55 3.80417 3.02083 3.4125 3.4125C3.02083 3.80417 2.55 4 2 4Z"
+              fill="#041B3C"
+              fill-opacity="0.2"
+            />
+          </svg>
+          <svg
+            class="lg:hidden block"
+            width="16"
+            height="4"
+            viewBox="0 0 16 4"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M2 4C1.45 4 0.979167 3.80417 0.5875 3.4125C0.195833 3.02083 0 2.55 0 2C0 1.45 0.195833 0.979167 0.5875 0.5875C0.979167 0.195833 1.45 0 2 0C2.55 0 3.02083 0.195833 3.4125 0.5875C3.80417 0.979167 4 1.45 4 2C4 2.55 3.80417 3.02083 3.4125 3.4125C3.02083 3.80417 2.55 4 2 4ZM8 4C7.45 4 6.97917 3.80417 6.5875 3.4125C6.19583 3.02083 6 2.55 6 2C6 1.45 6.19583 0.979167 6.5875 0.5875C6.97917 0.195833 7.45 0 8 0C8.55 0 9.02083 0.195833 9.4125 0.5875C9.80417 0.979167 10 1.45 10 2C10 2.55 9.80417 3.02083 9.4125 3.4125C9.02083 3.80417 8.55 4 8 4ZM14 4C13.45 4 12.9792 3.80417 12.5875 3.4125C12.1958 3.02083 12 2.55 12 2C12 1.45 12.1958 0.979167 12.5875 0.5875C12.9792 0.195833 13.45 0 14 0C14.55 0 15.0208 0.195833 15.4125 0.5875C15.8042 0.979167 16 1.45 16 2C16 2.55 15.8042 3.02083 15.4125 3.4125C15.0208 3.80417 14.55 4 14 4Z"
+              fill="#737685"
+              fill-opacity="0.4"
+            />
+          </svg>
+        </div>
+        @if (item.description) {
+          <p
+            class="lg:mt-1 line-clamp-1 font-semibold text-[1.25rem] leading-7 tracking-normal align-middle text-(--slate-nature-first)"
+          >
+            {{ item.description }}
+          </p>
+        }
+        <div class="flex flex-row items-center justify-between">
+          @if (item.assignee?.name) {
+            <div class="flex flex-row gap-3 items-center">
+              <p
+                class="bg-(--success) font-bold text-[0.875rem] rounded-lg leading-5 tracking-normal text-center align-middle lg:p-2.25 p-1.5 text-[#002113]"
+              >
+                {{ initials() }}
+              </p>
+              <div class="assignee-text flex lg:flex-col flex-col-reverse">
+                <p
+                  class="lg:font-medium font-normal lg:text-[0.75rem] text-[0.625rem] lg:leading-4 leading-3.75 tracking-normal align-middle lg:text-(--paragraph-text-common-color) text-[#737685]"
+                >
+                  Assignee
+                </p>
+                <p
+                  class="lg:font-semibold font-medium lg:text-[0.875rem] text-[0.75rem] leading-4 lg:leading-5 tracking-normal align-middle text-(--slate-nature-first)"
+                >
+                  {{ item.assignee!.name }}
+                </p>
+              </div>
+            </div>
+          }
+          <div class="lg:hidden flex flex-col ms-auto">
+            <p
+              class="font-bold text-[0.625rem] leading-3.75 tracking-[-0.5px] uppercase text-[#737685] text-right align-middle"
+            >
+              Deadline
+            </p>
+            <p
+              class="font-medium text-[0.75rem] leading-4 tracking-normal text-right align-middle text-(--slate-nature-first)"
+            >
+              {{ item.deadline }}
+            </p>
+          </div>
+        </div>
+
+        @if (item.createdBy?.name) {
+          <div class="lg:flex hidden flex-row justify-between mt-3 border-t border-(--surface-low) pt-4">
+            <div class="create-by-text flex flex-row items-center gap-2">
+              <svg
+                class="my-1"
+                width="12"
+                height="10"
+                viewBox="0 0 12 10"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M0 9.33333V7.7C0 7.36944 0.0850694 7.06563 0.255208 6.78854C0.425347 6.51146 0.651389 6.3 0.933333 6.15417C1.53611 5.85278 2.14861 5.62674 2.77083 5.47604C3.39306 5.32535 4.025 5.25 4.66667 5.25C5.02639 5.25 5.38125 5.27188 5.73125 5.31563C6.08125 5.35938 6.43125 5.42986 6.78125 5.52708L5.80417 6.51875C5.60972 6.48958 5.42014 6.46528 5.23542 6.44583C5.05069 6.42639 4.86111 6.41667 4.66667 6.41667C4.12222 6.41667 3.58264 6.48229 3.04792 6.61354C2.51319 6.74479 1.98333 6.94167 1.45833 7.20417C1.37083 7.25278 1.30035 7.32083 1.24688 7.40833C1.1934 7.49583 1.16667 7.59306 1.16667 7.7V8.16667H4.66667V9.33333H0ZM5.83333 9.91667V8.12292L9.05625 4.91458C9.14375 4.82708 9.24097 4.76389 9.34792 4.725C9.45486 4.68611 9.56181 4.66667 9.66875 4.66667C9.78542 4.66667 9.89722 4.68854 10.0042 4.73229C10.1111 4.77604 10.2083 4.84167 10.2958 4.92917L10.8354 5.46875C10.9132 5.55625 10.974 5.65347 11.0177 5.76042C11.0615 5.86736 11.0833 5.97431 11.0833 6.08125C11.0833 6.18819 11.0639 6.29757 11.025 6.40938C10.9861 6.52118 10.9229 6.62083 10.8354 6.70833L7.62708 9.91667H5.83333ZM10.2083 6.08125L9.66875 5.54167L10.2083 6.08125ZM6.70833 9.04167H7.2625L9.02708 7.2625L8.76458 6.98542L8.4875 6.72292L6.70833 8.4875V9.04167ZM8.76458 6.98542L8.4875 6.72292L9.02708 7.2625L8.76458 6.98542ZM4.66667 4.66667C4.025 4.66667 3.47569 4.43819 3.01875 3.98125C2.56181 3.52431 2.33333 2.975 2.33333 2.33333C2.33333 1.69167 2.56181 1.14236 3.01875 0.685417C3.47569 0.228472 4.025 0 4.66667 0C5.30833 0 5.85764 0.228472 6.31458 0.685417C6.77153 1.14236 7 1.69167 7 2.33333C7 2.975 6.77153 3.52431 6.31458 3.98125C5.85764 4.43819 5.30833 4.66667 4.66667 4.66667ZM4.66667 3.5C4.9875 3.5 5.26215 3.38576 5.49062 3.15729C5.7191 2.92882 5.83333 2.65417 5.83333 2.33333C5.83333 2.0125 5.7191 1.73785 5.49062 1.50937C5.26215 1.2809 4.9875 1.16667 4.66667 1.16667C4.34583 1.16667 4.07118 1.2809 3.84271 1.50937C3.61424 1.73785 3.5 2.0125 3.5 2.33333C3.5 2.65417 3.61424 2.92882 3.84271 3.15729C4.07118 3.38576 4.34583 3.5 4.66667 3.5Z"
+                  fill="#434654"
+                  fill-opacity="0.8"
+                />
+              </svg>
+              <p
+                class="font-normal text-[0.7rem] leading-4 tracking-normal align-middle text-(--paragraph-text-common-color)"
+              >
+                Created by:
+                <span class="font-semibold text-[0.7rem] leading-[100%] tracking-normal align-middle text-[#051B3C]">{{
+                  item.createdBy!.name
+                }}</span>
+              </p>
+            </div>
+            <div class="create-by-date flex flex-row items-center gap-2">
+              <svg width="11" height="12" viewBox="0 0 11 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M1.16667 11.6667C0.845833 11.6667 0.571181 11.5524 0.342708 11.324C0.114236 11.0955 0 10.8208 0 10.5V2.33333C0 2.0125 0.114236 1.73785 0.342708 1.50937C0.571181 1.2809 0.845833 1.16667 1.16667 1.16667H1.75V0H2.91667V1.16667H7.58333V0H8.75V1.16667H9.33333C9.65417 1.16667 9.92882 1.2809 10.1573 1.50937C10.3858 1.73785 10.5 2.0125 10.5 2.33333V10.5C10.5 10.8208 10.3858 11.0955 10.1573 11.324C9.92882 11.5524 9.65417 11.6667 9.33333 11.6667H1.16667ZM1.16667 10.5H9.33333V4.66667H1.16667V10.5ZM1.16667 3.5H9.33333V2.33333H1.16667V3.5ZM1.16667 3.5V2.33333V3.5Z"
+                  fill="#434654"
+                  fill-opacity="0.8"
+                />
+              </svg>
+
+              <p
+                class="font-normal text-[0.7rem] leading-4 tracking-normal align-middle text-(--paragraph-text-common-color)"
+              >
+                {{ item.createdAt }}
+              </p>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </section>
+  <div class="change-page-section mt-auto mb-[9%] hidden lg:flex flex-row items-center col-span-full justify-between">
+    <p class="font-medium text-[0.75rem] text-(--paragraph-text-common-color) leading-4 tracking-normal align-middle">
+      Showing {{ currentEpics().length }} of {{ totalEpics() }} active projects
+    </p>
+    <div class="buttons flex-row gap-3">
+      <button class="p-4 bg-white" (click)="previousPage()" [disabled]="currentPage() === 1">
+        <svg width="5" height="7" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.5 7L0 3.5L3.5 0L4.31667 0.816667L1.63333 3.5L4.31667 6.18333L3.5 7Z" fill="#434654" />
+        </svg>
+      </button>
+      @for (item of currentPages(); track $index) {
+        <button
+          [class.bg-white]="item !== currentPage()"
+          [class.bg-(--primary)]="item === currentPage()"
+          [class.text-(--paragraph-text-common-color)]="item !== currentPage()"
+          [class.text-white]="item === currentPage()"
+          class="font-bold text-[0.75rem] tracking-normal leading-4 align-middle text-center p-4"
+          (click)="goToPage(item)"
+        >
+          {{ item }}
+        </button>
+      }
+      <button class="p-4 bg-white" (click)="nextPage()" [disabled]="rangeEnd() === totalEpics()">
+        <svg width="5" height="7" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2.68333 3.5L0 0.816667L0.816667 0L4.31667 3.5L0.816667 7L0 6.18333L2.68333 3.5Z" fill="#434654" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <button
+    [routerLink]="['/project', project().id, 'epics', 'new']"
+    class="px-7 text-[1.5rem] fixed right-6 bottom-[10%] py-5 w-fit lg:hidden block self-end bg-(--primary) rounded-lg text-white"
+  >
+    +
+  </button>
+</main>

@@ -23,7 +23,7 @@ export class ShowProjectsComponent implements OnInit, OnDestroy {
   allPages = signal<number[]>([]);
   currentPages = signal<number[]>([]);
   projectsPerPage = signal(2);
-  isLoaded = signal(false);
+  isLoading = signal(false);
   currentPage = signal(1);
   router = inject(Router);
 
@@ -49,19 +49,23 @@ export class ShowProjectsComponent implements OnInit, OnDestroy {
         this.rangeStart.set(Number(val.rangeStart));
         this.rangeEnd.set(Number(val.rangeEnd) + 1);
         this.currentPage.set(1);
-        this.isLoaded.set(true);
+        this.isLoading.set(true);
       });
   }
 
   @HostListener('window:scroll', [])
   onScroll(): void {
     if (
-      window.innerHeight + window.scrollY >= document.body.offsetHeight &&
-      window.innerWidth < 1024
+      !this.isLoading() ||
+      window.innerWidth >= 1024 ||
+      this.currentPage() >= this.allPages().length
     ) {
-      console.log('on scroll');
-      console.log(window.innerWidth);
+      return;
+    }
 
+    const threshold = 100;
+
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - threshold) {
       this.nextPage();
     }
   }
@@ -72,7 +76,10 @@ export class ShowProjectsComponent implements OnInit, OnDestroy {
   }
 
   previousPage() {
-    this.isLoaded.set(false);
+    if (this.currentPage() == 1) {
+      return;
+    }
+    this.isLoading.set(false);
     this.currentPage.update(v => v - 1);
     this.projectFacade
       .getProjectsWithRange(
@@ -87,27 +94,28 @@ export class ShowProjectsComponent implements OnInit, OnDestroy {
         if (this.currentPage() % this.projectsPerPage() == 0) {
           this.currentPages.set([this.currentPage() - 1, this.currentPage()]);
         }
-        this.isLoaded.set(true);
+        this.isLoading.set(true);
       });
   }
   goToPage(index: number) {
-    this.isLoaded.set(false);
+    this.isLoading.set(false);
     this.currentPage.set(index);
     this.projectFacade
       .getProjectsWithRange(this.projectsPerPage(), (index - 1) * this.projectsPerPage())
       .pipe(takeUntil(this.destroy$))
       .subscribe(val => {
-        this.isLoaded.set(true);
+        this.isLoading.set(true);
         this.rangeStart.set(Number(val.rangeStart));
         this.rangeEnd.set(Number(val.rangeEnd) + 1);
         this.currentProjects.set(val.projects);
       });
   }
   nextPage() {
-    console.log(this.projectsPerPage());
-    console.log((this.currentPage() - 1) * this.projectsPerPage());
+    if (this.currentPage() >= this.allPages().length) {
+      return;
+    }
 
-    this.isLoaded.set(false);
+    this.isLoading.set(true);
     this.currentPage.update(v => v + 1);
     this.projectFacade
       .getProjectsWithRange(
@@ -116,7 +124,7 @@ export class ShowProjectsComponent implements OnInit, OnDestroy {
       )
       .pipe(takeUntil(this.destroy$))
       .subscribe(val => {
-        this.isLoaded.set(true);
+        this.isLoading.set(false);
         this.rangeStart.set(Number(val.rangeStart));
         this.rangeEnd.set(Number(val.rangeEnd) + 1);
         if (window.innerWidth < 1024) {

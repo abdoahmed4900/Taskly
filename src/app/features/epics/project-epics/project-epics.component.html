@@ -1,5 +1,5 @@
-@if (epics().length > 0) {
-  <main class="m-8 relative h-[85dvh] mb-0 flex flex-col gap-10">
+@if (currentEpics().length > 0) {
+  <main class="mt-8 lg:mb-10 relative h-dvh mb-40 flex flex-col gap-10">
     <header class="lg:flex flex-row justify-between hidden">
       <div class="flex flex-col gap-4">
         <div class="lg:flex hidden flex-row items-center justify-start gap-2">
@@ -38,9 +38,16 @@
         </button>
       </div>
     </header>
-    <section class="grid lg:grid-cols-2 grid-cols-1 gap-6">
-      @for (item of epics(); track item.id) {
-        <div class="flex flex-col bg-white border-l-4 border-[#004E32] lg:p-4 p-5 gap-3 rounded-lg">
+    <section class="grid lg:grid-cols-2 grid-cols-1 gap-6 mb-30">
+      @for (item of currentEpics(); track item.id) {
+        <div
+          tabindex="0"
+          (click)="openModal()"
+          (keydown.enter)="openModal()"
+          (keydown.space)="openModal(); $event.preventDefault()"
+          (click)="openModal()"
+          class="flex flex-col bg-white border-l-4 border-[#004E32] lg:p-4 p-5 gap-3 rounded-lg"
+        >
           <div class="flex flex-row justify-between">
             <p
               class="font-bold text-[0.625rem] bg-(--success) leading-3.75 tracking-[0.5px] align-middle py-1 lg:px-2.5 px-2"
@@ -166,13 +173,103 @@
         </div>
       }
     </section>
+    <div class="change-page-section mt-auto mb-[9%] hidden lg:flex flex-row items-center col-span-full justify-between">
+      <p class="font-medium text-[0.75rem] text-(--paragraph-text-common-color) leading-4 tracking-normal align-middle">
+        Showing {{ currentEpics().length }} of {{ totalEpics() }} active projects
+      </p>
+      <div class="buttons flex-row gap-3">
+        <button class="p-4 bg-white" (click)="previousPage()" [disabled]="currentPage() === 1">
+          <svg width="5" height="7" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.5 7L0 3.5L3.5 0L4.31667 0.816667L1.63333 3.5L4.31667 6.18333L3.5 7Z" fill="#434654" />
+          </svg>
+        </button>
+        @for (item of currentPages(); track $index) {
+          <button
+            [class.bg-white]="item !== currentPage()"
+            [class.bg-(--primary)]="item === currentPage()"
+            [class.text-(--paragraph-text-common-color)]="item !== currentPage()"
+            [class.text-white]="item === currentPage()"
+            class="font-bold text-[0.75rem] tracking-normal leading-4 align-middle text-center p-4"
+            (click)="goToPage(item)"
+          >
+            {{ item }}
+          </button>
+        }
+        <button class="p-4 bg-white" (click)="nextPage()" [disabled]="rangeEnd() === totalEpics()">
+          <svg width="5" height="7" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.68333 3.5L0 0.816667L0.816667 0L4.31667 3.5L0.816667 7L0 6.18333L2.68333 3.5Z" fill="#434654" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
     <button
       [routerLink]="['/project', project().id, 'epics', 'new']"
-      class="px-7 text-[1.5rem] absolute bottom-[12%] right-0 py-5 w-fit lg:hidden block self-end bg-(--primary) rounded-lg text-white"
+      class="px-7 text-[1.5rem] fixed right-6 bottom-[10%] py-5 w-fit lg:hidden block self-end bg-(--primary) rounded-lg text-white"
     >
       +
     </button>
   </main>
+  <app-epic-modal-component [opened]="isModalOpen() === true" (closed)="closeModal()" title="EPIC-101">
+    <div class="flex flex-col lg:my-18.5 lg:mx-auto">
+      <input
+        class="w-full rounded-2xl border border-blue-200 px-4 py-4 text-3xl font-bold outline-none focus:border-blue-500"
+        placeholder="Epic title"
+      />
+
+      <textarea
+        rows="5"
+        class="w-full resize-none rounded-2xl border border-blue-200 px-4 py-4 outline-none focus:border-blue-500"
+        placeholder="Description"
+      ></textarea>
+
+      <div class="grid gap-6 md:grid-cols-3">
+        <div>
+          <p class="mb-2 text-xs font-bold uppercase text-slate-400">Created By</p>
+
+          <div class="flex items-center gap-3">
+            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 font-semibold text-white">
+              MT
+            </div>
+
+            <span>Mahmoud Taha</span>
+          </div>
+        </div>
+
+        <div>
+          <p class="mb-2 text-xs font-bold uppercase text-slate-400">Assignee</p>
+
+          <select class="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none">
+            <option>John Doe</option>
+          </select>
+        </div>
+
+        <div>
+          <p class="mb-2 text-xs font-bold uppercase text-slate-400">Deadline</p>
+
+          <input type="date" class="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none" />
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-bold">Tasks</h2>
+
+        <button class="font-semibold text-blue-700">+ Add Task</button>
+      </div>
+
+      <div class="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 py-20">
+        <div class="flex flex-col items-center">
+          <div class="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-100">📋</div>
+
+          <p class="mb-6 text-lg text-slate-600">No tasks have been added to this epic yet</p>
+
+          <button class="rounded-xl bg-blue-700 px-8 py-3 font-semibold text-white transition hover:bg-blue-800">
+            + Add Task
+          </button>
+        </div>
+      </div>
+    </div>
+  </app-epic-modal-component>
 } @else {
   <app-empty-epics></app-empty-epics>
 }
