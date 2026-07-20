@@ -7,4 +7,10 @@ export const epicRoutes = [
     loadComponent: () =>
       import('./project-epics/project-epics.component').then(m => m.ProjectEpicsComponent),
   },
+  {
+    path: 'project/:projectId/epics/new',
+    canActivate: [userGuard],
+    loadComponent: () =>
+      import('./components/add-epic/add-epic.component').then(m => m.AddEpicComponent),
+  },
 ];
