@@ -24,6 +24,8 @@ import { DetailsIconComponent } from '../../../shared/ui/components/details-icon
 import { WebsiteIconComponent } from '../../../shared/ui/components/website-icon/website-icon.component';
 import { NgComponentOutlet } from '@angular/common';
 import { ToastService } from '../../../shared/service/toast.service';
+import { ProjectFacade } from '../../../features/projects/facade/project.facade';
+import { Project } from '../../../features/projects/model/project';
 
 @Component({
   selector: 'app-sidebar',
@@ -40,6 +42,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
   toastService = inject(ToastService);
   sideBar = viewChild<ElementRef<HTMLElement>>('sidebar');
   projectId = signal('');
+  project = signal<Project>({});
 
   ngOnInit() {
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe(event => {
@@ -51,11 +54,28 @@ export class SidebarComponent implements OnDestroy, OnInit {
         if (this.currentUrl() == '/project') {
           this.projectId.set('');
         }
+        this.loadProject();
       }
     });
   }
 
+  private loadProject() {
+    this.projectFacade
+      .getProject(this.projectId())
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: value => {
+          this.project.set(value!);
+        },
+        error: () => {
+          this.toastService.error('Error Loading Project!');
+          this.router.navigateByUrl('/project');
+        },
+      });
+  }
+
   authFacade = inject(AuthFacade);
+  projectFacade = inject(ProjectFacade);
   destroy$ = new Subject<void>();
 
   isOpen = output<boolean>();
@@ -94,6 +114,10 @@ export class SidebarComponent implements OnDestroy, OnInit {
   close() {
     this.isSidebarToggled.set(false);
     this.isOpen.emit(false);
+  }
+
+  navigateToPage(route: string) {
+    this.router.navigate([route], { state: { project: this.project() } });
   }
 
   logout() {

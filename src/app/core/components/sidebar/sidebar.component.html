@@ -21,25 +21,26 @@
         <nav class="mt-8">
           <ul class="flex flex-col" [class.gap-4]="!isSidebarToggled()" [class.gap-1]="!isSidebarToggled()">
             @for (item of items(); track item.route) {
-              <li
-                [routerLink]="item.route"
-                class="flex items-center transition rounded-lg"
-                [class.justify-center.items-center]="!isSidebarToggled()"
-                [class.p-4]="isSidebarToggled()"
-                [class.py-4]="!isSidebarToggled()"
-                [class.bg-white.text-red-500.shadow-[0px_1px_2px_0px_#0000000D]]="currentUrl() === item.route"
-              >
-                <ng-container *ngComponentOutlet="item.icon; inputs: { isActive: currentUrl() === item.route }">
-                </ng-container>
-
-                <p
-                  [class.lg:hidden]="!isSidebarToggled()"
-                  class="ml-2 text-[0.875rem] font-medium"
-                  [class.text-(--primary)]="currentUrl() === item.route"
+              <button (click)="navigateToPage(item.route)">
+                <li
+                  class="flex items-center transition rounded-lg"
+                  [class.justify-center.items-center]="!isSidebarToggled()"
+                  [class.p-4]="isSidebarToggled()"
+                  [class.py-4]="!isSidebarToggled()"
+                  [class.bg-white.text-red-500.shadow-[0px_1px_2px_0px_#0000000D]]="currentUrl() === item.route"
                 >
-                  {{ item.title }}
-                </p>
-              </li>
+                  <ng-container *ngComponentOutlet="item.icon; inputs: { isActive: currentUrl() === item.route }">
+                  </ng-container>
+
+                  <p
+                    [class.lg:hidden]="!isSidebarToggled()"
+                    class="ml-2 text-[0.875rem] font-medium"
+                    [class.text-(--primary)]="currentUrl() === item.route"
+                  >
+                    {{ item.title }}
+                  </p>
+                </li>
+              </button>
             }
           </ul>
         </nav>

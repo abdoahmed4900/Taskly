@@ -113,7 +113,14 @@
       </div>
       <div class="deadline-control w-full flex flex-col justify-between items-start gap-2">
         <label class="form-control-label" for="deadline">Deadline</label>
-        <input class="form-control" type="date" name="deadline" id="deadline" [formControl]="getControl('deadline')" />
+        <input
+          [min]="today"
+          class="form-control"
+          type="date"
+          name="deadline"
+          id="deadline"
+          [formControl]="getControl('deadline')"
+        />
       </div>
     </div>
     <div class="flex lg:flex-row self-end gap-5 flex-col w-full lg:w-fit">

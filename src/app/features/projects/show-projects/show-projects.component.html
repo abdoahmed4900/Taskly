@@ -24,7 +24,11 @@
     <section class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4 items-center flex-wrap">
       @for (item of currentProjects(); track item.id) {
         <div
-          [routerLink]="['/project', item.id, 'epics']"
+          tabindex="0"
+          (click)="goToEpicsPage(item)"
+          (keydown.enter)="goToEpicsPage(item)"
+          (keydown.space)="goToEpicsPage(item); $event.preventDefault()"
+          (click)="goToEpicsPage(item)"
           class="rounded-xl w-full cursor-pointer gap-3 bg-white flex flex-col p-4 shadow-sm border border-slate-200"
         >
           <div class="flex flex-row justify-between items-center">

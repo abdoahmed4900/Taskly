@@ -31,6 +31,7 @@ export class AddEpicComponent implements OnInit, OnDestroy {
   });
   toastService = inject(ToastService);
   isLoading = signal(false);
+  today = new Date().toISOString().split('T')[0];
   ngOnInit(): void {
     console.log(this.activatedRoute.snapshot.url[1].toString());
     if (history.state['project']) {

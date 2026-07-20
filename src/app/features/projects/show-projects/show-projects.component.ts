@@ -2,12 +2,13 @@ import { ProjectFacade } from './../facade/project.facade';
 import { Component, HostListener, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Project } from '../model/project';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-show-projects',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, ReactiveFormsModule],
   templateUrl: './show-projects.component.html',
   styleUrl: './show-projects.component.css',
 })
@@ -24,6 +25,7 @@ export class ShowProjectsComponent implements OnInit, OnDestroy {
   projectsPerPage = signal(2);
   isLoaded = signal(false);
   currentPage = signal(1);
+  router = inject(Router);
 
   ngOnInit(): void {
     this.projectFacade
@@ -62,6 +64,11 @@ export class ShowProjectsComponent implements OnInit, OnDestroy {
 
       this.nextPage();
     }
+  }
+
+  goToEpicsPage(item: Project) {
+    sessionStorage.setItem('project', JSON.stringify(item));
+    this.router.navigate([`/project/${item.id}/epics`]);
   }
 
   previousPage() {

@@ -11,7 +11,7 @@
         <path d="M2.3 3L0 0.7L0.7 0L3.7 3L0.7 6L0 5.3L2.3 3Z" fill="#434654" fill-opacity="0.4" />
       </svg>
       <p class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-[#43465499]">
-        {{ name() === '' ? 'PROJECT TITLE' : name() }}
+        {{ project().name === '' ? 'PROJECT TITLE' : project().name }}
       </p>
       <svg width="4" height="6" viewBox="0 0 4 6" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M2.3 3L0 0.7L0.7 0L3.7 3L0.7 6L0 5.3L2.3 3Z" fill="#434654" fill-opacity="0.4" />
@@ -48,15 +48,15 @@
       <thead class="bg-[#E0E8FF4D] border-b p-4">
         <tr>
           <td class="skeleton-basic h-7 w-40"></td>
-          <td class="skeleton-basic h-7 w-20"></td>
-          <td class="skeleton-basic h-7 w-20"></td>
+          <td class="skeleton-basic h-7 w-10"></td>
+          <td class="skeleton-basic h-7 w-5"></td>
         </tr>
       </thead>
       @for (item of [1, 2, 3]; track $index) {
         <tr class="p-4 border-b border-gray-200 last:border-0">
           <td class="skeleton-basic h-7 w-40"></td>
-          <td class="skeleton-basic h-7 w-20"></td>
-          <td class="skeleton-basic h-7 w-20"></td>
+          <td class="skeleton-basic h-7 w-10"></td>
+          <td class="skeleton-basic h-7 w-5"></td>
         </tr>
       }
     </table>
