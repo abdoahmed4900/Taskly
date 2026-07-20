@@ -1,5 +1,5 @@
-<main class="flex flex-col gap-10 mt-10 h-screen mb-70 lg:mb-10">
-  @defer (when isLoaded() === true) {
+<main class="flex flex-col gap-10 mt-10 mb-70 lg:mb-12">
+  @defer (when isLoading() === true) {
     <header class="flex flex-row gap-3 flex-wrap justify-between w-full">
       <div class="flex flex-col gap-2">
         <h1 class="font-semibold text-4xl leading-9 tracking-[0.75px] align-middle">Projects</h1>
@@ -353,7 +353,7 @@
 
   <button
     routerLink="/add-project"
-    class="block md:hidden shadow-[0px_4px_6px_-4px_#0000001A] absolute bottom-25 w-14 h-14 right-6 text-[1.5rem] rounded-xl bg-(--primary) text-white"
+    class="block md:hidden shadow-[0px_4px_6px_-4px_#0000001A] fixed bottom-[10%] w-14 h-14 right-6 text-[1.5rem] rounded-xl bg-(--primary) text-white"
   >
     +
   </button>

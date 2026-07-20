@@ -10,6 +10,9 @@ export class EpicsFacade {
   getProjectEpics(projectId: string) {
     return this.epicsApiService.getProjectEpics(projectId);
   }
+  getProjectEpicsWithRange(projectId: string, limit: number, offset: number) {
+    return this.epicsApiService.getProjectEpicsWithRange(projectId, limit, offset);
+  }
 
   addEpic(epic: Epic) {
     return this.epicsApiService.addProjectEpic(epic);

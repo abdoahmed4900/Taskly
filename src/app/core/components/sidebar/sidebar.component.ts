@@ -15,7 +15,7 @@ import {
 import { ClickOutsideDirective } from '../click-outside.directive';
 import { AuthFacade } from '../../../features/auth/facade/auth.facade';
 import { Subject, takeUntil } from 'rxjs';
-import { Router, RouterLink, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { ProjectsIconComponent } from '../../../shared/ui/components/projects-icon/projects-icon.component';
 import { EpicsIconComponent } from '../../../shared/ui/components/epics-icon/epics-icon.component';
 import { TasksIconComponent } from '../../../shared/ui/components/tasks-icon/tasks-icon.component';
@@ -30,7 +30,7 @@ import { Project } from '../../../features/projects/model/project';
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [ClickOutsideDirective, WebsiteIconComponent, RouterLink, NgComponentOutlet],
+  imports: [ClickOutsideDirective, WebsiteIconComponent, NgComponentOutlet],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

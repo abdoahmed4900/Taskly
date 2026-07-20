@@ -1,0 +1,34 @@
+@if (opened()) {
+  <div
+    class="fixed inset-0 z-50 my-20 w-full max-w-2xl flex items-center justify-center"
+    tabindex="0"
+    (click)="close()"
+    (keydown.enter)="close()"
+    (keydown.space)="close(); $event.preventDefault()"
+  >
+    <div class="w-full max-w-4xl rounded-3xl bg-white shadow-2xl" (mousedown)="$event.stopPropagation()">
+      <div class="flex items-center justify-between border-b border-slate-200 px-8 py-6">
+        <div class="flex items-center gap-2">
+          <div class="h-4 w-4 rounded bg-blue-600"></div>
+
+          <span class="text-xs font-bold uppercase tracking-widest text-slate-500">
+            {{ title() }}
+          </span>
+        </div>
+
+        <button
+          (click)="close()"
+          class="rounded-lg p-2 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
+        >
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M6 6L18 18M18 6L6 18" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="p-8">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+}
