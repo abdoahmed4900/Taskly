@@ -14,7 +14,7 @@
   --form-control-bg: #d7e2ff;
   --form-control-error-bg: #ffdad6;
   --icon-bg-color: #e8edff;
-  --bg-primary-gradient: linear-gradient(90deg, rgba(0, 61, 155, 1) 0%, rgba(0, 82, 204, 1) 100%);
+  --bg-primary-gradient: linear-gradient(135deg, #003d9b 0%, #0052cc 100%);
   --form-padding: 3rem;
   --container-shadow: 0px 24px 48px 0px #041b3c0f;
   --card-or-button-shadow: 0px 1px 2px 0px #0000000d;
@@ -167,4 +167,8 @@
     vertical-align: middle;
     color: var(--error);
   }
+}
+
+@utility bg-primary-gradient {
+  background: var(--bg-primary-gradient);
 }
