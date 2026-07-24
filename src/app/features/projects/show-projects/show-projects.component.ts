@@ -50,6 +50,7 @@ export class ShowProjectsComponent implements OnInit, OnDestroy {
         this.rangeEnd.set(Number(val.rangeEnd) + 1);
         this.currentPage.set(1);
         this.isLoading.set(true);
+        console.log(`epics : ${JSON.stringify(this.currentProjects())}`);
       });
   }
 
@@ -71,6 +72,9 @@ export class ShowProjectsComponent implements OnInit, OnDestroy {
   }
 
   goToEpicsPage(item: Project) {
+    console.log(item);
+    console.log(JSON.stringify(item));
+
     sessionStorage.setItem('project', JSON.stringify(item));
     this.router.navigate([`/project/${item.id}/epics`]);
   }
