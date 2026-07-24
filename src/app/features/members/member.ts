@@ -4,4 +4,5 @@ export interface Member {
   role: string;
   email: string;
   name: string;
+  userId: string;
 }
