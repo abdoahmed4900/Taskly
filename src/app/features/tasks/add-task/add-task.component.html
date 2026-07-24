@@ -1,14 +1,27 @@
 <main class="flex flex-col lg:gap-10 lg:m-8 lg:mb-30 mb-53 mt-8">
   <header class="lg:flex hidden flex-col items-start gap-4">
     <div class="flex flex-row items-center justify-start gap-2">
-      <p class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-[#43465499]">
+      <p
+        routerLink="/project"
+        class="font-bold cursor-pointer text-[0.7rem] uppercase tracking-[0.55px] leading-4 align-middle text-[#43465499]"
+      >
         PROJECTS
       </p>
       <svg width="4" height="6" viewBox="0 0 4 6" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M2.3 3L0 0.7L0.7 0L3.7 3L0.7 6L0 5.3L2.3 3Z" fill="#434654" fill-opacity="0.4" />
       </svg>
-      <p class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-(--primary)">
-        ADD NEW PROJECT
+      <p class="font-bold text-[0.7rem] uppercase tracking-[0.55px] leading-4 align-middle text-[#43465499]">
+        {{ project().name }}
+      </p>
+      <svg width="4" height="6" viewBox="0 0 4 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2.3 3L0 0.7L0.7 0L3.7 3L0.7 6L0 5.3L2.3 3Z" fill="#434654" fill-opacity="0.4" />
+      </svg>
+      <p class="font-bold text-[0.7rem] uppercase tracking-[0.55px] leading-4 align-middle text-[#43465499]">Tasks</p>
+      <svg width="4" height="6" viewBox="0 0 4 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2.3 3L0 0.7L0.7 0L3.7 3L0.7 6L0 5.3L2.3 3Z" fill="#434654" fill-opacity="0.4" />
+      </svg>
+      <p class="font-bold text-[0.7rem] uppercase tracking-[0.55px] leading-4 align-middle text-(--slate-nature-first)">
+        New Task
       </p>
     </div>
     <p class="font-semibold text-[2.25rem] leading-10 tracking-[-0.9] align-middle text-(--slate-nature-first)">
@@ -16,8 +29,8 @@
     </p>
   </header>
   <form
-    [formGroup]="addProjectForm"
-    (ngSubmit)="addNewProject()"
+    [formGroup]="addTaskForm"
+    (ngSubmit)="addNewTask()"
     class="flex flex-col lg:gap-10 lg:mx-28 lg:my-2 justify-start"
   >
     <section class="flex flex-col gap-8 lg:bg-white bg-transparent">
@@ -41,23 +54,74 @@
 
         <div class="flex flex-col gap-1 lg:gap-0">
           <h2 class="font-semibold text-(--slate-nature-first) text-[1.5rem] leading-8 tracking-normal align-middle">
-            Initialize New Project
+            Create New Task
           </h2>
           <p class="font-normal text-(--slate-nature-second) text-[0.875rem] leading-5 tracking-normal align-middle">
-            Define the scope and foundational details of your project.
+            Initialize a new work item within the Architectural Workspace ecosystem.
           </p>
         </div>
       </div>
       <div class="flex flex-col lg:gap-8 gap-6 lg:p-8 lg:pb-6 lg:pt-0">
-        <section class="name-field-container">
+        <section class="title-field-container">
           <app-form-field-component
-            label="Project TITLE *"
-            controlName="name"
-            placeholder="Enter project name"
-            [control]="getControl('name')"
+            label="TITLE *"
+            controlName="Title"
+            placeholder="Enter task title"
+            [control]="getControl('title')"
             type="text"
           ></app-form-field-component>
+          @if (getControl('title').hasError('required') && getControl('title').touched) {
+            <p class="form-control-error">Task title is required.</p>
+          }
+          @if (getControl('title').hasError('minLength') && getControl('title').touched) {
+            <p class="form-control-error">Task title must be at least 3 characters.</p>
+          }
+          @if (getControl('title').hasError('maxLength') && getControl('title').touched) {
+            <p class="form-control-error">Task title must not exceed 100 characters.</p>
+          }
         </section>
+        <section class="flex lg:flex-row gap-2 flex-col items-center justify-between">
+          <div class="task-status-selection w-full">
+            <label for="status" class="form-control-label">Status *</label>
+            <select class="form-control" name="status" id="status" (change)="selectTaskStatus($event)">
+              <option value="">Select Task status</option>
+              <option value="TO_DO" selected>TODO</option>
+              <option value="IN_PROGRESS">INPROGRESS</option>
+              <option value="BLOCKED">BLOCKED</option>
+              <option value="IN_REVIEW">INREVIEW</option>
+              <option value="READY_FOR_QA">READ_FORQA</option>
+              <option value="REOPENED">REOPENED</option>
+              <option value="READY_FOR_PRODUCTION">READYFORPRODUCTION</option>
+              <option value="DONE">DONE</option>
+            </select>
+          </div>
+          <div class="task-assignee w-full">
+            <label for="assignee" class="form-control-label">Assignee</label>
+            <select class="form-control" name="assignee" id="assignee" (change)="selectTaskAssignee($event)">
+              <option value="" disabled selected>Select Team Member</option>
+              @for (item of members(); track item.memberId) {
+                <option [value]="item.userId">{{ item.name }}</option>
+              }
+            </select>
+          </div>
+        </section>
+        <div class="task-epic w-full">
+          <label for="epic" class="form-control-label">Epic</label>
+          <select formControlName="epicId" class="form-control" name="epic" id="epic">
+            <option value="" disabled>Select Epic Link</option>
+            @for (item of epics(); track item.id) {
+              <option [value]="item.id">{{ item.id }} | {{ item.title }}</option>
+            }
+          </select>
+        </div>
+        <section class="date-field-container">
+          <app-form-field-component
+            label="Due Date"
+            [control]="getControl('dueDate')"
+            type="date"
+          ></app-form-field-component>
+        </section>
+
         <app-description-input [control]="getControl('description')">
           @if (getControl('description')!.hasError('maxlength') && getControl('description')!.touched) {
             <div class="flex items-center flex-row gap-1.5">
@@ -67,55 +131,31 @@
                   fill="#BA1A1A"
                 />
               </svg>
-              <p class="text-(--error)">Project description must be at most 500 characters.</p>
+              <p class="text-(--error)">Task description must be at most 500 characters.</p>
             </div>
           }
         </app-description-input>
         <div class="buttons-section flex lg:flex-row flex-col-reverse lg:gap-3 gap-4 justify-between items-center mt-4">
           <button
-            routerLink="/projects"
+            type="button"
+            routerLink="/project"
             class="font-bold text-[0.875rem] md:w-fit w-full leading-5 text-center py-3 align-middle lg:text-(--slate-nature-second) text-(--primary)"
           >
             Back
           </button>
-          <app-submit-button class="lg:w-fit w-full" buttonClass="h-14 py-3 px-8 rounded-lg" [isLoading]="isLoading()"
-            >Create Project</app-submit-button
+          <app-submit-button
+            [isLoading]="isLoading()"
+            class="lg:w-fit w-full"
+            buttonClass="h-14 py-3 px-8 rounded-lg"
+            [isLoading]="isLoading()"
           >
+            <span class="hidden lg:block font-semibold">Create Task</span>
+            <span class="lg:hidden flex items-center justify-center py-2 flex-row gap-3">
+              <span>+</span>
+              <span class="font-bold">Create Task</span>
+            </span>
+          </app-submit-button>
         </div>
-      </div>
-      <div
-        class="pro-tip-section lg:m-0 p-6 md:pe-10.25 mt-4 flex md:flex-row flex-col gap-3 bg-(--surface-low) md:items-center items-start"
-      >
-        <p
-          class="md:hidden font-bold text-[0.75rem] text-(--slate-nature-second) tracking-normal leading-4.75 align-middle"
-        >
-          Pro Tip
-        </p>
-        <svg
-          class="hidden md:block"
-          width="12"
-          height="15"
-          viewBox="0 0 12 15"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M5.625 15C5.2125 15 4.85938 14.8531 4.56563 14.5594C4.27188 14.2656 4.125 13.9125 4.125 13.5H7.125C7.125 13.9125 6.97812 14.2656 6.68437 14.5594C6.39062 14.8531 6.0375 15 5.625 15ZM2.625 12.75V11.25H8.625V12.75H2.625ZM2.8125 10.5C1.95 9.9875 1.26562 9.3 0.759375 8.4375C0.253125 7.575 0 6.6375 0 5.625C0 4.0625 0.546875 2.73438 1.64062 1.64062C2.73438 0.546875 4.0625 0 5.625 0C7.1875 0 8.51562 0.546875 9.60938 1.64062C10.7031 2.73438 11.25 4.0625 11.25 5.625C11.25 6.6375 10.9969 7.575 10.4906 8.4375C9.98438 9.3 9.3 9.9875 8.4375 10.5H2.8125ZM3.2625 9H7.9875C8.55 8.6 8.98438 8.10625 9.29062 7.51875C9.59687 6.93125 9.75 6.3 9.75 5.625C9.75 4.475 9.35 3.5 8.55 2.7C7.75 1.9 6.775 1.5 5.625 1.5C4.475 1.5 3.5 1.9 2.7 2.7C1.9 3.5 1.5 4.475 1.5 5.625C1.5 6.3 1.65313 6.93125 1.95938 7.51875C2.26562 8.10625 2.7 8.6 3.2625 9Z"
-            fill="#4F5F7B"
-          />
-        </svg>
-
-        <p>
-          <span
-            class="hidden md:inline-block font-normal text-(--slate-nature-second) text-[0.75rem] leading-4.75 tracking-normal align-middle"
-            >Pro Tip: You can invite project members and assign epics immediately after the initial creation
-            process.</span
-          >
-          <span
-            class="md:hidden inline-block font-normal text-(--slate-nature-second) text-[0.75rem] leading-4.75 tracking-normal align-middle"
-            >You can invite project members and assign epics immediately after the initial creation process.</span
-          >
-        </p>
       </div>
     </section>
   </form>
