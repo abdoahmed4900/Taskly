@@ -17,18 +17,32 @@ export class MembersFacade {
             email: string;
             member_id: string;
             project_id: string;
+            user_id: string;
             metadata: {
               name: string;
             };
           };
           return {
             role: x.role,
+            userId: x.user_id,
             email: x.email,
             memberId: x.member_id,
             projectId: x.project_id,
             name: x.metadata.name,
           } as Member;
         }) as Member[];
+      }),
+    );
+  }
+  getProjectMember(projectId: string, assigneeId: string) {
+    return this.getProjectMembers(projectId).pipe(
+      map(m => {
+        const members = m;
+        return members
+          .filter(member => {
+            return member.memberId == assigneeId;
+          })
+          .at(0);
       }),
     );
   }
