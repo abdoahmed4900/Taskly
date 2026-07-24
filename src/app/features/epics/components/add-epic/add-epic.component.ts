@@ -7,6 +7,8 @@ import { SubmitButtonComponent } from '../../../auth/components/submit-button/su
 import { Subject, takeUntil } from 'rxjs';
 import { ToastService } from '../../../../shared/service/toast.service';
 import { ProjectFacade } from '../../../projects/facade/project.facade';
+import { MembersFacade } from '../../../members/facade/members.facade';
+import { Member } from '../../../members/member';
 
 @Component({
   selector: 'app-add-epic',
@@ -20,6 +22,7 @@ export class AddEpicComponent implements OnInit, OnDestroy {
   fb = inject(FormBuilder);
   epicFacade = inject(EpicsFacade);
   projectFacade = inject(ProjectFacade);
+  membersFacade = inject(MembersFacade);
   project = signal<Project>({});
   activatedRoute = inject(ActivatedRoute);
   destroy$ = new Subject<void>();
@@ -32,10 +35,10 @@ export class AddEpicComponent implements OnInit, OnDestroy {
   toastService = inject(ToastService);
   isLoading = signal(false);
   today = new Date().toISOString().split('T')[0];
+  members = signal<Member[]>([]);
   ngOnInit(): void {
-    console.log(this.activatedRoute.snapshot.url[1].toString());
-    if (history.state['project']) {
-      this.project.set(history.state['project'] as Project);
+    if (sessionStorage.getItem('project')) {
+      this.project.set(JSON.parse(sessionStorage.getItem('project')!) as Project);
     } else {
       this.project.set({
         id: this.activatedRoute.snapshot.url[1].toString(),
@@ -47,6 +50,20 @@ export class AddEpicComponent implements OnInit, OnDestroy {
           this.project.set({ ...value });
         });
     }
+    this.membersFacade
+      .getProjectMembers(this.project()!.id!)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: value => {
+          console.log(value);
+
+          this.members.set(value);
+        },
+        error: () => {
+          this.members.set([]);
+          this.toastService.error('Failed to get project members!');
+        },
+      });
   }
 
   getControl(name: string) {
@@ -66,6 +83,7 @@ export class AddEpicComponent implements OnInit, OnDestroy {
           description: this.getControl('description').value ?? '',
           deadline: this.getControl('deadline').value ?? '',
           projectId: this.project().id,
+          assigneeId: this.getControl('assignee').value,
         })
         .pipe(takeUntil(this.destroy$))
         .subscribe({
@@ -75,7 +93,7 @@ export class AddEpicComponent implements OnInit, OnDestroy {
           },
           error: () => {
             this.isLoading.set(false);
-            this.toastService.success('Error while creating Epic');
+            this.toastService.error('Error while creating Epic');
           },
         });
     }

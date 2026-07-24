@@ -1,0 +1,29 @@
+<div class="change-page-section mt-auto mb-[9%] hidden lg:flex flex-row items-center col-span-full justify-between">
+  <p class="font-medium text-[0.75rem] text-(--paragraph-text-common-color) leading-4 tracking-normal align-middle">
+    Showing {{ currentEpics().length }} of {{ totalEpics() }} active projects
+  </p>
+  <div class="buttons flex-row gap-3">
+    <button class="p-4 bg-white" (click)="previousPage()" [disabled]="currentPage() === 1">
+      <svg width="5" height="7" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3.5 7L0 3.5L3.5 0L4.31667 0.816667L1.63333 3.5L4.31667 6.18333L3.5 7Z" fill="#434654" />
+      </svg>
+    </button>
+    @for (item of currentPages(); track $index) {
+      <button
+        [class.bg-white]="item !== currentPage()"
+        [class.bg-(--primary)]="item === currentPage()"
+        [class.text-(--paragraph-text-common-color)]="item !== currentPage()"
+        [class.text-white]="item === currentPage()"
+        class="font-bold text-[0.75rem] tracking-normal leading-4 align-middle text-center p-4"
+        (click)="goToPage(item)"
+      >
+        {{ item }}
+      </button>
+    }
+    <button class="p-4 bg-white" (click)="nextPage()" [disabled]="rangeEnd() === totalEpics()">
+      <svg width="5" height="7" viewBox="0 0 5 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2.68333 3.5L0 0.816667L0.816667 0L4.31667 3.5L0.816667 7L0 6.18333L2.68333 3.5Z" fill="#434654" />
+      </svg>
+    </button>
+  </div>
+</div>

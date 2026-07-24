@@ -7,7 +7,6 @@ export interface Epic {
   id?: string;
   createdBy?: CreatedBy;
   assignee?: Assignee;
-  epicId?: string;
   createdAt?: string;
 }
 

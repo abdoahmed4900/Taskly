@@ -1,0 +1,32 @@
+<div class="flex flex-row items-center justify-between">
+  <div class="flex flex-row gap-3 items-center">
+    <p
+      class="bg-(--success) font-bold text-[0.875rem] rounded-lg leading-5 tracking-normal text-center align-middle lg:p-2.25 p-1.5 text-[#002113]"
+    >
+      {{ initials() }}
+    </p>
+    <div class="assignee-text flex lg:flex-col flex-col-reverse">
+      <p
+        class="lg:font-medium font-normal lg:text-[0.75rem] text-[0.625rem] lg:leading-4 leading-3.75 tracking-normal align-middle lg:text-(--paragraph-text-common-color) text-[#737685]"
+      >
+        Assignee
+      </p>
+      <p
+        class="lg:font-semibold font-medium lg:text-[0.875rem] text-[0.75rem] leading-4 lg:leading-5 tracking-normal align-middle text-(--slate-nature-first)"
+      >
+        {{ assigneeName() }}
+      </p>
+    </div>
+  </div>
+
+  <div class="lg:hidden flex flex-col ms-auto">
+    <p
+      class="font-bold text-[0.625rem] leading-3.75 tracking-[-0.5px] uppercase text-[#737685] text-right align-middle"
+    >
+      Deadline
+    </p>
+    <p class="font-medium text-[0.75rem] leading-4 tracking-normal text-right align-middle text-(--slate-nature-first)">
+      {{ deadline() }}
+    </p>
+  </div>
+</div>

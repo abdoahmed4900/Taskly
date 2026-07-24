@@ -93,6 +93,9 @@
           [formControl]="getControl('assignee')"
         >
           <option value="" disabled selected>Select your option</option>
+          @for (item of members(); track item.userId) {
+            <option [value]="item.userId">{{ item.name }}</option>
+          }
         </select>
         <svg
           class="absolute block right-3 -translate-y-1/2 top-[70%]"

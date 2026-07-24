@@ -1,32 +1,38 @@
 @if (opened()) {
   <div
-    class="fixed inset-0 z-50 my-20 w-full max-w-2xl flex items-center justify-center"
-    tabindex="0"
-    (click)="close()"
-    (keydown.enter)="close()"
-    (keydown.space)="close(); $event.preventDefault()"
+    [class]="
+      'absolute top-0 left-0 m-auto z-7 w-full max-w-2xl flex flex-col items-center justify-center ' + containerClass()
+    "
   >
-    <div class="w-full max-w-4xl rounded-3xl bg-white shadow-2xl" (mousedown)="$event.stopPropagation()">
-      <div class="flex items-center justify-between border-b border-slate-200 px-8 py-6">
+    <div
+      class="flex flex-col gap-8 w-full max-w-4xl rounded-3xl bg-white shadow-2xl"
+      (mousedown)="$event.stopPropagation()"
+    >
+      <div [class]="'flex items-center justify-between ' + containerClass()">
         <div class="flex items-center gap-2">
-          <div class="h-4 w-4 rounded bg-blue-600"></div>
+          <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M0 10V4C0 3.45 0.195833 2.97917 0.5875 2.5875C0.979167 2.19583 1.45 2 2 2C2.55 2 3.02083 2.19583 3.4125 2.5875C3.80417 2.97917 4 3.45 4 4V10C4 10.55 3.80417 11.0208 3.4125 11.4125C3.02083 11.8042 2.55 12 2 12C1.45 12 0.979167 11.8042 0.5875 11.4125C0.195833 11.0208 0 10.55 0 10ZM7 14C6.45 14 5.97917 13.8042 5.5875 13.4125C5.19583 13.0208 5 12.55 5 12V2C5 1.45 5.19583 0.979167 5.5875 0.5875C5.97917 0.195833 6.45 0 7 0H13C13.55 0 14.0208 0.195833 14.4125 0.5875C14.8042 0.979167 15 1.45 15 2V12C15 12.55 14.8042 13.0208 14.4125 13.4125C14.0208 13.8042 13.55 14 13 14H7ZM16 10V4C16 3.45 16.1958 2.97917 16.5875 2.5875C16.9792 2.19583 17.45 2 18 2C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V10C20 10.55 19.8042 11.0208 19.4125 11.4125C19.0208 11.8042 18.55 12 18 12C17.45 12 16.9792 11.8042 16.5875 11.4125C16.1958 11.0208 16 10.55 16 10Z"
+              fill="#003D9B"
+            />
+          </svg>
 
-          <span class="text-xs font-bold uppercase tracking-widest text-slate-500">
+          <span class="font-bold text-[0.75rem] leading-4 uppercase align-middle">
             {{ title() }}
           </span>
         </div>
 
-        <button
-          (click)="close()"
-          class="rounded-lg p-2 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
-        >
-          <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M6 6L18 18M18 6L6 18" />
+        <button (click)="close()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M1.4 14L0 12.6L5.6 7L0 1.4L1.4 0L7 5.6L12.6 0L14 1.4L8.4 7L14 12.6L12.6 14L7 8.4L1.4 14Z"
+              fill="#041B3C"
+              fill-opacity="0.6"
+            />
           </svg>
         </button>
       </div>
-
-      <div class="p-8">
+      <div>
         <ng-content></ng-content>
       </div>
     </div>
