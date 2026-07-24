@@ -1,0 +1,164 @@
+@if (epic()) {
+  <div class="fixed inset-0 z-10 overflow-auto bg-black/50 backdrop-blur-sm" tabindex="0">
+    <app-modal-component
+      [opened]="isModalOpen()"
+      (closed)="updateEpic()"
+      [title]="epic()!.title!"
+      containerClass="lg:p-8 p-6"
+    >
+      <form [formGroup]="editEpic">
+        <div class="project-title border-b lg:p-8 p-6 pt-0 border-[#C3C6D626]">
+          <input
+            [formControl]="getControl('title')"
+            class="w-full rounded-2xl border border-(--form-control-bg) ps-3 py-4 font-bold text-[1.25rem] leading-8 tracking-normal align-middle text-(--slate-nature-first)"
+            placeholder="Epic title"
+          />
+
+          @if (getControl('title').touched && getControl('title').invalid) {
+            <p class="form-control-error">Epic title is not valid!</p>
+          }
+        </div>
+        <div class="flex flex-col gap-8 lg:px-8 lg:pb-8 px-6 pb-6">
+          <textarea
+            [formControl]="getControl('description')"
+            rows="5"
+            class="w-full resize-none px-3 pt-3 mt-8 rounded-2xl border border-(--form-control-bg) font-normal text-[1rem] leading-6.5 tracking-normal align-middle text-(--slate-nature-first)"
+            placeholder="No description provided"
+          ></textarea>
+
+          <div class="grid gap-3 md:grid-cols-3 grid-cols-2 md:items-start items-center">
+            <div>
+              <p
+                class="mb-2 font-bold lg:text-[0.625rem] text-[0.7rem] leading-3.75 lg:tracking-normal tracking-[0.55px] align-middle uppercase lg:text-[#041B3C66] text-(--slate-nature-second)"
+              >
+                Created By
+              </p>
+
+              <div class="flex items-center gap-2">
+                <div
+                  class="flex p-1.5 pb-1.75 items-center justify-center rounded-xl bg-(--primary-container) font-semibold text-white"
+                >
+                  {{ initials() }}
+                </div>
+
+                <span class="font-medium text-[0.875rem] leadin-5 tracking-normal align-middle">{{
+                  epic()!.createdBy!.name
+                }}</span>
+              </div>
+            </div>
+
+            <div>
+              <p
+                class="mb-2 font-bold lg:text-[0.625rem] text-[0.7rem] leading-3.75 lg:tracking-normal tracking-[0.55px] align-middle uppercase lg:text-[#041B3C66] text-(--slate-nature-second)"
+              >
+                Assignee
+              </p>
+
+              <select
+                [formControl]="getControl('assignee')"
+                class="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none"
+              >
+                <option value="" disabled selected>Select epic assignee</option>
+                @for (item of members(); track $index) {
+                  <option
+                    [value]="item.userId"
+                    class="font-medium text-[0.875rem] leadin-5 tracking-normal align-middle"
+                  >
+                    {{ item.name }}
+                  </option>
+                }
+                <option value="">unassigned</option>
+              </select>
+            </div>
+
+            <div>
+              <p
+                class="mb-2 font-bold lg:text-[0.625rem] text-[0.7rem] leading-3.75 lg:tracking-normal tracking-[0.55px] align-middle uppercase lg:text-[#041B3C66] text-(--slate-nature-second)"
+              >
+                Deadline
+              </p>
+
+              <input
+                [formControl]="getControl('deadline')"
+                [min]="today"
+                type="date"
+                class="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none"
+              />
+            </div>
+            <div>
+              <p
+                class="mb-2 font-bold lg:text-[0.625rem] text-[0.7rem] leading-3.75 lg:tracking-normal tracking-[0.55px] align-middle uppercase lg:text-[#041B3C66] text-(--slate-nature-second)"
+              >
+                Created At
+              </p>
+
+              <p class="flex flex-row gap-2 items-center">
+                <span
+                  ><svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M1.5 15C1.0875 15 0.734375 14.8531 0.440625 14.5594C0.146875 14.2656 0 13.9125 0 13.5V3C0 2.5875 0.146875 2.23438 0.440625 1.94062C0.734375 1.64687 1.0875 1.5 1.5 1.5H2.25V0H3.75V1.5H9.75V0H11.25V1.5H12C12.4125 1.5 12.7656 1.64687 13.0594 1.94062C13.3531 2.23438 13.5 2.5875 13.5 3V13.5C13.5 13.9125 13.3531 14.2656 13.0594 14.5594C12.7656 14.8531 12.4125 15 12 15H1.5ZM1.5 13.5H12V6H1.5V13.5ZM1.5 4.5H12V3H1.5V4.5ZM1.5 4.5V3V4.5Z"
+                      fill="#041B3C"
+                      fill-opacity="0.4"
+                    />
+                  </svg> </span
+                >{{ epic()!.createdAt }}
+              </p>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-6">
+            <div class="flex items-center justify-between gap-1">
+              <h2
+                class="lg:font-semibold font-bold lg:text-[1.125rem] text-[0.625rem] lg:leading-7 leading-4 lg:tracking-normal tracking-[0.55px] align-middle max-w-[1024px]:uppercase text-(--slate-nature-second) lg:text-(--slate-nature-first)"
+              >
+                Tasks
+              </h2>
+
+              <button
+                class="font-semibold hidden lg:block text-[0.875rem] leading-5 tracking-normal align-middle text-center text-(--primary)"
+                (click)="goToNewTask()"
+              >
+                + Add Task
+              </button>
+              <p
+                class="lg:hidden block font-bold text-[0.625rem] leading-3.75 tracking-normal align-middle text-(--paragraph-text-common-color) bg-[#E0E8FF] rounded-xl px-2 py-0.5"
+              >
+                {{ tasks().length }} Tasks
+              </p>
+            </div>
+            @if (tasks().length > 0) {
+              <app-show-tasks [currentTasks]="tasks()"></app-show-tasks>
+            } @else {
+              <div
+                class="flex flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-[#C3C6D64D] bg-slate-50 py-12"
+              >
+                <div class="p-4 rounded-xl bg-(--form-control-bg)">
+                  <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M6 15V13H18V15H6ZM6 9V7H18V9H6ZM6 3V1H18V3H6ZM2 16C1.45 16 0.979167 15.8042 0.5875 15.4125C0.195833 15.0208 0 14.55 0 14C0 13.45 0.195833 12.9792 0.5875 12.5875C0.979167 12.1958 1.45 12 2 12C2.55 12 3.02083 12.1958 3.4125 12.5875C3.80417 12.9792 4 13.45 4 14C4 14.55 3.80417 15.0208 3.4125 15.4125C3.02083 15.8042 2.55 16 2 16ZM2 10C1.45 10 0.979167 9.80417 0.5875 9.4125C0.195833 9.02083 0 8.55 0 8C0 7.45 0.195833 6.97917 0.5875 6.5875C0.979167 6.19583 1.45 6 2 6C2.55 6 3.02083 6.19583 3.4125 6.5875C3.80417 6.97917 4 7.45 4 8C4 8.55 3.80417 9.02083 3.4125 9.4125C3.02083 9.80417 2.55 10 2 10ZM2 4C1.45 4 0.979167 3.80417 0.5875 3.4125C0.195833 3.02083 0 2.55 0 2C0 1.45 0.195833 0.979167 0.5875 0.5875C0.979167 0.195833 1.45 0 2 0C2.55 0 3.02083 0.195833 3.4125 0.5875C3.80417 0.979167 4 1.45 4 2C4 2.55 3.80417 3.02083 3.4125 3.4125C3.02083 3.80417 2.55 4 2 4Z"
+                      fill="#041B3C"
+                      fill-opacity="0.3"
+                    />
+                  </svg>
+                </div>
+
+                <p
+                  class="font-medium text-[1rem] leading-6 tracking-normal text-center align-middle text-(--slate-nature-first)"
+                >
+                  No tasks have been added to this epic yet
+                </p>
+
+                <button
+                  (click)="goToNewTask()"
+                  class="rounded-xl py-2.5 px-6 font-semibold text-[1rem] leading-6 tracking-normal align-middle text-white text-center bg-primary-gradient"
+                >
+                  <span class="py-1.25 pe-2 inline-block text-[1.5rem]">+</span> Add Task
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+      </form>
+    </app-modal-component>
+  </div>
+}
