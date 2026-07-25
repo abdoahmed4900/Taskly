@@ -20,7 +20,7 @@ import { Epic } from '../../epics/epic';
 import { ToastService } from '../../../shared/service/toast.service';
 import { Member } from '../../members/member';
 import { MembersFacade } from '../../members/facade/members.facade';
-import { Task, TaskStatus } from '../task';
+import { Task } from '../task';
 
 @Component({
   selector: 'app-add-task',
@@ -48,12 +48,19 @@ export class AddTaskComponent implements OnDestroy, OnInit {
   epics = signal<Epic[]>([]);
   router = inject(Router);
   members = signal<Member[]>([]);
-  taskStatus = signal<TaskStatus | ''>(TaskStatus.TODO);
   taskAssignee = signal('');
+  today = new Date().toISOString().split('T')[0];
   ngOnInit(): void {
+    console.log(JSON.parse(JSON.stringify(history.state)).selectedStatus);
+
     this.addTaskForm.patchValue({
       epicId: sessionStorage.getItem('epicId'),
     });
+    if (JSON.parse(JSON.stringify(history.state)).selectedStatus) {
+      this.addTaskForm.patchValue({
+        selectedStatus: JSON.parse(JSON.stringify(history.state)).selectedStatus,
+      });
+    }
     this.getProjectEpics();
   }
 
@@ -65,6 +72,7 @@ export class AddTaskComponent implements OnDestroy, OnInit {
     assigneeId: ['', []],
     epicId: ['', []],
     dueDate: ['', []],
+    selectedStatus: ['', []],
     description: ['', [controlMaxLengthValidator(500)]],
   });
   private getProjectEpics() {
@@ -121,11 +129,8 @@ export class AddTaskComponent implements OnDestroy, OnInit {
       if (this.getControl('dueDate').value != '') {
         newTask.dueDate = this.getControl('dueDate').value;
       }
-      if (this.getControl('dueDate').value != '') {
-        newTask.dueDate = this.getControl('dueDate').value;
-      }
-      if (this.taskStatus() != '') {
-        newTask.status = this.taskStatus();
+      if (this.getControl('selectedStatus').value != '') {
+        newTask.status = this.getControl('selectedStatus').value;
       }
       this.isLoading.set(true);
 
@@ -134,7 +139,11 @@ export class AddTaskComponent implements OnDestroy, OnInit {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
-            this.router.navigate(['/project', sessionStorage.getItem('epicId'), 'epics']);
+            if (this.getControl('epicId').value) {
+              this.router.navigate(['/project', this.getControl('epicId').value, 'epics']);
+            } else {
+              this.router.navigate(['/project']);
+            }
             sessionStorage.removeItem('epicId');
             this.isLoading.set(false);
             this.toastService.success('Task Added Successfully!');
@@ -145,10 +154,6 @@ export class AddTaskComponent implements OnDestroy, OnInit {
           },
         });
     }
-  }
-  selectTaskStatus(event: Event) {
-    const val = event.target as HTMLSelectElement;
-    this.taskStatus.set(val.value as TaskStatus);
   }
   selectTaskAssignee(event: Event) {
     const val = event.target as HTMLSelectElement;

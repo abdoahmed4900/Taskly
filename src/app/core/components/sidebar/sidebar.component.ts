@@ -117,7 +117,18 @@ export class SidebarComponent implements OnDestroy, OnInit {
   }
 
   navigateToPage(route: string) {
-    this.router.navigate([route], { state: { project: this.project() } });
+    console.log(route);
+    let extras = {};
+    console.log(route.endsWith('tasks'));
+
+    if (route.endsWith('tasks')) {
+      extras = {
+        queryParams: {
+          view: 'board',
+        },
+      };
+    }
+    this.router.navigate([route], { ...extras });
   }
 
   logout() {

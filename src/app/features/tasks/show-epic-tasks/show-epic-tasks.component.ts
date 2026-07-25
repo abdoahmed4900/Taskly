@@ -5,13 +5,13 @@ import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-show-tasks',
+  selector: 'app-show-epic-tasks',
   standalone: true,
   imports: [RouterLink],
-  templateUrl: './show-tasks.component.html',
+  templateUrl: './show-epic-tasks.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ShowTasksComponent implements OnInit {
+export class ShowEpicTasksComponent implements OnInit {
   currentTasks = input<Task[]>([]);
   membersFacade = inject(MembersFacade);
   destroy$ = new Subject<void>();
