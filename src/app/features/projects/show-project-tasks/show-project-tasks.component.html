@@ -1,6 +1,6 @@
 <main class="flex flex-col mt-8 mb-30 gap-8">
   <header class="flex flex-col gap-6">
-    <div class="lg:flex hidden flex-row items-center gap-2">
+    <div class="lg:flex hidden flex-row items-center gap-3">
       <a
         routerLink="/projects"
         class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-[#43465499]"
@@ -18,15 +18,14 @@
       </svg>
       <p class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-(--primary)">Tasks</p>
     </div>
-    <div class="flex flex-row items-center justify-between">
+    <div class="flex lg:flex-row flex-col lg:items-end justify-between lg:gap-0 gap-4">
       <div>
         <h1 class="mt-3 text-4xl font-semibold text-slate-900">Active Workboard</h1>
 
         <p class="mt-1 hidden lg:block text-slate-500">Curating Project Alpha's production pipeline and milestones.</p>
       </div>
-      <div class="lg:flex hidden items-center gap-3">
-        <!-- Search -->
-        <div class="relative">
+      <div class="flex items-center @max-[1024]:w-full gap-3">
+        <div class="relative grow">
           <svg
             class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"
             fill="none"
@@ -44,138 +43,106 @@
           <input
             type="text"
             placeholder="Search tasks..."
-            class="w-72 rounded-xl form-control py-3 pl-12 outline-none"
+            class="lg:w-72 w-full rounded-xl form-control py-3 pl-12 outline-none"
           />
         </div>
 
-        <select name="view" id="view" class="bg-white px-8 py-3 rounded-xl">
-          <option value="board">▦ Board View</option>
-          <option value="list">☰ List View</option>
-        </select>
-        <button class="rounded-xl bg-(--form-control-bg) p-3">
+        <div class="lg:block hidden relative w-60 me-2">
+          <button
+            (click)="toggleDropdown()"
+            class="w-full flex items-center justify-between rounded-xl border border-slate-200 bg-white px-5 py-3 shadow-sm"
+          >
+            <div class="flex items-center gap-3">
+              @if (view() === 'board') {
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M0 6V0H6V6H0ZM0 13.5V7.5H6V13.5H0ZM7.5 6V0H13.5V6H7.5ZM7.5 13.5V7.5H13.5V13.5H7.5ZM1.5 4.5H4.5V1.5H1.5V4.5ZM9 4.5H12V1.5H9V4.5ZM9 12H12V9H9V12ZM1.5 12H4.5V9H1.5V12Z"
+                    fill="#041B3C"
+                  />
+                </svg>
+              } @else {
+                <svg width="14" height="6" viewBox="0 0 14 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M4.08333 1.16667V0H12.25V1.16667H4.08333ZM4.08333 3.5V2.33333H12.25V3.5H4.08333ZM4.08333 5.83333V4.66667H12.25V5.83333H4.08333ZM2.33333 1.16667C2.16806 1.16667 2.02951 1.11076 1.91771 0.998958C1.8059 0.887153 1.75 0.748611 1.75 0.583333C1.75 0.418056 1.8059 0.279514 1.91771 0.167708C2.02951 0.0559028 2.16806 0 2.33333 0C2.49861 0 2.63715 0.0559028 2.74896 0.167708C2.86076 0.279514 2.91667 0.418056 2.91667 0.583333C2.91667 0.748611 2.86076 0.887153 2.74896 0.998958C2.63715 1.11076 2.49861 1.16667 2.33333 1.16667ZM2.33333 3.5C2.16806 3.5 2.02951 3.4441 1.91771 3.33229C1.8059 3.22049 1.75 3.08194 1.75 2.91667C1.75 2.75139 1.8059 2.61285 1.91771 2.50104C2.02951 2.38924 2.16806 2.33333 2.33333 2.33333C2.49861 2.33333 2.63715 2.38924 2.74896 2.50104C2.86076 2.61285 2.91667 2.75139 2.91667 2.91667C2.91667 3.08194 2.86076 3.22049 2.74896 3.33229C2.63715 3.4441 2.49861 3.5 2.33333 3.5ZM2.33333 5.83333C2.16806 5.83333 2.02951 5.77743 1.91771 5.66563C1.8059 5.55382 1.75 5.41528 1.75 5.25C1.75 5.08472 1.8059 4.94618 1.91771 4.83437C2.02951 4.72257 2.16806 4.66667 2.33333 4.66667C2.49861 4.66667 2.63715 4.72257 2.74896 4.83437C2.86076 4.94618 2.91667 5.08472 2.91667 5.25C2.91667 5.41528 2.86076 5.55382 2.74896 5.66563C2.63715 5.77743 2.49861 5.83333 2.33333 5.83333Z"
+                    fill="#003D9B"
+                  />
+                </svg>
+              }
+
+              <span
+                class="font-medium text-[0.875rem] leading-5 tracking-normal text-center align-middle text-(--slate-nature-first)"
+              >
+                {{ view() === 'board' ? 'Board View' : 'List View' }}
+              </span>
+            </div>
+
+            <svg
+              class="w-5 h-5 transition-transform duration-200"
+              [class.rotate-180]="isOpen()"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M5 8l5 5 5-5" />
+            </svg>
+          </button>
+
+          @if (isOpen()) {
+            <div
+              class="absolute mt-2 w-full rounded-xl border border-slate-200 bg-white shadow-lg overflow-hidden z-50"
+            >
+              <button (click)="selectView('board')" class="w-full flex items-center gap-3 px-5 py-3 hover:bg-slate-100">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M0 6V0H6V6H0ZM0 13.5V7.5H6V13.5H0ZM7.5 6V0H13.5V6H7.5ZM7.5 13.5V7.5H13.5V13.5H7.5ZM1.5 4.5H4.5V1.5H1.5V4.5ZM9 4.5H12V1.5H9V4.5ZM9 12H12V9H9V12ZM1.5 12H4.5V9H1.5V12Z"
+                    fill="#041B3C"
+                  />
+                </svg>
+
+                <span
+                  class="font-medium text-[0.875rem] leading-5 tracking-normal text-center align-middle text-(--slate-nature-first)"
+                  >Board View</span
+                >
+              </button>
+
+              <button (click)="selectView('list')" class="w-full flex items-center gap-3 px-5 py-3 hover:bg-slate-100">
+                <svg width="14" height="6" viewBox="0 0 14 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M4.08333 1.16667V0H12.25V1.16667H4.08333ZM4.08333 3.5V2.33333H12.25V3.5H4.08333ZM4.08333 5.83333V4.66667H12.25V5.83333H4.08333ZM2.33333 1.16667C2.16806 1.16667 2.02951 1.11076 1.91771 0.998958C1.8059 0.887153 1.75 0.748611 1.75 0.583333C1.75 0.418056 1.8059 0.279514 1.91771 0.167708C2.02951 0.0559028 2.16806 0 2.33333 0C2.49861 0 2.63715 0.0559028 2.74896 0.167708C2.86076 0.279514 2.91667 0.418056 2.91667 0.583333C2.91667 0.748611 2.86076 0.887153 2.74896 0.998958C2.63715 1.11076 2.49861 1.16667 2.33333 1.16667ZM2.33333 3.5C2.16806 3.5 2.02951 3.4441 1.91771 3.33229C1.8059 3.22049 1.75 3.08194 1.75 2.91667C1.75 2.75139 1.8059 2.61285 1.91771 2.50104C2.02951 2.38924 2.16806 2.33333 2.33333 2.33333C2.49861 2.33333 2.63715 2.38924 2.74896 2.50104C2.86076 2.61285 2.91667 2.75139 2.91667 2.91667C2.91667 3.08194 2.86076 3.22049 2.74896 3.33229C2.63715 3.4441 2.49861 3.5 2.33333 3.5ZM2.33333 5.83333C2.16806 5.83333 2.02951 5.77743 1.91771 5.66563C1.8059 5.55382 1.75 5.41528 1.75 5.25C1.75 5.08472 1.8059 4.94618 1.91771 4.83437C2.02951 4.72257 2.16806 4.66667 2.33333 4.66667C2.49861 4.66667 2.63715 4.72257 2.74896 4.83437C2.86076 4.94618 2.91667 5.08472 2.91667 5.25C2.91667 5.41528 2.86076 5.55382 2.74896 5.66563C2.63715 5.77743 2.49861 5.83333 2.33333 5.83333Z"
+                    fill="#003D9B"
+                  />
+                </svg>
+
+                <span
+                  class="font-medium text-[0.875rem] leading-5 tracking-normal text-center align-middle text-(--slate-nature-first)"
+                  >List View</span
+                >
+              </button>
+            </div>
+          }
+        </div>
+
+        <button class="lg:block hidden rounded-xl bg-(--form-control-bg) p-3">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-width="2" d="M3 4h18M6 12h12M10 20h4" />
           </svg>
         </button>
       </div>
+      <a
+        [routerLink]="['/project', project().id, 'tasks', 'new']"
+        class="bg-primary-gradient lg:hidden rounded-lg flex flex-row gap-3 justify-center py-3 items-center"
+      >
+        <span class="text-white">+</span>
+        <span class="font-semibold text-[0.875rem] leading-5 tracking-normal text-center align-middle text-white"
+          >Create Task</span
+        >
+      </a>
     </div>
   </header>
-  <div class="grid lg:grid-cols-4 md:grid-col-3 sm:grid-cols-2 gap-6">
-    @for (item of statusBoard; track $index) {
-      <div class="flex flex-col gap-4">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span
-              class="w-2 h-2 rounded-full bg-slate-500"
-              [class.bg-(--error)!]="item === 'BLOCKED'"
-              [class.bg-[#0052CC1A]!]="item === 'IN_PROGRESS'"
-              `
-              [class.bg-(--success)!]="item === 'DONE'"
-              `
-            ></span>
-
-            <span class="text-xs font-bold text-slate-500 uppercase">
-              {{ item.replaceAll('_', ' ') }}
-            </span>
-
-            <span
-              class="rounded-md bg-(--form-control-bg) text-(--slate-nature-first) px-2 py-1 text-xs font-semibold"
-              [class.bg-(--form-control-error-bg)!]="item === 'BLOCKED'"
-              [class.text-[#93000A]!]="item === 'BLOCKED'"
-              [class.bg-[#0052CC1A]!]="item === 'IN_PROGRESS'"
-              [class.text-(--primary)!]="item === 'IN_PROGRESS'"
-              [class.text-green-700!]="item === 'DONE'"
-              [class.bg-(--success)!]="item === 'DONE'"
-            >
-              {{ statusNumber(item) }}
-            </span>
-          </div>
-
-          <button (click)="goToAddTask(item)" class="text-xl text-slate-400">+</button>
-        </div>
-
-        <button
-          (click)="goToAddTask(item)"
-          class="flex flex-row gap-3 items-center justify-center rounded-xl border-2 border-dashed border-slate-200 bg-white py-4 text-sm font-semibold text-slate-400 hover:bg-slate-50"
-        >
-          <span>
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M6.75 11.25H8.25V8.25H11.25V6.75H8.25V3.75H6.75V6.75H3.75V8.25H6.75V11.25ZM7.5 15C6.4625 15 5.4875 14.8031 4.575 14.4094C3.6625 14.0156 2.86875 13.4812 2.19375 12.8062C1.51875 12.1312 0.984375 11.3375 0.590625 10.425C0.196875 9.5125 0 8.5375 0 7.5C0 6.4625 0.196875 5.4875 0.590625 4.575C0.984375 3.6625 1.51875 2.86875 2.19375 2.19375C2.86875 1.51875 3.6625 0.984375 4.575 0.590625C5.4875 0.196875 6.4625 0 7.5 0C8.5375 0 9.5125 0.196875 10.425 0.590625C11.3375 0.984375 12.1312 1.51875 12.8062 2.19375C13.4812 2.86875 14.0156 3.6625 14.4094 4.575C14.8031 5.4875 15 6.4625 15 7.5C15 8.5375 14.8031 9.5125 14.4094 10.425C14.0156 11.3375 13.4812 12.1312 12.8062 12.8062C12.1312 13.4812 11.3375 14.0156 10.425 14.4094C9.5125 14.8031 8.5375 15 7.5 15ZM7.5 13.5C9.175 13.5 10.5938 12.9188 11.7563 11.7563C12.9188 10.5938 13.5 9.175 13.5 7.5C13.5 5.825 12.9188 4.40625 11.7563 3.24375C10.5938 2.08125 9.175 1.5 7.5 1.5C5.825 1.5 4.40625 2.08125 3.24375 3.24375C2.08125 4.40625 1.5 5.825 1.5 7.5C1.5 9.175 2.08125 10.5938 3.24375 11.7563C4.40625 12.9188 5.825 13.5 7.5 13.5Z"
-                fill="#434654"
-                fill-opacity="0.6"
-              />
-            </svg>
-          </span>
-          ADD NEW TASK
-        </button>
-
-        <!-- Task -->
-        @for (task of tasks(); track $index) {
-          @if (task.status === item) {
-            <div class="rounded-2xl bg-white p-5 shadow-sm border border-slate-100">
-              <h3 class="font-semibold text-slate-900">{{ task.title }}</h3>
-
-              <div class="mt-6 flex items-center justify-between">
-                @if (task.dueDate) {
-                  <div class="flex items-center gap-2 text-xs text-slate-500">
-                    @if (getDate(task.dueDate) === 'Today') {
-                      <span>
-                        <svg width="9" height="10" viewBox="0 0 9 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path
-                            d="M1 10C0.725 10 0.489583 9.90208 0.29375 9.70625C0.0979166 9.51042 0 9.275 0 9V2C0 1.725 0.0979166 1.48958 0.29375 1.29375C0.489583 1.09792 0.725 1 1 1H1.5V0H2.5V1H6.5V0H7.5V1H8C8.275 1 8.51042 1.09792 8.70625 1.29375C8.90208 1.48958 9 1.725 9 2V9C9 9.275 8.90208 9.51042 8.70625 9.70625C8.51042 9.90208 8.275 10 8 10H1ZM1 9H8V4H1V9ZM1 3H8V2H1V3ZM1 3V2V3Z"
-                            fill="#94A3B8"
-                          />
-                        </svg>
-                      </span>
-                      <span>Today</span>
-                    } @else if (getDate(task.dueDate) === 'Overdue') {
-                      <p class="flex flex-row gap-1.5 items-center">
-                        <span class="my-1"
-                          ><svg
-                            width="12"
-                            height="12"
-                            viewBox="0 0 12 12"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M5.83333 8.75C5.99861 8.75 6.13715 8.6941 6.24896 8.58229C6.36076 8.47049 6.41667 8.33194 6.41667 8.16667C6.41667 8.00139 6.36076 7.86285 6.24896 7.75104C6.13715 7.63924 5.99861 7.58333 5.83333 7.58333C5.66806 7.58333 5.52951 7.63924 5.41771 7.75104C5.3059 7.86285 5.25 8.00139 5.25 8.16667C5.25 8.33194 5.3059 8.47049 5.41771 8.58229C5.52951 8.6941 5.66806 8.75 5.83333 8.75ZM5.25 6.41667H6.41667V2.91667H5.25V6.41667ZM5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667ZM5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5Z"
-                              fill="#BA1A1A"
-                            />
-                          </svg>
-                        </span>
-                        <span
-                          class="font-bold text-[0.7rem] leading-4 uppercase align-middle tracking-[-0.55px] text-(--error)"
-                          >Overdue</span
-                        >
-                      </p>
-                    } @else {
-                      <span>
-                        <svg width="9" height="10" viewBox="0 0 9 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path
-                            d="M1 10C0.725 10 0.489583 9.90208 0.29375 9.70625C0.0979166 9.51042 0 9.275 0 9V2C0 1.725 0.0979166 1.48958 0.29375 1.29375C0.489583 1.09792 0.725 1 1 1H1.5V0H2.5V1H6.5V0H7.5V1H8C8.275 1 8.51042 1.09792 8.70625 1.29375C8.90208 1.48958 9 1.725 9 2V9C9 9.275 8.90208 9.51042 8.70625 9.70625C8.51042 9.90208 8.275 10 8 10H1ZM1 9H8V4H1V9ZM1 3H8V2H1V3ZM1 3V2V3Z"
-                            fill="#94A3B8"
-                          />
-                        </svg>
-                      </span>
-                      <span>{{ getDate(task.dueDate) }}</span>
-                    }
-                  </div>
-                }
-
-                @if (task.assignee.name) {
-                  <div
-                    class="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 font-semibold text-blue-700"
-                  >
-                    {{ getNameInitials(task.assignee.name) }}
-                  </div>
-                }
-              </div>
-            </div>
-          }
-        }
-      </div>
-    }
-  </div>
+  @if (view() === 'board') {
+    <app-tasks-board [tasks]="tasks()" [projectId]="project().id!"></app-tasks-board>
+  } @else if (view() === 'list') {
+    <app-tasks-list [tasks]="tasks()" [projectId]="project().id!"></app-tasks-list>
+  }
 </main>

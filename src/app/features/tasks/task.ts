@@ -1,15 +1,23 @@
-import { Assignee } from '../epics/epic';
+import { Assignee, CreatedBy } from '../epics/epic';
 
 export interface Task {
-  projectId: string;
+  projectId?: string;
+  createdAt?: string;
+  taskId?: string;
   id?: string;
   epicId?: string;
-  title: string;
+  title?: string;
+  epic?: {
+    title?: string;
+    id?: string;
+    epicId?: string;
+  };
+  createdBy?: CreatedBy;
   description?: string;
   assigneeId?: string;
   dueDate?: string;
-  status: TaskStatus | '';
-  assignee: Assignee;
+  status?: TaskStatus | '';
+  assignee?: Assignee;
 }
 
 export enum TaskStatus {

@@ -11,12 +11,10 @@ export class MembersTable {
   getNameInitials(val: string) {
     let initials = '';
     const words = val.split(' ');
-    console.log(words);
 
     if (words.length > 1) {
       words.map(word => {
         initials += word.charAt(0);
-        console.log(`val + ${val}`);
       });
     } else {
       initials = words[0].substring(0, 2);

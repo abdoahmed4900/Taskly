@@ -4,7 +4,8 @@
       [opened]="isModalOpen()"
       (closed)="updateEpic()"
       [title]="epic()!.title!"
-      containerClass="lg:p-8 p-6"
+      containerClass="lg:p-8 p-6 max-w-2xl"
+      headerClass="lg:p-8 p-6"
     >
       <form [formGroup]="editEpic">
         <div class="project-title border-b lg:p-8 p-6 pt-0 border-[#C3C6D626]">

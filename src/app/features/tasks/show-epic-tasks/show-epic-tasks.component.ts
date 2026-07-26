@@ -25,7 +25,7 @@ export class ShowEpicTasksComponent implements OnInit {
   getMembersName() {
     this.currentTasks().map(task => {
       this.membersFacade
-        .getProjectMember(task.projectId, task.assigneeId!)
+        .getProjectMember(task.projectId!, task.assigneeId!)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: value => {

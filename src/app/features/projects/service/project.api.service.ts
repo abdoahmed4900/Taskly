@@ -87,9 +87,11 @@ export class ProjectApiService {
             projectId: task.project_id,
             epicId: task.id,
             status: task.status as TaskStatus,
-            createdAt: task.created_at,
+            createdAt: task.created_at.split('T')[0],
+            createdBy: task.created_by,
             dueDate: task.due_date ? task.due_date.split('T')[0] : '',
             taskId: task.task_id,
+            epic: { id: task.epic.id, title: task.epic.title, epicId: task.epic.epic_id },
             assignee: task.assignee,
           } as Task;
         });

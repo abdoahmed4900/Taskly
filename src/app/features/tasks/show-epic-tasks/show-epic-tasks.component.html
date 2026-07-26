@@ -8,15 +8,15 @@
           <h3 class="font-medium text-[1rem] leading-6 tracking-normal align-middle text-(--slate-nature-first)">
             {{ item.title }}
           </h3>
-          @if (item.assignee.name) {
+          @if (item.assignee!.name) {
             <div class="flex flex-row gap-1.5">
               <p
                 class="rounded-full bg-[#CDDDFF] font-bold text-[0.5rem] p-1 leading-3 tracking-normal align-middle text-center"
               >
-                {{ getInitials(item.assignee.name) }}
+                {{ getInitials(item.assignee!.name) }}
               </p>
               <p class="font-normal text-[0.75rem] leading-4 align-middle tracking-normal text-[#041B3C99]">
-                {{ item.assignee.name }}
+                {{ item.assignee!.name }}
               </p>
             </div>
           }

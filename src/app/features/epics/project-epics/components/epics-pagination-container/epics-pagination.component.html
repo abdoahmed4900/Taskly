@@ -1,6 +1,6 @@
 <div class="change-page-section mt-auto mb-[9%] hidden lg:flex flex-row items-center col-span-full justify-between">
   <p class="font-medium text-[0.75rem] text-(--paragraph-text-common-color) leading-4 tracking-normal align-middle">
-    Showing {{ currentEpics().length }} of {{ totalEpics() }} active projects
+    Showing {{ currentEpics().length }} of {{ totalEpics() }} active epics
   </p>
   <div class="buttons flex-row gap-3">
     <button class="p-4 bg-white" (click)="previousPage()" [disabled]="currentPage() === 1">

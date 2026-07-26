@@ -8,7 +8,6 @@ import { ProjectFacade } from '../../../../projects/facade/project.facade';
 import { ToastService } from '../../../../../shared/service/toast.service';
 import { EpicsFacade } from '../../../facade/epics.facade';
 import { ProjectEpicModalComponent } from '../epic-modal/epic.modal.component';
-import { EpicsListHeaderComponent } from '../epics-list-header/epics-list-header.component';
 import { EpicsPaginationContainerComponent } from '../epics-pagination-container/epics-pagination-container.component';
 import { EpicItemHeaderComponent } from '../epic-item-header/epic-item-header.component';
 import { EpicItemAssigneeComponent } from '../epic-item-assignee/epic-item-assignee.component';
@@ -21,7 +20,6 @@ import { EpicItemCreatebyComponent } from '../epic-item-createby/epic-item-creat
   imports: [
     RouterLink,
     ProjectEpicModalComponent,
-    EpicsListHeaderComponent,
     EpicsPaginationContainerComponent,
     EpicItemHeaderComponent,
     EpicItemAssigneeComponent,
