@@ -1,4 +1,5 @@
 import { Component, computed, input } from '@angular/core';
+import { getNameInitials } from '../../../../../shared/utils';
 
 @Component({
   selector: 'app-epic-item-assignee',
@@ -10,16 +11,6 @@ export class EpicItemAssigneeComponent {
   assigneeName = input<string>();
   deadline = input<string>();
   initials = computed(() => {
-    let val = '';
-    const words = this.assigneeName()!.split(' ');
-    if (words.length > 1) {
-      words.map(word => {
-        val += word.charAt(0);
-      });
-    } else {
-      val = words[0].substring(0, 2);
-    }
-
-    return val;
+    return getNameInitials(this.assigneeName()!);
   });
 }

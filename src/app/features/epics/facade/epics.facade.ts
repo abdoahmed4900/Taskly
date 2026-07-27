@@ -28,4 +28,7 @@ export class EpicsFacade {
   updateEpic(epic: Epic) {
     return this.epicsApiService.updateEpic(epic);
   }
+  searchEpic(projectId: string, searchTerm: string) {
+    return this.epicsApiService.searchEpic(projectId, searchTerm);
+  }
 }

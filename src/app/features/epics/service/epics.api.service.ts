@@ -66,4 +66,27 @@ export class EpicsApiService {
       deadline: epic.deadline,
     });
   }
+
+  searchEpic(projectId: string, searchTerm: string) {
+    return this.httpClient
+      .get(`rest/v1/project_epics?project_id=eq.${projectId}&title=ilike.%25${searchTerm}%25`, {
+        observe: 'response',
+        headers: {
+          Prefer: 'count=exact',
+        },
+      })
+      .pipe(
+        map(val => {
+          console.log(val.body);
+          console.log(JSON.stringify(val.headers));
+
+          return {
+            epics: val.body,
+            totalProjects: val.headers.get('Content-Range')?.split('/')[1],
+            rangeStart: val.headers.get('Content-Range')?.split('/')[0].split('-')[0],
+            rangeEnd: val.headers.get('Content-Range')?.split('/')[0].split('-')[1],
+          };
+        }),
+      );
+  }
 }

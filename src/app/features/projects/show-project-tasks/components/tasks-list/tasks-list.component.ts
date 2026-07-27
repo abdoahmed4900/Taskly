@@ -1,12 +1,15 @@
-import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
 import { Task } from '../../../../tasks/task';
 import { RouterLink } from '@angular/router';
-import { ModalComponent } from '../../../../epics/components/modal/modal.component';
+import { TaskFacade } from '../../../../tasks/facade/task.facade';
+import { Subject } from 'rxjs';
+import { getNameInitials } from '../../../../../shared/utils';
+import { TaskDetailsModalComponent } from '../task-modal/task-modal.component';
 
 @Component({
   selector: 'app-tasks-list',
   standalone: true,
-  imports: [RouterLink, ModalComponent],
+  imports: [RouterLink, TaskDetailsModalComponent],
   templateUrl: './tasks-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -15,24 +18,27 @@ export class TasksListComponent {
   projectId = input<string>('');
   isModalOpened = signal(false);
   selectedItem = signal<Task>({});
+  taskFacade = inject(TaskFacade);
+  destroy$ = new Subject<void>();
+
   setModalStatus(item: Task) {
     this.isModalOpened.update(v => !v);
     this.selectedItem.set(item);
   }
+
   close() {
     this.isModalOpened.set(false);
   }
   getNameInitials(val: string) {
-    let initials = '';
-    const words = val.split(' ');
+    return getNameInitials(val);
+  }
 
-    if (words.length > 1) {
-      words.map(word => {
-        initials += word.charAt(0);
-      });
-    } else {
-      initials = words[0].substring(0, 2);
-    }
-    return initials;
+  formatDate(val: string) {
+    const formatted = new Date(val).toLocaleDateString('en-GB', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+    return formatted;
   }
 }

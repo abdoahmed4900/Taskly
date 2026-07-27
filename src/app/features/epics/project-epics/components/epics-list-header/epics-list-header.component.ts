@@ -1,6 +1,16 @@
-import { ChangeDetectionStrategy, Component, effect, input, model } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  inject,
+  input,
+  model,
+  signal,
+} from '@angular/core';
 import { Project } from '../../../../projects/model/project';
 import { RouterLink } from '@angular/router';
+import { EpicsFacade } from '../../../facade/epics.facade';
+import { Subject, debounceTime, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-epics-list-header',
@@ -60,7 +70,13 @@ import { RouterLink } from '@angular/router';
         </p>
       </div>
       <div class="flex flex-row gap-8 mt-5">
-        <input type="search" class="form-control" placeholder="Search epics..." />
+        <input
+          [(value)]="searchTerm"
+          type="search"
+          class="form-control"
+          placeholder="Search epics..."
+          (change)="search()"
+        />
         <button class="flex bg-(--primary) flex-row gap-2 w-50 rounded-lg items-center px-6 py-3">
           <span
             ><svg
@@ -84,12 +100,22 @@ import { RouterLink } from '@angular/router';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EpicsListHeaderComponent {
+export class EpicsListHeaderComponent implements OnDestroy {
   project = model<Project>();
-  constructor() {
-    effect(() => {
-      console.log(this.project());
-    });
-  }
+  epicFacade = inject(EpicsFacade);
   projectName = input<string>();
+  destroy$ = new Subject<void>();
+  searchTerm = signal<string>('');
+
+  search() {
+    this.epicFacade
+      .searchEpic(this.project()!.id!, this.searchTerm())
+      .pipe(takeUntil(this.destroy$), debounceTime(300))
+      .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

@@ -134,3 +134,17 @@ export function doesControlIncludeUpperCase(): ValidatorFn {
     return null;
   };
 }
+
+export function getNameInitials(val: string) {
+  let initials = '';
+  const words = val.split(' ');
+
+  if (words.length > 1) {
+    words.map(word => {
+      initials += word.charAt(0);
+    });
+  } else {
+    initials = words[0].substring(0, 2);
+  }
+  return initials;
+}

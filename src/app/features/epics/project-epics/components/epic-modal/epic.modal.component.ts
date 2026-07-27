@@ -24,6 +24,7 @@ import { Project } from '../../../../projects/model/project';
 import { TaskFacade } from '../../../../tasks/facade/task.facade';
 import { Task } from '../../../../tasks/task';
 import { ShowEpicTasksComponent } from '../../../../tasks/show-epic-tasks/show-epic-tasks.component';
+import { getNameInitials } from '../../../../../shared/utils';
 @Component({
   selector: 'app-project-epic-modal-component',
   standalone: true,
@@ -71,17 +72,7 @@ export class ProjectEpicModalComponent implements OnInit, OnDestroy {
 
   initials = computed(() => {
     if (this.epic()?.createdBy?.name) {
-      let val = '';
-      const words = this.epic()!.createdBy!.name!.split(' ');
-      if (words.length > 1) {
-        words.map(word => {
-          val += word.charAt(0);
-        });
-      } else {
-        val = words[0].substring(0, 2);
-      }
-
-      return val;
+      return getNameInitials(this.epic()!.createdBy!.name!);
     }
     return '';
   });

@@ -1,5 +1,5 @@
-<div class="overflow-hidden relative rounded-2xl bg-white border border-slate-200 shadow-sm">
-  <table class="w-full border-collapse">
+<div tabindex="0" (keydown.escape)="close()" class="overflow-hidden relative rounded-2xl lg:bg-white bg-transparent">
+  <table class="lg:table hidden w-full border-collapse">
     <!-- Header -->
     <thead class="border-[#C3C6D61A] border-b bg-[#F1F3FF80]">
       <tr class="text-left text-xs font-bold uppercase tracking-wider text-slate-500">
@@ -36,7 +36,7 @@
     <tbody class="divide-y divide-slate-200">
       <!-- Row -->
       @for (item of tasks(); track item.id) {
-        <tr class="hover:bg-slate-50 transition" (click)="setModalStatus(item)">
+        <tr class="hover:bg-slate-50 transition" (click)="setModalStatus(item); $event.stopPropagation()">
           <td class="pe-6.5 ps-6 py-4.25">
             <p class="font-normal text-[0.75rem] leading-4 tracking-normal align-middle text-(--primary)">
               {{ item.taskId }}
@@ -94,7 +94,7 @@
     </tbody>
   </table>
 
-  <div class="flex items-center justify-between px-6 py-4">
+  <div class="lg:flex hidden items-center justify-between px-6 py-4">
     <p class="font-medium text-[0.75rem] leading-4 tracking-normal align-middle text-(--paragraph-text-common-color)">
       Showing 5 of {{ tasks().length }} tasks
     </p>
@@ -119,6 +119,63 @@
       </button>
     </div>
   </div>
+
+  <div class="lg:hidden flex flex-col gap-3">
+    @for (item of tasks(); track $index) {
+      <div class="flex flex-col bg-white p-4 gap-4">
+        <div class="flex flex-row justify-between items-start">
+          <div class="task-info flex flex-col">
+            <h3 class="font-bold text-[0.7rem] leading-4 tracking-[-0.55px] align-middle uppercase text-[#43465480]">
+              {{ item.taskId }}
+            </h3>
+            <p class="font-medium text-[1.125rem] leading-6 tracking-normal align-middle text-(--slate-nature-first)">
+              {{ item.title }}
+            </p>
+          </div>
+          <p
+            class="font-bold text-[0.7rem] bg-(--form-control-bg) leading-4 text-(--slate-nature-first) tracking-normal align-middle uppercase py-0.5 px-2"
+            [class.text-[#93000A]!]="item.status === 'BLOCKED'"
+            [class.bg-red-300!]="item.status === 'BLOCKED'"
+            [class.bg-[#0052CC1A]!]="item.status === 'IN_PROGRESS'"
+            [class.text-[#002113]!]="item.status === 'DONE'"
+            [class.bg-(--success)!]="item.status === 'DONE'"
+          >
+            {{ item.status?.replaceAll('_', ' ') }}
+          </p>
+        </div>
+        <div class="date-section-and-options flex flex-row items-center justify-between">
+          <div class="flex flex-row gap-2">
+            @if (item.assignee?.name) {
+              <p
+                class="bg-(--form-control-bg) p-2 rounded-xl font-bold text-[0.7rem] leading-[100%] tracking-normal text-center align-middle"
+              >
+                {{ getNameInitials(item.assignee!.name!) }}
+              </p>
+            } @else {
+              <p
+                class="bg-(--form-control-bg) p-2 rounded-xl font-bold text-[0.7rem] leading-[100%] tracking-normal text-center align-middle"
+              ></p>
+            }
+            <div class="flex flex-col">
+              <p class="font-bold text-[0.7rem] uppercase leading-4 tracking-normal align-middle text-[#434654B2]">
+                Due date
+              </p>
+              <p class="font-medium text-[0.75rem] leading-4 tracking-normal align-middle text-(--slate-nature-first)">
+                {{ item.dueDate }}
+              </p>
+            </div>
+          </div>
+          <svg width="4" height="16" viewBox="0 0 4 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M2 16C1.45 16 0.979167 15.8042 0.5875 15.4125C0.195833 15.0208 0 14.55 0 14C0 13.45 0.195833 12.9792 0.5875 12.5875C0.979167 12.1958 1.45 12 2 12C2.55 12 3.02083 12.1958 3.4125 12.5875C3.80417 12.9792 4 13.45 4 14C4 14.55 3.80417 15.0208 3.4125 15.4125C3.02083 15.8042 2.55 16 2 16ZM2 10C1.45 10 0.979167 9.80417 0.5875 9.4125C0.195833 9.02083 0 8.55 0 8C0 7.45 0.195833 6.97917 0.5875 6.5875C0.979167 6.19583 1.45 6 2 6C2.55 6 3.02083 6.19583 3.4125 6.5875C3.80417 6.97917 4 7.45 4 8C4 8.55 3.80417 9.02083 3.4125 9.4125C3.02083 9.80417 2.55 10 2 10ZM2 4C1.45 4 0.979167 3.80417 0.5875 3.4125C0.195833 3.02083 0 2.55 0 2C0 1.45 0.195833 0.979167 0.5875 0.5875C0.979167 0.195833 1.45 0 2 0C2.55 0 3.02083 0.195833 3.4125 0.5875C3.80417 0.979167 4 1.45 4 2C4 2.55 3.80417 3.02083 3.4125 3.4125C3.02083 3.80417 2.55 4 2 4Z"
+              fill="#434654"
+              fill-opacity="0.4"
+            />
+          </svg>
+        </div>
+      </div>
+    }
+  </div>
   <button
     [routerLink]="['/project', projectId(), 'tasks', 'new']"
     class="lg:block hidden fixed right-6 text-white bottom-[calc(5dvh+20px)] bg-primary-gradient rounded-lg py-4 px-6 text-[1.5rem]"
@@ -127,172 +184,5 @@
   </button>
 </div>
 @if (isModalOpened()) {
-  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-6">
-    <div class="w-full max-w-6xl overflow-hidden rounded-2xl bg-white shadow-2xl">
-      <!-- Body -->
-      <div class="grid grid-cols-[1fr_320px]">
-        <!-- Left -->
-        <section class="flex flex-col">
-          <!-- Header -->
-          <div class="border-b border-slate-200 p-8">
-            <div class="mb-5 flex items-center gap-3">
-              <span class="rounded-md bg-blue-100 px-3 py-1 text-xs font-bold text-blue-700">
-                {{ selectedItem().taskId }}
-              </span>
-
-              <button
-                class="flex items-center gap-2 rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
-              >
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-width="2" d="M8 7h8M8 12h8M8 17h8M4 7h.01M4 12h.01M4 17h.01" />
-                </svg>
-
-                {{ selectedItem().epic!.title! }}
-
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-            </div>
-
-            <h1 class="max-w-3xl text-5xl font-bold leading-tight text-slate-900">
-              {{ selectedItem().title }}
-            </h1>
-          </div>
-
-          <!-- Description -->
-          <div class="flex-1 p-8">
-            <p class="mb-3 text-xs font-bold uppercase tracking-wider text-slate-500">Description</p>
-
-            <textarea
-              class="h-105 w-full resize-none rounded-xl border border-blue-200 p-4 text-[15px] leading-7 outline-none focus:border-blue-500"
-              placeholder="Add project description..."
-              >{{ selectedItem().description }}
-            </textarea>
-          </div>
-        </section>
-
-        <aside class="border-l border-slate-200 bg-slate-50 p-8">
-          <div class="mb-8">
-            <p class="mb-3 text-xs font-bold uppercase tracking-wider text-slate-500">Status</p>
-
-            <button
-              class="flex w-full items-center justify-between rounded-lg bg-emerald-300 px-4 py-3 font-semibold text-emerald-950"
-            >
-              {{ selectedItem().status?.replaceAll('_', ' ') }}
-
-              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-          </div>
-
-          @if (selectedItem().assignee?.name) {
-            <div class="mb-8">
-              <p
-                class="mb-3 text-[0.75rem] font-bold uppercase tracking-[0.5px] leading-3.75 text-(--paragraph-text-common-color)"
-              >
-                Assignee
-              </p>
-
-              <button class="flex w-full items-center justify-between rounded-lg bg-white px-4 py-3">
-                <div class="flex items-center gap-3">
-                  <div
-                    class="flex h-9 w-9 items-center justify-center rounded-full bg-(--form-control-bg) text-[0.625rem] leading-3.75 text-center align-middle text-[#51617E] font-bold"
-                  >
-                    {{ getNameInitials(selectedItem().assignee!.name!) }}
-                  </div>
-
-                  <span>{{ selectedItem().assignee?.name }}</span>
-                </div>
-
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-            </div>
-          }
-          @if (selectedItem().createdBy!.name) {
-            <div class="mb-8">
-              <p
-                class="mb-3 text-[0.75rem] font-bold uppercase tracking-[0.5px] leading-3.75 text-(--paragraph-text-common-color)"
-              >
-                Reporter
-              </p>
-
-              <div class="flex items-center gap-3">
-                <div
-                  class="flex h-9 w-9 ms-4 items-center justify-center rounded-full bg-(--form-control-bg) text-[0.625rem] leading-3.75 text-center align-middle text-[#51617E] font-bold"
-                >
-                  {{ getNameInitials(selectedItem().createdBy!.name!) }}
-                </div>
-
-                <span>{{ selectedItem().createdBy?.name }}</span>
-              </div>
-            </div>
-          }
-
-          <hr class="my-8 text-[#C3C6D633]" />
-
-          @if (selectedItem().dueDate) {
-            <div class="mb-6">
-              <p
-                class="mb-3 text-[0.75rem] font-bold uppercase tracking-[0.5px] leading-3.75 text-(--paragraph-text-common-color)"
-              >
-                Due Date
-              </p>
-
-              <button class="flex w-full items-center justify-between rounded-lg bg-white px-4 py-3">
-                <div class="flex items-center gap-3">
-                  <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      stroke-width="2"
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-
-                  {{ selectedItem().dueDate }}
-                </div>
-
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-            </div>
-          }
-
-          <div class="flex items-center justify-between text-sm">
-            <span
-              class="mb-3 text-[0.75rem] font-bold uppercase tracking-[0.5px] leading-3.75 text-(--paragraph-text-common-color)"
-            >
-              Created At
-            </span>
-
-            <span class="font-medium text-slate-900"> {{ selectedItem().createdAt }} </span>
-          </div>
-        </aside>
-      </div>
-
-      <!-- Footer -->
-      <div class="flex items-center justify-between border-t border-slate-200 bg-slate-50 px-8 py-4">
-        <button class="flex items-center gap-2 text-slate-600 hover:text-slate-900">
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-width="2"
-              d="M10 13a5 5 0 007.07 0l1.41-1.41a5 5 0 00-7.07-7.07L10 5m4 6a5 5 0 01-7.07 0L5.5 9.59a5 5 0 017.07-7.07L14 4"
-            />
-          </svg>
-
-          Copy link
-        </button>
-
-        <button
-          (click)="close()"
-          class="rounded-lg bg-blue-100 px-6 py-2 font-semibold text-blue-800 hover:bg-blue-200"
-        >
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
+  <app-task-details-modal [selectedItem]="selectedItem()" (isModalOpened)="close()"></app-task-details-modal>
 }

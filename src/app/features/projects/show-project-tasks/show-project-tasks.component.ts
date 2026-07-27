@@ -13,6 +13,7 @@ import { Task, TaskStatus } from '../../tasks/task';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TasksBoardComponent } from './components/tasks-board/tasks-board.component';
 import { TasksListComponent } from './components/tasks-list/tasks-list.component';
+import { getNameInitials } from '../../../shared/utils';
 
 @Component({
   selector: 'app-show-project-tasks',
@@ -78,19 +79,7 @@ export class ShowProjectTasksComponent implements OnInit, OnDestroy {
   }
 
   getNameInitials(val: string) {
-    let initials = '';
-    const words = val.split(' ');
-
-    if (words.length > 1) {
-      words.map(word => {
-        initials += word.charAt(0);
-      });
-    } else {
-      initials = words[0].substring(0, 2);
-    }
-    console.log(val);
-
-    return initials;
+    return getNameInitials(val);
   }
 
   setView(val: string) {

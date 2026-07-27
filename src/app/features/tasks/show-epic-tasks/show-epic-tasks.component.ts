@@ -3,6 +3,7 @@ import { Task } from '../task';
 import { MembersFacade } from '../../members/facade/members.facade';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { getNameInitials } from '../../../shared/utils';
 
 @Component({
   selector: 'app-show-epic-tasks',
@@ -36,16 +37,6 @@ export class ShowEpicTasksComponent implements OnInit {
   }
 
   getInitials(name: string) {
-    let val = '';
-    const words = name.split(' ');
-    if (words.length > 1) {
-      words.map(word => {
-        val += word.charAt(0);
-      });
-    } else {
-      val = words[0].substring(0, 2);
-    }
-
-    return val;
+    return getNameInitials(name);
   }
 }

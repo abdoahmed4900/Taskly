@@ -1,11 +1,13 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
 import { Task, TaskStatus } from '../../../../tasks/task';
 import { Router } from '@angular/router';
+import { getNameInitials } from '../../../../../shared/utils';
+import { TaskDetailsModalComponent } from '../task-modal/task-modal.component';
 
 @Component({
   selector: 'app-tasks-board',
   standalone: true,
-  imports: [],
+  imports: [TaskDetailsModalComponent],
   templateUrl: './tasks-board.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -13,6 +15,8 @@ export class TasksBoardComponent {
   tasks = input<Task[]>([]);
   projectId = input<string>('');
   router = inject(Router);
+  isModalOpened = signal(false);
+  selectedItem = signal<Task>({});
 
   getDate(date: string) {
     const due = new Date(date);
@@ -47,25 +51,22 @@ export class TasksBoardComponent {
   ];
 
   getNameInitials(val: string) {
-    let initials = '';
-    const words = val.split(' ');
-
-    if (words.length > 1) {
-      words.map(word => {
-        initials += word.charAt(0);
-      });
-    } else {
-      initials = words[0].substring(0, 2);
-    }
-
-    return initials;
+    return getNameInitials(val);
   }
+  setModalStatus(item: Task) {
+    this.isModalOpened.update(v => !v);
 
+    this.selectedItem.set(item);
+  }
   goToAddTask(status: string) {
     this.router.navigate(['/project', this.projectId(), 'tasks', 'new'], {
       state: {
         selectedStatus: status,
       },
     });
+  }
+
+  close() {
+    this.isModalOpened.set(false);
   }
 }
