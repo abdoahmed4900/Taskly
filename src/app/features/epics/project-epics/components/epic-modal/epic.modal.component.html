@@ -4,7 +4,8 @@
       [opened]="isModalOpen()"
       (closed)="updateEpic()"
       [title]="epic()!.title!"
-      containerClass="lg:p-8 p-6"
+      containerClass="lg:p-8 p-6 max-w-2xl"
+      headerClass="lg:p-8 p-6"
     >
       <form [formGroup]="editEpic">
         <div class="project-title border-b lg:p-8 p-6 pt-0 border-[#C3C6D626]">
@@ -127,7 +128,7 @@
               </p>
             </div>
             @if (tasks().length > 0) {
-              <app-show-tasks [currentTasks]="tasks()"></app-show-tasks>
+              <app-show-epic-tasks [currentTasks]="tasks()"></app-show-epic-tasks>
             } @else {
               <div
                 class="flex flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-[#C3C6D64D] bg-slate-50 py-12"

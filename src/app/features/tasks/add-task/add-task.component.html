@@ -83,15 +83,15 @@
         <section class="flex lg:flex-row gap-2 flex-col items-center justify-between">
           <div class="task-status-selection w-full">
             <label for="status" class="form-control-label">Status *</label>
-            <select class="form-control" name="status" id="status" (change)="selectTaskStatus($event)">
+            <select class="form-control" name="status" id="status" formControlName="selectedStatus">
               <option value="">Select Task status</option>
-              <option value="TO_DO" selected>TODO</option>
-              <option value="IN_PROGRESS">INPROGRESS</option>
+              <option value="TO_DO">TO DO</option>
+              <option value="IN_PROGRESS">IN PROGRESS</option>
               <option value="BLOCKED">BLOCKED</option>
-              <option value="IN_REVIEW">INREVIEW</option>
-              <option value="READY_FOR_QA">READ_FORQA</option>
+              <option value="IN_REVIEW">IN REVIEW</option>
+              <option value="READY_FOR_QA">READ FOR QA</option>
               <option value="REOPENED">REOPENED</option>
-              <option value="READY_FOR_PRODUCTION">READYFORPRODUCTION</option>
+              <option value="READY_FOR_PRODUCTION">READY FOR PRODUCTION</option>
               <option value="DONE">DONE</option>
             </select>
           </div>
@@ -119,6 +119,7 @@
             label="Due Date"
             [control]="getControl('dueDate')"
             type="date"
+            [min]="today"
           ></app-form-field-component>
         </section>
 

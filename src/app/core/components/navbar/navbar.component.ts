@@ -5,6 +5,7 @@ import { AuthFacade } from '../../../features/auth/facade/auth.facade';
 import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastService } from '../../../shared/service/toast.service';
+import { getNameInitials } from '../../../shared/utils';
 
 @Component({
   selector: 'app-navbar',
@@ -39,17 +40,7 @@ export class NavbarComponent implements OnDestroy {
     this.dropDownOpened.update(val => !val);
   }
   initials = computed(() => {
-    let val = '';
-    const words = this.name()!.split(' ');
-    if (words.length > 1) {
-      words.map(word => {
-        val += word.charAt(0);
-      });
-    } else {
-      val = words[0].substring(0, 2);
-    }
-
-    return val;
+    return getNameInitials(this.name());
   });
 
   logout() {

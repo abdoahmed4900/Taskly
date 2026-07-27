@@ -19,4 +19,12 @@ export const projectRoutes = [
     loadComponent: () =>
       import('./edit-project/edit-project.component').then(m => m.EditProjectComponent),
   },
+  {
+    path: 'project/:projectId/tasks',
+    canActivate: [userGuard],
+    loadComponent: () =>
+      import('./show-project-tasks/show-project-tasks.component').then(
+        m => m.ShowProjectTasksComponent,
+      ),
+  },
 ];

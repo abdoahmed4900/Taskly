@@ -14,4 +14,5 @@ export class FormFieldComponent {
   control = input<FormControl | null>();
   label = input<string>();
   controlName = input<string>('');
+  min = input();
 }

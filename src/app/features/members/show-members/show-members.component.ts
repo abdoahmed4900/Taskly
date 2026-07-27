@@ -7,6 +7,7 @@ import { ToastService } from '../../../shared/service/toast.service';
 import { MembersListMobile } from './components/members-list-mobile/members.list.mobile.component';
 import { MembersTable } from './components/members-table/members.table.component';
 import { Project } from '../../projects/model/project';
+import { getNameInitials } from '../../../shared/utils';
 
 @Component({
   selector: 'app-show-members',
@@ -31,21 +32,7 @@ export class ShowMembersComponent implements OnInit {
   }
 
   getNameInitials(val: string) {
-    let initials = '';
-    const words = val.split(' ');
-    console.log(words);
-
-    if (words.length > 1) {
-      words.map(word => {
-        initials += word.charAt(0);
-        console.log(`val + ${val}`);
-      });
-    } else {
-      initials = words[0].substring(0, 2);
-    }
-    console.log(val);
-
-    return initials;
+    return getNameInitials(val);
   }
   ngOnInit(): void {
     this.project.set(JSON.parse(sessionStorage.getItem('project')!));

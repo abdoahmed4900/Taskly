@@ -1,0 +1,148 @@
+<main class="flex flex-col mt-8 mb-30 gap-8">
+  <header class="flex flex-col gap-6">
+    <div class="lg:flex hidden flex-row items-center gap-3">
+      <a
+        routerLink="/projects"
+        class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-[#43465499]"
+      >
+        PROJECTS
+      </a>
+      <svg width="4" height="6" viewBox="0 0 4 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2.3 3L0 0.7L0.7 0L3.7 3L0.7 6L0 5.3L2.3 3Z" fill="#434654" fill-opacity="0.4" />
+      </svg>
+      <p class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-[#43465499]">
+        {{ project().name === '' ? 'PROJECT TITLE' : project().name }}
+      </p>
+      <svg width="4" height="6" viewBox="0 0 4 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2.3 3L0 0.7L0.7 0L3.7 3L0.7 6L0 5.3L2.3 3Z" fill="#434654" fill-opacity="0.4" />
+      </svg>
+      <p class="font-bold text-[0.75rem] uppercase tracking-[1.2px] leading-4 align-middle text-(--primary)">Tasks</p>
+    </div>
+    <div class="flex lg:flex-row flex-col lg:items-end justify-between lg:gap-0 gap-4">
+      <div>
+        <h1 class="mt-3 text-4xl font-semibold text-slate-900">Active Workboard</h1>
+
+        <p class="mt-1 hidden lg:block text-slate-500">Curating Project Alpha's production pipeline and milestones.</p>
+      </div>
+      <div class="flex items-center @max-[1024]:w-full gap-3">
+        <div class="relative grow">
+          <svg
+            class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+
+          <input
+            type="text"
+            placeholder="Search tasks..."
+            class="lg:w-72 w-full rounded-xl form-control py-3 pl-12 outline-none"
+          />
+        </div>
+
+        <div class="lg:block hidden relative w-60 me-2">
+          <button
+            (click)="toggleDropdown()"
+            class="w-full flex items-center justify-between rounded-xl border border-slate-200 bg-white px-5 py-3 shadow-sm"
+          >
+            <div class="flex items-center gap-3">
+              @if (view() === 'board') {
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M0 6V0H6V6H0ZM0 13.5V7.5H6V13.5H0ZM7.5 6V0H13.5V6H7.5ZM7.5 13.5V7.5H13.5V13.5H7.5ZM1.5 4.5H4.5V1.5H1.5V4.5ZM9 4.5H12V1.5H9V4.5ZM9 12H12V9H9V12ZM1.5 12H4.5V9H1.5V12Z"
+                    fill="#041B3C"
+                  />
+                </svg>
+              } @else {
+                <svg width="14" height="6" viewBox="0 0 14 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M4.08333 1.16667V0H12.25V1.16667H4.08333ZM4.08333 3.5V2.33333H12.25V3.5H4.08333ZM4.08333 5.83333V4.66667H12.25V5.83333H4.08333ZM2.33333 1.16667C2.16806 1.16667 2.02951 1.11076 1.91771 0.998958C1.8059 0.887153 1.75 0.748611 1.75 0.583333C1.75 0.418056 1.8059 0.279514 1.91771 0.167708C2.02951 0.0559028 2.16806 0 2.33333 0C2.49861 0 2.63715 0.0559028 2.74896 0.167708C2.86076 0.279514 2.91667 0.418056 2.91667 0.583333C2.91667 0.748611 2.86076 0.887153 2.74896 0.998958C2.63715 1.11076 2.49861 1.16667 2.33333 1.16667ZM2.33333 3.5C2.16806 3.5 2.02951 3.4441 1.91771 3.33229C1.8059 3.22049 1.75 3.08194 1.75 2.91667C1.75 2.75139 1.8059 2.61285 1.91771 2.50104C2.02951 2.38924 2.16806 2.33333 2.33333 2.33333C2.49861 2.33333 2.63715 2.38924 2.74896 2.50104C2.86076 2.61285 2.91667 2.75139 2.91667 2.91667C2.91667 3.08194 2.86076 3.22049 2.74896 3.33229C2.63715 3.4441 2.49861 3.5 2.33333 3.5ZM2.33333 5.83333C2.16806 5.83333 2.02951 5.77743 1.91771 5.66563C1.8059 5.55382 1.75 5.41528 1.75 5.25C1.75 5.08472 1.8059 4.94618 1.91771 4.83437C2.02951 4.72257 2.16806 4.66667 2.33333 4.66667C2.49861 4.66667 2.63715 4.72257 2.74896 4.83437C2.86076 4.94618 2.91667 5.08472 2.91667 5.25C2.91667 5.41528 2.86076 5.55382 2.74896 5.66563C2.63715 5.77743 2.49861 5.83333 2.33333 5.83333Z"
+                    fill="#003D9B"
+                  />
+                </svg>
+              }
+
+              <span
+                class="font-medium text-[0.875rem] leading-5 tracking-normal text-center align-middle text-(--slate-nature-first)"
+              >
+                {{ view() === 'board' ? 'Board View' : 'List View' }}
+              </span>
+            </div>
+
+            <svg
+              class="w-5 h-5 transition-transform duration-200"
+              [class.rotate-180]="isOpen()"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M5 8l5 5 5-5" />
+            </svg>
+          </button>
+
+          @if (isOpen()) {
+            <div
+              class="absolute mt-2 w-full rounded-xl border border-slate-200 bg-white shadow-lg overflow-hidden z-50"
+            >
+              <button (click)="selectView('board')" class="w-full flex items-center gap-3 px-5 py-3 hover:bg-slate-100">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M0 6V0H6V6H0ZM0 13.5V7.5H6V13.5H0ZM7.5 6V0H13.5V6H7.5ZM7.5 13.5V7.5H13.5V13.5H7.5ZM1.5 4.5H4.5V1.5H1.5V4.5ZM9 4.5H12V1.5H9V4.5ZM9 12H12V9H9V12ZM1.5 12H4.5V9H1.5V12Z"
+                    fill="#041B3C"
+                  />
+                </svg>
+
+                <span
+                  class="font-medium text-[0.875rem] leading-5 tracking-normal text-center align-middle text-(--slate-nature-first)"
+                  >Board View</span
+                >
+              </button>
+
+              <button (click)="selectView('list')" class="w-full flex items-center gap-3 px-5 py-3 hover:bg-slate-100">
+                <svg width="14" height="6" viewBox="0 0 14 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M4.08333 1.16667V0H12.25V1.16667H4.08333ZM4.08333 3.5V2.33333H12.25V3.5H4.08333ZM4.08333 5.83333V4.66667H12.25V5.83333H4.08333ZM2.33333 1.16667C2.16806 1.16667 2.02951 1.11076 1.91771 0.998958C1.8059 0.887153 1.75 0.748611 1.75 0.583333C1.75 0.418056 1.8059 0.279514 1.91771 0.167708C2.02951 0.0559028 2.16806 0 2.33333 0C2.49861 0 2.63715 0.0559028 2.74896 0.167708C2.86076 0.279514 2.91667 0.418056 2.91667 0.583333C2.91667 0.748611 2.86076 0.887153 2.74896 0.998958C2.63715 1.11076 2.49861 1.16667 2.33333 1.16667ZM2.33333 3.5C2.16806 3.5 2.02951 3.4441 1.91771 3.33229C1.8059 3.22049 1.75 3.08194 1.75 2.91667C1.75 2.75139 1.8059 2.61285 1.91771 2.50104C2.02951 2.38924 2.16806 2.33333 2.33333 2.33333C2.49861 2.33333 2.63715 2.38924 2.74896 2.50104C2.86076 2.61285 2.91667 2.75139 2.91667 2.91667C2.91667 3.08194 2.86076 3.22049 2.74896 3.33229C2.63715 3.4441 2.49861 3.5 2.33333 3.5ZM2.33333 5.83333C2.16806 5.83333 2.02951 5.77743 1.91771 5.66563C1.8059 5.55382 1.75 5.41528 1.75 5.25C1.75 5.08472 1.8059 4.94618 1.91771 4.83437C2.02951 4.72257 2.16806 4.66667 2.33333 4.66667C2.49861 4.66667 2.63715 4.72257 2.74896 4.83437C2.86076 4.94618 2.91667 5.08472 2.91667 5.25C2.91667 5.41528 2.86076 5.55382 2.74896 5.66563C2.63715 5.77743 2.49861 5.83333 2.33333 5.83333Z"
+                    fill="#003D9B"
+                  />
+                </svg>
+
+                <span
+                  class="font-medium text-[0.875rem] leading-5 tracking-normal text-center align-middle text-(--slate-nature-first)"
+                  >List View</span
+                >
+              </button>
+            </div>
+          }
+        </div>
+
+        <button class="lg:block hidden rounded-xl bg-(--form-control-bg) p-3">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-width="2" d="M3 4h18M6 12h12M10 20h4" />
+          </svg>
+        </button>
+      </div>
+      <a
+        [routerLink]="['/project', project().id, 'tasks', 'new']"
+        class="bg-primary-gradient lg:hidden rounded-lg flex flex-row gap-3 justify-center py-3 items-center"
+      >
+        <span class="text-white">+</span>
+        <span class="font-semibold text-[0.875rem] leading-5 tracking-normal text-center align-middle text-white"
+          >Create Task</span
+        >
+      </a>
+    </div>
+  </header>
+  @if (view() === 'board') {
+    <app-tasks-board [tasks]="tasks()" [projectId]="project().id!"></app-tasks-board>
+  } @else if (view() === 'list') {
+    <app-tasks-list [tasks]="tasks()" [projectId]="project().id!"></app-tasks-list>
+  }
+</main>

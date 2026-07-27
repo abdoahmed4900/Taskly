@@ -45,4 +45,8 @@ export class ProjectFacade {
   editProject(id: string, project: Project) {
     return this.projectApiService.editProject(id, project);
   }
+
+  getProjectTasks(projectId: string) {
+    return this.projectApiService.getProjectTasks(projectId);
+  }
 }

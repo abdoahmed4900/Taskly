@@ -14,6 +14,7 @@ export class ModalComponent {
   closed = output<void>();
 
   containerClass = input<string>();
+  headerClass = input<string>();
   padding = input<string>();
 
   close() {

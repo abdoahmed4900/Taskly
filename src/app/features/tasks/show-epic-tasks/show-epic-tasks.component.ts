@@ -3,15 +3,16 @@ import { Task } from '../task';
 import { MembersFacade } from '../../members/facade/members.facade';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { getNameInitials } from '../../../shared/utils';
 
 @Component({
-  selector: 'app-show-tasks',
+  selector: 'app-show-epic-tasks',
   standalone: true,
   imports: [RouterLink],
-  templateUrl: './show-tasks.component.html',
+  templateUrl: './show-epic-tasks.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ShowTasksComponent implements OnInit {
+export class ShowEpicTasksComponent implements OnInit {
   currentTasks = input<Task[]>([]);
   membersFacade = inject(MembersFacade);
   destroy$ = new Subject<void>();
@@ -25,7 +26,7 @@ export class ShowTasksComponent implements OnInit {
   getMembersName() {
     this.currentTasks().map(task => {
       this.membersFacade
-        .getProjectMember(task.projectId, task.assigneeId!)
+        .getProjectMember(task.projectId!, task.assigneeId!)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: value => {
@@ -36,16 +37,6 @@ export class ShowTasksComponent implements OnInit {
   }
 
   getInitials(name: string) {
-    let val = '';
-    const words = name.split(' ');
-    if (words.length > 1) {
-      words.map(word => {
-        val += word.charAt(0);
-      });
-    } else {
-      val = words[0].substring(0, 2);
-    }
-
-    return val;
+    return getNameInitials(name);
   }
 }

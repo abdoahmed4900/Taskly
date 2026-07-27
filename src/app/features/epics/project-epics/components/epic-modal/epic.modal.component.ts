@@ -1,5 +1,5 @@
 import { AuthFacade } from './../../../../auth/facade/auth.facade';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -21,14 +21,15 @@ import { Subject, takeUntil } from 'rxjs';
 import { Member } from '../../../../members/member';
 import { ToastService } from '../../../../../shared/service/toast.service';
 import { Project } from '../../../../projects/model/project';
-import { ShowTasksComponent } from '../../../../tasks/show-tasks/show-tasks.component';
 import { TaskFacade } from '../../../../tasks/facade/task.facade';
 import { Task } from '../../../../tasks/task';
+import { ShowEpicTasksComponent } from '../../../../tasks/show-epic-tasks/show-epic-tasks.component';
+import { getNameInitials } from '../../../../../shared/utils';
 @Component({
   selector: 'app-project-epic-modal-component',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ModalComponent, ReactiveFormsModule, ShowTasksComponent, RouterLink],
+  imports: [ModalComponent, ReactiveFormsModule, ShowEpicTasksComponent],
   templateUrl: './epic.modal.component.html',
 })
 export class ProjectEpicModalComponent implements OnInit, OnDestroy {
@@ -71,17 +72,7 @@ export class ProjectEpicModalComponent implements OnInit, OnDestroy {
 
   initials = computed(() => {
     if (this.epic()?.createdBy?.name) {
-      let val = '';
-      const words = this.epic()!.createdBy!.name!.split(' ');
-      if (words.length > 1) {
-        words.map(word => {
-          val += word.charAt(0);
-        });
-      } else {
-        val = words[0].substring(0, 2);
-      }
-
-      return val;
+      return getNameInitials(this.epic()!.createdBy!.name!);
     }
     return '';
   });

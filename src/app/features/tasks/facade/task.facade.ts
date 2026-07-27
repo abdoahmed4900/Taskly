@@ -13,4 +13,8 @@ export class TaskFacade {
   addTask(task: Task) {
     return this.taskApiService.addTask(task);
   }
+
+  getTaskDetails(projectId: string, taskId: string) {
+    return this.taskApiService.getTaskDetails(projectId, taskId);
+  }
 }

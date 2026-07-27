@@ -35,7 +35,13 @@ export class TaskApiService {
             projectId: task.project_id,
             epicId: task.id,
             status: task.status as TaskStatus,
-            createdAt: task.created_at,
+            createdAt: task.created_at.split('T')[0],
+            epic: {
+              epicId: task.epic.epic_id,
+              title: task.epic.title,
+              id: task.epic.id,
+            },
+            createdBy: task.created_by,
             dueDate: task.due_date.split('T')[0],
             taskId: task.task_id,
             assignee: task.assignee,
@@ -56,5 +62,9 @@ export class TaskApiService {
       due_date: task.dueDate,
       status: task.status,
     });
+  }
+
+  getTaskDetails(projectId: string, taskId: string) {
+    return this.httpClient.get(`rest/v1/project_tasks?project_id=eq.${projectId}&id=eq.${taskId}`);
   }
 }
