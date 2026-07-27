@@ -141,8 +141,8 @@ http://localhost:4200
 
 **Abdelrahman Ahmed**
 
-- GitHub: https://github.com/your-username
-- LinkedIn: https://linkedin.com/in/your-profile
+- GitHub: https://github.com/abdoahmed4900
+- LinkedIn: https://www.linkedin.com/in/abdelrahman-ahmed-taher-6199b119b/
 
 ---
 
