@@ -7,6 +7,7 @@ import { Project } from '../../projects/model/project';
 import { ToastService } from '../../../shared/service/toast.service';
 import { EpicsListComponent } from './components/epics-list/epics-list.component';
 import { EpicsListHeaderComponent } from './components/epics-list-header/epics-list-header.component';
+import { Epic } from '../epic';
 
 @Component({
   selector: 'app-project-epics',
@@ -23,7 +24,24 @@ export class ProjectEpicsComponent implements OnInit, OnDestroy {
   toastService = inject(ToastService);
   destroy$ = new Subject<void>();
   epicsLength = signal(0);
+  rangeEnd = signal(0);
   isLoading = signal(false);
+  totalEpics = signal<Epic[]>([]);
+  currentEpics = signal<Epic[]>([]);
+  searchTerm = signal('');
+
+  setCurrentEpics(val: { totalProjects: number; rangeEnd: number; epics: Epic[] }) {
+    console.log('set current epics called');
+
+    this.epicsLength.set(val.totalProjects);
+    this.currentEpics.set(val.epics);
+    this.rangeEnd.set(val.rangeEnd);
+    console.log(val);
+  }
+
+  setSearchTerm(val: string) {
+    this.searchTerm.set(val);
+  }
 
   ngOnInit(): void {
     this.value = this.route.snapshot.url.at(1)!.toString();
@@ -36,14 +54,16 @@ export class ProjectEpicsComponent implements OnInit, OnDestroy {
     }
     this.isLoading.set(true);
     this.epicsFacade
-      .getProjectEpics(this.value)
+      .searchEpic(this.value, '', 2, 0)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: value => {
           setTimeout(() => {
             this.isLoading.set(false);
           }, 1000);
-          this.epicsLength.set(value.length);
+          console.log(value);
+
+          this.setCurrentEpics(value);
         },
         error: () => {
           setTimeout(() => {

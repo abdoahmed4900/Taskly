@@ -11,7 +11,7 @@ import { NavbarComponent } from '../components/navbar/navbar.component';
   selector: 'app-layout',
   standalone: true,
   template: `
-    <main class="min-h-screen flex flex-col bg-(--background)">
+    <main class="w-full min-h-dvh flex flex-col bg-(--background)">
       <app-navbar
         (isSideBarOpened)="setSideBarToggle($event)"
         [(sidebarOpened)]="isSideBarToggled"

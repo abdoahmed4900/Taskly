@@ -34,8 +34,12 @@
   </section>
   <app-epics-pagination-container
     [infiniteScroll]="isInfiniteScroll()"
-    (currentEpicsEmitter)="getCurrentEpics($event)"
     [projectId]="value"
+    [currentEpics]="currentEpics()"
+    (currentEpicsEmitter)="getCurrentEpics($event)"
+    [searchTerm]="searchTerm()"
+    [totalEpics]="totalEpicsLength()"
+    (isLoadingOutput)="isLoading.set($event)"
   ></app-epics-pagination-container>
 
   <button

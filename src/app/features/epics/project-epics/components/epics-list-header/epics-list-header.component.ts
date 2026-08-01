@@ -1,16 +1,21 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   OnDestroy,
   inject,
   input,
   model,
+  output,
   signal,
+  viewChild,
 } from '@angular/core';
 import { Project } from '../../../../projects/model/project';
 import { RouterLink } from '@angular/router';
 import { EpicsFacade } from '../../../facade/epics.facade';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
+import { Epic } from '../../../epic';
+import { ToastService } from '../../../../../shared/service/toast.service';
 
 @Component({
   selector: 'app-epics-list-header',
@@ -71,11 +76,11 @@ import { Subject, debounceTime, takeUntil } from 'rxjs';
       </div>
       <div class="flex flex-row gap-8 mt-5">
         <input
-          [(value)]="searchTerm"
           type="search"
           class="form-control"
           placeholder="Search epics..."
-          (change)="search()"
+          (input)="search($event)"
+          #searchField
         />
         <button class="flex bg-(--primary) flex-row gap-2 w-50 rounded-lg items-center px-6 py-3">
           <span
@@ -106,12 +111,35 @@ export class EpicsListHeaderComponent implements OnDestroy {
   projectName = input<string>();
   destroy$ = new Subject<void>();
   searchTerm = signal<string>('');
+  searchTermOutput = output<string>();
+  toastService = inject(ToastService);
+  searchField = viewChild<ElementRef<HTMLElement>>('searchField');
+  epicsOutput = output<{
+    epics: Epic[];
+    totalProjects: number;
+    rangeStart: number;
+    rangeEnd: number;
+  }>();
 
-  search() {
+  search(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchTerm.set(value);
+    this.searchTermOutput.emit(value);
+    this.searchEpic();
+  }
+
+  searchEpic() {
     this.epicFacade
-      .searchEpic(this.project()!.id!, this.searchTerm())
-      .pipe(takeUntil(this.destroy$), debounceTime(300))
-      .subscribe();
+      .searchEpic(this.project()!.id!, this.searchTerm(), 2, 0)
+      .pipe(debounceTime(300), takeUntil(this.destroy$))
+      .subscribe({
+        next: value => {
+          this.epicsOutput.emit(value);
+        },
+        error: () => {
+          this.toastService.error('Failed to get epics!');
+        },
+      });
   }
 
   ngOnDestroy(): void {

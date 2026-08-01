@@ -99,4 +99,53 @@ export class ProjectApiService {
       }),
     );
   }
+  getProjectTasksWithRange(projectId: string, offset: number, limit: number) {
+    return this.httpClient
+      .get(`rest/v1/project_tasks?project_id=eq.${projectId}&limit=${limit}&offset=${offset}`, {
+        observe: 'response',
+        headers: {
+          Prefer: 'count=exact',
+        },
+      })
+      .pipe(
+        map(val => {
+          const tasks = val.body as {
+            id: string;
+            project_id: string;
+            epic_id: string;
+            title: string;
+            description: string;
+            status: string;
+            created_at: string;
+            due_date: string | null;
+            task_id: string;
+            epic: { id: string; title: string; epic_id: string };
+            created_by: CreatedBy;
+            assignee: Assignee;
+          }[];
+          const newTasks = tasks.map(task => {
+            return {
+              id: task.id,
+              title: task.title,
+              description: task.description,
+              projectId: task.project_id,
+              epicId: task.id,
+              status: task.status as TaskStatus,
+              createdAt: task.created_at.split('T')[0],
+              createdBy: task.created_by,
+              dueDate: task.due_date ? task.due_date.split('T')[0] : '',
+              taskId: task.task_id,
+              epic: { id: task.epic.id, title: task.epic.title, epicId: task.epic.epic_id },
+              assignee: task.assignee,
+            } as Task;
+          });
+          return {
+            projects: newTasks,
+            totalProjects: val.headers.get('Content-Range')?.split('/')[1],
+            rangeStart: val.headers.get('Content-Range')?.split('/')[0].split('-')[0],
+            rangeEnd: val.headers.get('Content-Range')?.split('/')[0].split('-')[1],
+          };
+        }),
+      );
+  }
 }
