@@ -1,5 +1,16 @@
 import { PaginationService } from './../../../../../shared/service/pagination.service';
-import { Component, HostListener, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  inject,
+  input,
+  model,
+  output,
+  signal,
+} from '@angular/core';
 import { Project } from '../../../../projects/model/project';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Epic } from '../../../epic';
@@ -17,6 +28,7 @@ import { EpicItemCreatebyComponent } from '../epic-item-createby/epic-item-creat
   selector: 'app-epics-list',
   standalone: true,
   providers: [PaginationService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,
     ProjectEpicModalComponent,
@@ -38,18 +50,16 @@ export class EpicsListComponent implements OnInit, OnDestroy {
   epicsFacade = inject(EpicsFacade);
   isModalOpen = signal(false);
   selectedEpic = signal<Epic>({});
+  searchTerm = input('');
+  isLoadingOutput = output<boolean>();
 
   openModal(isModalOpen: boolean) {
     this.isModalOpen.set(isModalOpen);
   }
 
-  updateChangedEpic() {
-    this.paginationService.goToPage(this.paginationService.currentPage());
-  }
-
-  totalEpics = signal<number>(0);
-  rangeEnd = signal<number>(0);
-  currentEpics = signal<Epic[]>([]);
+  totalEpicsLength = input<number>(0);
+  rangeEnd = model<number>(0);
+  currentEpics = model<Epic[]>([]);
   isLoading = signal(false);
   isInfiniteScroll = signal(window.innerWidth < 1024);
   @HostListener('window:resize')

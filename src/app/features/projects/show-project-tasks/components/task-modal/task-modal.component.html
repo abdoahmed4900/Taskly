@@ -3,7 +3,7 @@
     appClickOutside
     tabindex="0"
     (clickOutside)="close()"
-    class="lg:w-[80%] w-full lg:m-auto mt-auto lg:max-w-4xl overflow-hidden lg:rounded-2xl rounded-b-none bg-white shadow-2xl"
+    class="lg:w-[80%] w-full lg:m-auto mt-auto lg:max-w-4xl overflow-hidden lg:rounded-2xl rounded-b-none lg:bg-white shadow-2xl"
   >
     <div class="lg:grid hidden grid-cols-[1fr_320px]">
       <section class="flex flex-col">
@@ -182,7 +182,7 @@
       (touchstart)="onTouchStart($event)"
       (touchmove)="onTouchMove($event)"
       (touchend)="onTouchEnd()"
-      class="flex lg:hidden px-6 h-[calc(50dvh+20px)] flex-col rounded-xl rounded-b-none"
+      class="flex bg-[#EFF0F3] lg:hidden px-6 min-h-[calc(60dvh+20px)] flex-col rounded-xl rounded-b-none"
     >
       <svg
         class="mx-auto mt-3 mb-4"
@@ -331,12 +331,12 @@
         }
       </div>
       @if (selectedItem()?.description) {
-        <div class="mt-8 flex flex-col gap-3">
+        <div class="mt-8 flex flex-col gap-3 mb-5">
           <h3 class="font-bold text-[0.875rem] leading-5 tracking-normal align-middle uppercase text-[#737685]">
-            {{ selectedItem()?.description }}
+            Description
           </h3>
           <p
-            class="bg-white p-5 pe-7.75 font-normal text-[0.875rem] leading-5.75 tracking-normal align-middle text-(--paragraph-text-common-color)"
+            class="bg-white rounded-lg p-5 pe-7.75 font-normal text-[0.875rem] leading-5.75 tracking-normal align-middle text-(--paragraph-text-common-color)"
           >
             {{ selectedItem()?.description }}
           </p>

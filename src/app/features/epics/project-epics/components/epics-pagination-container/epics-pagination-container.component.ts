@@ -4,6 +4,7 @@ import {
   HostListener,
   OnInit,
   computed,
+  effect,
   inject,
   input,
   model,
@@ -32,9 +33,9 @@ export class EpicsPaginationContainerComponent implements OnInit {
     return this.paginationService.currentPage();
   });
   rangeEnd = signal<number>(0);
-  totalEpics = signal<number>(0);
-  currentEpics = signal<Epic[]>([]);
-  isLoading = output<boolean>();
+  totalEpics = model<number>(0);
+  currentEpics = model<Epic[]>([]);
+  isLoadingOutput = output<boolean>();
   epicsPerPage = computed(() => {
     return this.paginationService.itemsPerPage();
   });
@@ -48,25 +49,7 @@ export class EpicsPaginationContainerComponent implements OnInit {
   destroy$ = new Subject<void>();
   currentEpicsEmitter = output<Epic[]>();
   infiniteScroll = input(false);
-
-  initializePagination() {
-    this.epicsFacade
-      .getProjectEpicsWithRange(this.projectId()!, this.epicsPerPage(), 0)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: val => {
-          this.currentEpics.set(val.epics);
-          this.totalEpics.set(Number(val.totalEpics));
-          this.rangeEnd.set(Number(val.rangeEnd) + 1);
-          this.paginationService.initializePagination(this.totalEpics());
-          this.currentEpicsEmitter.emit(this.currentEpics());
-        },
-        error: () => {
-          console.log('project doesnt exist');
-        },
-      });
-  }
-
+  searchTerm = input('');
   private getProject() {
     this.projectFacade
       .getProject(this.projectId()!)
@@ -88,7 +71,7 @@ export class EpicsPaginationContainerComponent implements OnInit {
       return;
     }
 
-    if (this.totalEpics() === this.currentEpics().length) {
+    if (this.currentPage() == this.allPages().length) {
       return;
     }
 
@@ -97,70 +80,87 @@ export class EpicsPaginationContainerComponent implements OnInit {
       this.nextPage();
     }
   }
+
+  constructor() {
+    effect(
+      () => {
+        this.paginationService.initializePagination(this.totalEpics()!);
+      },
+      { allowSignalWrites: true },
+    );
+  }
+
   ngOnInit(): void {
     this.getProject();
-    this.initializePagination();
+    console.log(this.totalEpics());
+    console.log(this.currentEpics().length);
   }
   previousPage() {
     if (this.currentPage() == 1) {
       return;
     }
-    this.isLoading.emit(true);
+    this.isLoadingOutput.emit(true);
     this.paginationService.previousPage();
     this.epicsFacade
-      .getProjectEpicsWithRange(
+      .searchEpic(
         this.projectId()!,
-        this.epicsPerPage(),
-        (this.currentPage()! - 1) * this.epicsPerPage(),
+        this.searchTerm(),
+        this.paginationService.itemsPerPage(),
+        (this.currentPage() - 1) * this.epicsPerPage(),
       )
       .pipe(takeUntil(this.destroy$))
       .subscribe(val => {
-        this.isLoading.emit(false);
+        this.isLoadingOutput.emit(false);
         this.currentEpics.set(val.epics);
-        this.totalEpics.set(val.totalEpics);
+        this.totalEpics.set(val.totalProjects);
         this.currentEpicsEmitter.emit(this.currentEpics());
         this.rangeEnd.set(Number(val.rangeEnd) + 1);
       });
   }
   goToPage(index: number) {
-    this.isLoading.emit(true);
+    this.isLoadingOutput.emit(true);
     this.paginationService.goToPage(index);
     this.epicsFacade
-      .getProjectEpicsWithRange(
+      .searchEpic(
         this.projectId()!,
-        this.epicsPerPage(),
+        this.searchTerm(),
+        this.paginationService.itemsPerPage(),
         (index - 1) * this.epicsPerPage(),
       )
       .pipe(takeUntil(this.destroy$))
       .subscribe(val => {
-        this.isLoading.emit(false);
+        this.isLoadingOutput.emit(false);
         this.rangeEnd.set(Number(val.rangeEnd) + 1);
         this.currentEpics.set(val.epics);
+        this.totalEpics.set(val.totalProjects);
         this.currentEpicsEmitter.emit(this.currentEpics());
       });
   }
   nextPage() {
-    if (this.currentPage() >= this.allPages().length) {
+    if (this.currentPage() - 1 >= this.allPages().length) {
       return;
     }
     this.paginationService.nextPage();
 
-    this.isLoading.emit(true);
+    this.isLoadingOutput.emit(true);
     this.epicsFacade
-      .getProjectEpicsWithRange(
+      .searchEpic(
         this.projectId()!,
-        this.epicsPerPage(),
-        (this.currentPage()! - 1) * this.epicsPerPage(),
+        this.searchTerm(),
+        this.paginationService.itemsPerPage(),
+        (this.currentPage() - 1) * this.epicsPerPage(),
       )
       .pipe(takeUntil(this.destroy$))
       .subscribe(val => {
-        this.isLoading.emit(false);
+        this.totalEpics.set(val.totalProjects);
+        this.isLoadingOutput.emit(false);
         this.rangeEnd.set(Number(val.rangeEnd) + 1);
         if (this.infiniteScroll()) {
           this.currentEpics.update(epics => [...epics, ...val.epics]);
         } else {
           this.currentEpics.set(val.epics);
         }
+        this.totalEpics.set(val.totalProjects);
         this.currentEpicsEmitter.emit(this.currentEpics());
       });
   }

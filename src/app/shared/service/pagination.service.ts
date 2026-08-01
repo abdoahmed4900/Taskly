@@ -9,10 +9,16 @@ export class PaginationService {
   itemsPerPage = signal(2);
   allPages = signal<number[]>([]);
   initializePagination(totalItems: number) {
+    console.log(totalItems);
+    this.allPages.set([]);
+
     for (let index = 1; index <= Math.ceil(totalItems / this.itemsPerPage()); index++) {
       this.allPages()!.push(index);
     }
-    this.currentPages.set(this.allPages().slice(0, 2));
+    this.currentPages.set(
+      this.allPages().length == 1 ? this.allPages().slice(0, 1) : this.allPages().slice(0, 2),
+    );
+    this.goToPage(1);
   }
   previousPage() {
     if (this.currentPage() == 1) {

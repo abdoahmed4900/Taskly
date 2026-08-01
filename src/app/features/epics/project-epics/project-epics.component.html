@@ -1,6 +1,10 @@
 @if (project()) {
   <div class="my-8">
-    <app-epics-list-header [(project)]="project"></app-epics-list-header>
+    <app-epics-list-header
+      [project]="project()"
+      (epicsOutput)="setCurrentEpics($event)"
+      (searchTermOutput)="setSearchTerm($event)"
+    ></app-epics-list-header>
   </div>
 }
 @if (isLoading()) {
@@ -66,7 +70,13 @@
   </section>
 } @else {
   @if (epicsLength() > 0) {
-    <app-epics-list></app-epics-list>
+    <app-epics-list
+      [rangeEnd]="rangeEnd()"
+      [currentEpics]="currentEpics()"
+      [totalEpicsLength]="epicsLength()"
+      [searchTerm]="searchTerm()"
+      (isLoadingOutput)="isLoading.set($event)"
+    ></app-epics-list>
   } @else {
     <app-empty-epics></app-empty-epics>
   }

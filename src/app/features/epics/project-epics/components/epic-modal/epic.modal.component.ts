@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   computed,
+  effect,
   inject,
   input,
   model,
@@ -63,6 +64,9 @@ export class ProjectEpicModalComponent implements OnInit, OnDestroy {
   tasks = signal<Task[]>([]);
   taskAssignee = signal<Assignee[]>([]);
   router = inject(Router);
+  createdAt = computed(() => {
+    return this.epic()!.createdAt!;
+  });
   projectId = computed(() => {
     const project = JSON.parse(sessionStorage.getItem('project')!) as Project;
     const projectId = project.id ?? this.activatedRoute.snapshot.url[1].toString();
@@ -121,6 +125,13 @@ export class ProjectEpicModalComponent implements OnInit, OnDestroy {
           this.toastService.error('Failed to get project members!');
         },
       });
+  }
+
+  constructor() {
+    effect(() => {
+      console.log(this.createdAt());
+      console.log(this.epic());
+    });
   }
 
   updateEpic() {

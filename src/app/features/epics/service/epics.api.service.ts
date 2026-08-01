@@ -22,6 +22,8 @@ export class EpicsApiService {
             created_by: CreatedBy;
             assignee: Assignee;
           };
+
+          console.log(epic);
           return {
             id: epic.id,
             projectId: epic.project_id,
@@ -33,6 +35,7 @@ export class EpicsApiService {
             assignee: epic.assignee,
           } as Epic;
         }) as Epic[];
+
         return value;
       }),
     ) as Observable<Epic[]>;
@@ -67,24 +70,47 @@ export class EpicsApiService {
     });
   }
 
-  searchEpic(projectId: string, searchTerm: string) {
+  searchEpic(projectId: string, searchTerm: string, limit: number, offset: number) {
     return this.httpClient
-      .get(`rest/v1/project_epics?project_id=eq.${projectId}&title=ilike.%25${searchTerm}%25`, {
-        observe: 'response',
-        headers: {
-          Prefer: 'count=exact',
+      .get(
+        `rest/v1/project_epics?project_id=eq.${projectId}&title=ilike.%25${searchTerm}%25&limit=${limit}&offset=${offset}`,
+        {
+          observe: 'response',
+          headers: {
+            Prefer: 'count=exact',
+          },
         },
-      })
+      )
       .pipe(
         map(val => {
-          console.log(val.body);
-          console.log(JSON.stringify(val.headers));
+          const value = JSON.parse(JSON.stringify(val.body)).map((e: unknown) => {
+            const epic = e as {
+              id: string;
+              project_id: string;
+              title: string;
+              description: string;
+              deadline: string;
+              created_at: string;
+              created_by: CreatedBy;
+              assignee: Assignee;
+            };
 
+            return {
+              id: epic.id,
+              projectId: epic.project_id,
+              title: epic.title,
+              description: epic.description,
+              deadline: epic.deadline,
+              createdAt: epic.created_at.split('T')[0],
+              createdBy: epic.created_by,
+              assignee: epic.assignee,
+            };
+          }) as Epic[];
           return {
-            epics: val.body,
-            totalProjects: val.headers.get('Content-Range')?.split('/')[1],
-            rangeStart: val.headers.get('Content-Range')?.split('/')[0].split('-')[0],
-            rangeEnd: val.headers.get('Content-Range')?.split('/')[0].split('-')[1],
+            epics: JSON.parse(JSON.stringify(value)) as Epic[],
+            totalProjects: Number(val.headers.get('Content-Range')?.split('/')[1]),
+            rangeStart: Number(val.headers.get('Content-Range')?.split('/')[0].split('-')[0]),
+            rangeEnd: Number(val.headers.get('Content-Range')?.split('/')[0].split('-')[1]),
           };
         }),
       );
