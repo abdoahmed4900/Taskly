@@ -50,4 +50,7 @@ export class MembersFacade {
   sendProjectInvitation(projectId: string, email: string) {
     return this.membersApiService.sendProjectInvitation(projectId, email);
   }
+  acceptProjectInvitation(token: string) {
+    return this.membersApiService.acceptProjectInvitation(token);
+  }
 }
