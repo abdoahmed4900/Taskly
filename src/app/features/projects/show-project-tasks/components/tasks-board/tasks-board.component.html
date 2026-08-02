@@ -1,11 +1,12 @@
-<div class="overflow-x-scroll lg:pb-10 lg:w-[89dvw] w-full pb-20 bg-(--background)">
+<div class="overflow-x-scroll h-dvh lg:pb-10 lg:w-[89dvw] w-full pb-20 bg-(--background)">
   <div
+    cdkDropListGroup
     tabindex="0"
     (keydown.escape)="close()"
     class="lg:grid top-2 grid-flow-col auto-cols-[320px] flex flex-col gap-6"
   >
     @for (item of statusBoard; track $index) {
-      <div class="flex flex-col gap-4" tabindex="0">
+      <div class="flex flex-col gap-4 min-h-24" tabindex="0">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
             <span
@@ -53,11 +54,17 @@
           ADD NEW TASK
         </button>
 
-        <div class="flex flex-col gap-6">
+        <div
+          class="flex flex-col gap-6 min-h-24"
+          cdkDropList
+          [cdkDropListData]="getTasksByStatus(item)"
+          (cdkDropListDropped)="drop($event, item)"
+        >
           @for (task of tasks(); track task.id) {
             @if (task.status === item) {
               <div
-                class="rounded-2xl bg-white p-5 shadow-sm border border-slate-100"
+                cdkDrag
+                class="rounded-2xl min-h-24 bg-white p-5 shadow-sm border border-slate-100"
                 tabindex="0"
                 (keydown.enter)="setModalStatus(task); $event.stopPropagation()"
                 (click)="setModalStatus(task); $event.stopPropagation()"

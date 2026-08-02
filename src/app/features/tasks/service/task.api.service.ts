@@ -67,4 +67,9 @@ export class TaskApiService {
   getTaskDetails(projectId: string, taskId: string) {
     return this.httpClient.get(`rest/v1/project_tasks?project_id=eq.${projectId}&id=eq.${taskId}`);
   }
+  updateTaskStatus(taskId: string, status: string) {
+    return this.httpClient.patch(`rest/v1/tasks?id=eq.${taskId}`, {
+      status: status,
+    });
+  }
 }
