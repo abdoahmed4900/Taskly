@@ -15,4 +15,13 @@ export class MembersApiService {
       }),
     );
   }
+
+  sendProjectInvitation(projectId: string, email: string) {
+    return this.httpClient.post(`rest/v1/rpc/invite_member`, {
+      p_email: email,
+      p_project_id: projectId,
+      p_app_url: 'http://localhost:4200',
+      p_base_url: 'https://fhpiqckdzomsuabxnufs.supabase.co',
+    });
+  }
 }
