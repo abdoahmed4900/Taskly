@@ -80,6 +80,7 @@
     <div class="fixed inset-0 z-10 overflow-auto bg-black/50 backdrop-blur-sm">
       <app-invite-member-modal-component
         [projectId]="project().id!"
+        [projectName]="project().name!"
         (closeModalOutput)="setInviteModalState($event)"
       ></app-invite-member-modal-component>
     </div>

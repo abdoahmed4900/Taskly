@@ -9,7 +9,7 @@ import { getNameInitials } from '../../../../../shared/utils';
     <section class="lg:hidden flex flex-col gap-3">
       @for (item of members(); track item.memberId) {
         <div
-          class="flex flex-row bg-white p-3 items-center gap-4 whitespace-nowrap justify-between rounded-lg"
+          class="flex flex-row flex-wrap bg-white p-3 items-center gap-4 whitespace-nowrap justify-between rounded-lg"
         >
           <div class="user-info flex flex-row gap-3 items-center">
             <p
