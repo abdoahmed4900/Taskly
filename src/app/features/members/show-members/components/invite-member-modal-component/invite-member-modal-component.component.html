@@ -1,7 +1,7 @@
 <div
   appClickOutside
   (clickOutside)="close()"
-  class="flex p-8 bg-white lg:w-md w-full lg:rounded-xl rounded-4xl rounded-b-none flex-col gap-4 absolute lg:top-[50%] max-[1024px]:bottom-0 lg:translate-[-50%] left-0 z-10 lg:left-[50%]"
+  class="flex p-8 bg-white flex-wrap lg:w-md w-full lg:rounded-xl rounded-4xl rounded-b-none flex-col gap-4 absolute lg:top-[50%] max-[1024px]:bottom-0 lg:translate-[-50%] left-0 z-10 lg:left-[50%]"
 >
   <div class="lg:hidden block bg-[#C3C6D64D] rounded-xl p-1 w-12 mx-auto"></div>
   <div class="flex flex-row w-full justify-between items-center">
@@ -49,7 +49,7 @@
       placeholder="Enter Email Address"
     ></app-form-field-component>
   </div>
-  <div class="flex lg:flex-row flex-col-reverse gap-2">
+  <div class="flex lg:flex-row flex-col-reverse lg:gap-2 gap-6">
     <button
       (click)="close()"
       class="w-full font-semibold text-[0.875rem] leading-5 tracking-normal text-center align-middle text-(--slate-nature-second)"
@@ -58,7 +58,7 @@
     </button>
     <button
       (click)="inviteMember()"
-      class="bg-primary-gradient w-full text-white py-3 px-4 rounded-sm hover:bg-blue-800"
+      class="bg-primary-gradient w-full text-white lg:py-1 py-3 px-4 rounded-sm hover:bg-blue-800"
     >
       Send Invitation
     </button>
