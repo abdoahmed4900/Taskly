@@ -3,7 +3,6 @@ import {
   Component,
   OnDestroy,
   OnInit,
-  effect,
   inject,
   signal,
 } from '@angular/core';
@@ -64,17 +63,6 @@ export class ShowProjectTasksComponent implements OnInit, OnDestroy {
   projectFacade = inject(ProjectFacade);
   paginationService = inject(PaginationService);
   router = inject(Router);
-
-  constructor() {
-    effect(
-      () => {
-        if (this.view() == 'board' || this.view() == 'list') {
-          this.paginationService.currentPage.set(1);
-        }
-      },
-      { allowSignalWrites: true },
-    );
-  }
 
   ngOnInit(): void {
     this.paginationService.itemsPerPage.set(5);

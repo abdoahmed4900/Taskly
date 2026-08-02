@@ -1,3 +1,5 @@
+import { ToastService } from './../../../../../shared/service/toast.service';
+import { TaskFacade } from './../../../../tasks/facade/task.facade';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,15 +18,37 @@ import { TaskDetailsModalComponent } from '../task-modal/task-modal.component';
 import { PaginationService } from '../../../../../shared/service/pagination.service';
 import { ProjectFacade } from '../../../facade/project.facade';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
-
+import { CdkDragDrop, CdkDropList, CdkDrag, CdkDropListGroup } from '@angular/cdk/drag-drop';
 @Component({
   selector: 'app-tasks-board',
   standalone: true,
-  imports: [TaskDetailsModalComponent],
+  imports: [TaskDetailsModalComponent, CdkDropList, CdkDrag, CdkDropListGroup],
   templateUrl: './tasks-board.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TasksBoardComponent implements OnDestroy {
+  toastService = inject(ToastService);
+  drop(event: CdkDragDrop<Task[]>, newStatus: TaskStatus) {
+    if (event.previousContainer === event.container) {
+      return;
+    }
+    console.log('dropped');
+
+    const task = event.previousContainer.data[event.previousIndex];
+    this.taskFacade
+      .updateTaskStatus(task.id!, newStatus)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          task.status = newStatus;
+          this.tasks.update(tasks => [...tasks]);
+          this.toastService.success('Updating task was successful');
+        },
+        error: () => {
+          this.toastService.error('Error updating task');
+        },
+      });
+  }
   tasks = model<Task[]>([]);
   projectId = input<string>('');
   router = inject(Router);
@@ -32,11 +56,16 @@ export class TasksBoardComponent implements OnDestroy {
   selectedItem = signal<Task>({});
   paginationService = inject(PaginationService);
   projectFacade = inject(ProjectFacade);
+  taskFacade = inject(TaskFacade);
   destroy$ = new Subject<void>();
 
   totalPages = computed(() => {
     return this.paginationService.allPages();
   });
+
+  getTasksByStatus(status: string) {
+    return this.tasks().filter(task => task.status == status);
+  }
 
   currentPage = computed(() => {
     return this.paginationService.currentPage();
@@ -51,7 +80,7 @@ export class TasksBoardComponent implements OnDestroy {
       return;
     }
 
-    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 200) {
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight) {
       this.nextPage();
     }
   }

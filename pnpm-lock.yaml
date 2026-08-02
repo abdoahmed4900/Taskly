@@ -10,10 +10,13 @@ importers:
     dependencies:
       '@angular-eslint/schematics':
         specifier: ^22.0.0
-        version: 22.0.0(@angular-eslint/template-parser@22.0.0(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(@angular/cli@17.3.17)(@typescript-eslint/types@8.61.1)(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
+        version: 22.0.0(@angular-eslint/template-parser@22.0.0(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(@angular/cli@17.3.17)(@typescript-eslint/types@8.61.1)(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
       '@angular/animations':
         specifier: ^17.3.0
         version: 17.3.12(@angular/core@17.3.12(rxjs@7.8.2)(zone.js@0.14.10))
+      '@angular/cdk':
+        specifier: ^17.3.10
+        version: 17.3.10(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.2)(zone.js@0.14.10))(rxjs@7.8.2))(@angular/core@17.3.12(rxjs@7.8.2)(zone.js@0.14.10))(rxjs@7.8.2)
       '@angular/common':
         specifier: ^17.3.0
         version: 17.3.12(@angular/core@17.3.12(rxjs@7.8.2)(zone.js@0.14.10))(rxjs@7.8.2)
@@ -62,7 +65,7 @@ importers:
         version: 17.3.17(@angular/compiler-cli@17.3.12(@angular/compiler@17.3.12(@angular/core@17.3.12(rxjs@7.8.2)(zone.js@0.14.10)))(typescript@5.4.5))(@types/express@4.17.25)(@types/node@26.0.0)(karma@6.4.4)(lightningcss@1.32.0)(tailwindcss@4.3.1)(typescript@5.4.5)
       '@angular-eslint/builder':
         specifier: 22.0.0
-        version: 22.0.0(@angular/cli@17.3.17)(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
+        version: 22.0.0(@angular/cli@17.3.17)(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
       '@angular/cli':
         specifier: ^17.3.17
         version: 17.3.17
@@ -71,19 +74,19 @@ importers:
         version: 17.3.12(@angular/compiler@17.3.12(@angular/core@17.3.12(rxjs@7.8.2)(zone.js@0.14.10)))(typescript@5.4.5)
       '@eslint/js':
         specifier: ^10.0.1
-        version: 10.0.1(eslint@10.5.0(jiti@1.21.7))
+        version: 10.0.1(eslint@10.5.0(jiti@2.7.0))
       '@types/jasmine':
         specifier: ~5.1.0
         version: 5.1.15
       angular-eslint:
         specifier: 22.0.0
-        version: 22.0.0(@angular/cli@17.3.17)(eslint@10.5.0(jiti@1.21.7))(typescript-eslint@8.60.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(typescript@5.4.5)
+        version: 22.0.0(@angular/cli@17.3.17)(eslint@10.5.0(jiti@2.7.0))(typescript-eslint@8.60.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(typescript@5.4.5)
       eslint:
         specifier: ^10.3.0
-        version: 10.5.0(jiti@1.21.7)
+        version: 10.5.0(jiti@2.7.0)
       eslint-config-prettier:
         specifier: ^10.1.8
-        version: 10.1.8(eslint@10.5.0(jiti@1.21.7))
+        version: 10.1.8(eslint@10.5.0(jiti@2.7.0))
       jasmine-core:
         specifier: ~5.1.0
         version: 5.1.2
@@ -110,7 +113,7 @@ importers:
         version: 5.4.5
       typescript-eslint:
         specifier: 8.60.1
-        version: 8.60.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
+        version: 8.60.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
 
 packages:
 
@@ -254,6 +257,13 @@ packages:
     engines: {node: ^18.13.0 || >=20.9.0}
     peerDependencies:
       '@angular/core': 17.3.12
+
+  '@angular/cdk@17.3.10':
+    resolution: {integrity: sha512-b1qktT2c1TTTe5nTji/kFAVW92fULK0YhYAvJ+BjZTPKu2FniZNe8o4qqQ0pUuvtMu+ZQxp/QqFYoidIVCjScg==}
+    peerDependencies:
+      '@angular/common': ^17.0.0 || ^18.0.0
+      '@angular/core': ^17.0.0 || ^18.0.0
+      rxjs: ^6.5.3 || ^7.4.0
 
   '@angular/cli@17.3.17':
     resolution: {integrity: sha512-FgOvf9q5d23Cpa7cjP1FYti/v8S1FTm8DEkW3TY8lkkoxh3isu28GFKcLD1p/XF3yqfPkPVHToOFla5QwsEgBQ==}
@@ -4751,7 +4761,7 @@ snapshots:
       typescript: 5.4.5
       vite: 5.4.21(@types/node@26.0.0)(less@4.2.0)(lightningcss@1.32.0)(sass@1.71.1)(terser@5.29.1)
       watchpack: 2.4.0
-      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.5.15)
+      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35)
       webpack-dev-middleware: 6.1.2(webpack@5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35))
       webpack-dev-server: 4.15.1(webpack@5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35))
       webpack-merge: 5.10.0
@@ -4790,7 +4800,7 @@ snapshots:
     dependencies:
       '@angular-devkit/architect': 0.1703.17
       rxjs: 7.8.1
-      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.5.15)
+      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35)
       webpack-dev-server: 4.15.1(webpack@5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35))
     transitivePeerDependencies:
       - chokidar
@@ -4833,45 +4843,45 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@angular-eslint/builder@22.0.0(@angular/cli@17.3.17)(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)':
+  '@angular-eslint/builder@22.0.0(@angular/cli@17.3.17)(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)':
     dependencies:
       '@angular-devkit/architect': 0.2200.3
       '@angular-devkit/core': 22.0.3
       '@angular/cli': 17.3.17
-      eslint: 10.5.0(jiti@1.21.7)
+      eslint: 10.5.0(jiti@2.7.0)
       typescript: 5.4.5
     transitivePeerDependencies:
       - chokidar
 
   '@angular-eslint/bundled-angular-compiler@22.0.0': {}
 
-  '@angular-eslint/eslint-plugin-template@22.0.0(@angular-eslint/template-parser@22.0.0(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(@typescript-eslint/types@8.61.1)(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)':
+  '@angular-eslint/eslint-plugin-template@22.0.0(@angular-eslint/template-parser@22.0.0(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(@typescript-eslint/types@8.61.1)(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)':
     dependencies:
       '@angular-eslint/bundled-angular-compiler': 22.0.0
-      '@angular-eslint/template-parser': 22.0.0(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
-      '@angular-eslint/utils': 22.0.0(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
+      '@angular-eslint/template-parser': 22.0.0(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
+      '@angular-eslint/utils': 22.0.0(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
       '@typescript-eslint/types': 8.61.1
-      '@typescript-eslint/utils': 8.61.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
+      '@typescript-eslint/utils': 8.61.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
       aria-query: 5.3.2
       axobject-query: 4.1.0
-      eslint: 10.5.0(jiti@1.21.7)
+      eslint: 10.5.0(jiti@2.7.0)
       typescript: 5.4.5
 
-  '@angular-eslint/eslint-plugin@22.0.0(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)':
+  '@angular-eslint/eslint-plugin@22.0.0(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)':
     dependencies:
       '@angular-eslint/bundled-angular-compiler': 22.0.0
-      '@angular-eslint/utils': 22.0.0(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
-      '@typescript-eslint/utils': 8.61.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
-      eslint: 10.5.0(jiti@1.21.7)
+      '@angular-eslint/utils': 22.0.0(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
+      '@typescript-eslint/utils': 8.61.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
+      eslint: 10.5.0(jiti@2.7.0)
       ts-api-utils: 2.5.0(typescript@5.4.5)
       typescript: 5.4.5
 
-  '@angular-eslint/schematics@22.0.0(@angular-eslint/template-parser@22.0.0(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(@angular/cli@17.3.17)(@typescript-eslint/types@8.61.1)(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)':
+  '@angular-eslint/schematics@22.0.0(@angular-eslint/template-parser@22.0.0(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(@angular/cli@17.3.17)(@typescript-eslint/types@8.61.1)(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)':
     dependencies:
       '@angular-devkit/core': 22.0.3
       '@angular-devkit/schematics': 22.0.3
-      '@angular-eslint/eslint-plugin': 22.0.0(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
-      '@angular-eslint/eslint-plugin-template': 22.0.0(@angular-eslint/template-parser@22.0.0(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(@typescript-eslint/types@8.61.1)(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
+      '@angular-eslint/eslint-plugin': 22.0.0(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
+      '@angular-eslint/eslint-plugin-template': 22.0.0(@angular-eslint/template-parser@22.0.0(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(@typescript-eslint/types@8.61.1)(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
       '@angular/cli': 17.3.17
       ignore: 7.0.5
       semver: 7.8.0
@@ -4884,24 +4894,33 @@ snapshots:
       - eslint
       - typescript
 
-  '@angular-eslint/template-parser@22.0.0(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)':
+  '@angular-eslint/template-parser@22.0.0(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)':
     dependencies:
       '@angular-eslint/bundled-angular-compiler': 22.0.0
-      eslint: 10.5.0(jiti@1.21.7)
+      eslint: 10.5.0(jiti@2.7.0)
       eslint-scope: 9.1.2
       typescript: 5.4.5
 
-  '@angular-eslint/utils@22.0.0(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)':
+  '@angular-eslint/utils@22.0.0(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)':
     dependencies:
       '@angular-eslint/bundled-angular-compiler': 22.0.0
-      '@typescript-eslint/utils': 8.61.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
-      eslint: 10.5.0(jiti@1.21.7)
+      '@typescript-eslint/utils': 8.61.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
+      eslint: 10.5.0(jiti@2.7.0)
       typescript: 5.4.5
 
   '@angular/animations@17.3.12(@angular/core@17.3.12(rxjs@7.8.2)(zone.js@0.14.10))':
     dependencies:
       '@angular/core': 17.3.12(rxjs@7.8.2)(zone.js@0.14.10)
       tslib: 2.8.1
+
+  '@angular/cdk@17.3.10(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.2)(zone.js@0.14.10))(rxjs@7.8.2))(@angular/core@17.3.12(rxjs@7.8.2)(zone.js@0.14.10))(rxjs@7.8.2)':
+    dependencies:
+      '@angular/common': 17.3.12(@angular/core@17.3.12(rxjs@7.8.2)(zone.js@0.14.10))(rxjs@7.8.2)
+      '@angular/core': 17.3.12(rxjs@7.8.2)(zone.js@0.14.10)
+      rxjs: 7.8.2
+      tslib: 2.8.1
+    optionalDependencies:
+      parse5: 7.3.0
 
   '@angular/cli@17.3.17':
     dependencies:
@@ -5868,9 +5887,9 @@ snapshots:
   '@esbuild/win32-x64@0.21.5':
     optional: true
 
-  '@eslint-community/eslint-utils@4.9.1(eslint@10.5.0(jiti@1.21.7))':
+  '@eslint-community/eslint-utils@4.9.1(eslint@10.5.0(jiti@2.7.0))':
     dependencies:
-      eslint: 10.5.0(jiti@1.21.7)
+      eslint: 10.5.0(jiti@2.7.0)
       eslint-visitor-keys: 3.4.3
 
   '@eslint-community/regexpp@4.12.2': {}
@@ -5891,9 +5910,9 @@ snapshots:
     dependencies:
       '@types/json-schema': 7.0.15
 
-  '@eslint/js@10.0.1(eslint@10.5.0(jiti@1.21.7))':
+  '@eslint/js@10.0.1(eslint@10.5.0(jiti@2.7.0))':
     optionalDependencies:
-      eslint: 10.5.0(jiti@1.21.7)
+      eslint: 10.5.0(jiti@2.7.0)
 
   '@eslint/object-schema@3.0.5': {}
 
@@ -5971,7 +5990,7 @@ snapshots:
     dependencies:
       '@angular/compiler-cli': 17.3.12(@angular/compiler@17.3.12(@angular/core@17.3.12(rxjs@7.8.2)(zone.js@0.14.10)))(typescript@5.4.5)
       typescript: 5.4.5
-      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.5.15)
+      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35)
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -6345,15 +6364,15 @@ snapshots:
     dependencies:
       '@types/node': 26.0.0
 
-  '@typescript-eslint/eslint-plugin@8.60.1(@typescript-eslint/parser@8.60.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)':
+  '@typescript-eslint/eslint-plugin@8.60.1(@typescript-eslint/parser@8.60.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)':
     dependencies:
       '@eslint-community/regexpp': 4.12.2
-      '@typescript-eslint/parser': 8.60.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
+      '@typescript-eslint/parser': 8.60.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
       '@typescript-eslint/scope-manager': 8.60.1
-      '@typescript-eslint/type-utils': 8.60.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
-      '@typescript-eslint/utils': 8.60.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
+      '@typescript-eslint/type-utils': 8.60.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
+      '@typescript-eslint/utils': 8.60.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
       '@typescript-eslint/visitor-keys': 8.60.1
-      eslint: 10.5.0(jiti@1.21.7)
+      eslint: 10.5.0(jiti@2.7.0)
       ignore: 7.0.5
       natural-compare: 1.4.0
       ts-api-utils: 2.5.0(typescript@5.4.5)
@@ -6361,14 +6380,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/parser@8.60.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)':
+  '@typescript-eslint/parser@8.60.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)':
     dependencies:
       '@typescript-eslint/scope-manager': 8.60.1
       '@typescript-eslint/types': 8.60.1
       '@typescript-eslint/typescript-estree': 8.60.1(typescript@5.4.5)
       '@typescript-eslint/visitor-keys': 8.60.1
       debug: 4.4.3
-      eslint: 10.5.0(jiti@1.21.7)
+      eslint: 10.5.0(jiti@2.7.0)
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
@@ -6409,13 +6428,13 @@ snapshots:
     dependencies:
       typescript: 5.4.5
 
-  '@typescript-eslint/type-utils@8.60.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)':
+  '@typescript-eslint/type-utils@8.60.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)':
     dependencies:
       '@typescript-eslint/types': 8.60.1
       '@typescript-eslint/typescript-estree': 8.60.1(typescript@5.4.5)
-      '@typescript-eslint/utils': 8.60.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
+      '@typescript-eslint/utils': 8.60.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
       debug: 4.4.3
-      eslint: 10.5.0(jiti@1.21.7)
+      eslint: 10.5.0(jiti@2.7.0)
       ts-api-utils: 2.5.0(typescript@5.4.5)
       typescript: 5.4.5
     transitivePeerDependencies:
@@ -6455,24 +6474,24 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/utils@8.60.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)':
+  '@typescript-eslint/utils@8.60.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)':
     dependencies:
-      '@eslint-community/eslint-utils': 4.9.1(eslint@10.5.0(jiti@1.21.7))
+      '@eslint-community/eslint-utils': 4.9.1(eslint@10.5.0(jiti@2.7.0))
       '@typescript-eslint/scope-manager': 8.60.1
       '@typescript-eslint/types': 8.60.1
       '@typescript-eslint/typescript-estree': 8.60.1(typescript@5.4.5)
-      eslint: 10.5.0(jiti@1.21.7)
+      eslint: 10.5.0(jiti@2.7.0)
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)':
+  '@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)':
     dependencies:
-      '@eslint-community/eslint-utils': 4.9.1(eslint@10.5.0(jiti@1.21.7))
+      '@eslint-community/eslint-utils': 4.9.1(eslint@10.5.0(jiti@2.7.0))
       '@typescript-eslint/scope-manager': 8.61.1
       '@typescript-eslint/types': 8.61.1
       '@typescript-eslint/typescript-estree': 8.61.1(typescript@5.4.5)
-      eslint: 10.5.0(jiti@1.21.7)
+      eslint: 10.5.0(jiti@2.7.0)
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
@@ -6644,21 +6663,21 @@ snapshots:
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
-  angular-eslint@22.0.0(@angular/cli@17.3.17)(eslint@10.5.0(jiti@1.21.7))(typescript-eslint@8.60.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(typescript@5.4.5):
+  angular-eslint@22.0.0(@angular/cli@17.3.17)(eslint@10.5.0(jiti@2.7.0))(typescript-eslint@8.60.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(typescript@5.4.5):
     dependencies:
       '@angular-devkit/core': 22.0.3
       '@angular-devkit/schematics': 22.0.3
-      '@angular-eslint/builder': 22.0.0(@angular/cli@17.3.17)(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
-      '@angular-eslint/eslint-plugin': 22.0.0(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
-      '@angular-eslint/eslint-plugin-template': 22.0.0(@angular-eslint/template-parser@22.0.0(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(@typescript-eslint/types@8.61.1)(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
-      '@angular-eslint/schematics': 22.0.0(@angular-eslint/template-parser@22.0.0(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(@angular/cli@17.3.17)(@typescript-eslint/types@8.61.1)(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
-      '@angular-eslint/template-parser': 22.0.0(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
+      '@angular-eslint/builder': 22.0.0(@angular/cli@17.3.17)(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
+      '@angular-eslint/eslint-plugin': 22.0.0(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
+      '@angular-eslint/eslint-plugin-template': 22.0.0(@angular-eslint/template-parser@22.0.0(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(@typescript-eslint/types@8.61.1)(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
+      '@angular-eslint/schematics': 22.0.0(@angular-eslint/template-parser@22.0.0(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(@angular/cli@17.3.17)(@typescript-eslint/types@8.61.1)(@typescript-eslint/utils@8.61.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
+      '@angular-eslint/template-parser': 22.0.0(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
       '@angular/cli': 17.3.17
       '@typescript-eslint/types': 8.61.1
-      '@typescript-eslint/utils': 8.61.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
-      eslint: 10.5.0(jiti@1.21.7)
+      '@typescript-eslint/utils': 8.61.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
+      eslint: 10.5.0(jiti@2.7.0)
       typescript: 5.4.5
-      typescript-eslint: 8.60.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
+      typescript-eslint: 8.60.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
     transitivePeerDependencies:
       - chokidar
       - supports-color
@@ -6713,7 +6732,7 @@ snapshots:
       '@babel/core': 7.26.10
       find-cache-dir: 4.0.0
       schema-utils: 4.3.3
-      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.5.15)
+      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35)
 
   babel-plugin-istanbul@6.1.1:
     dependencies:
@@ -6995,7 +7014,7 @@ snapshots:
       normalize-path: 3.0.0
       schema-utils: 4.3.3
       serialize-javascript: 6.0.2
-      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.5.15)
+      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35)
 
   core-js-compat@3.49.0:
     dependencies:
@@ -7044,7 +7063,7 @@ snapshots:
       postcss-value-parser: 4.2.0
       semver: 7.6.0
     optionalDependencies:
-      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.5.15)
+      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35)
 
   css-select@5.2.2:
     dependencies:
@@ -7286,9 +7305,9 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-config-prettier@10.1.8(eslint@10.5.0(jiti@1.21.7)):
+  eslint-config-prettier@10.1.8(eslint@10.5.0(jiti@2.7.0)):
     dependencies:
-      eslint: 10.5.0(jiti@1.21.7)
+      eslint: 10.5.0(jiti@2.7.0)
 
   eslint-scope@5.1.1:
     dependencies:
@@ -7306,9 +7325,9 @@ snapshots:
 
   eslint-visitor-keys@5.0.1: {}
 
-  eslint@10.5.0(jiti@1.21.7):
+  eslint@10.5.0(jiti@2.7.0):
     dependencies:
-      '@eslint-community/eslint-utils': 4.9.1(eslint@10.5.0(jiti@1.21.7))
+      '@eslint-community/eslint-utils': 4.9.1(eslint@10.5.0(jiti@2.7.0))
       '@eslint-community/regexpp': 4.12.2
       '@eslint/config-array': 0.23.5
       '@eslint/config-helpers': 0.6.0
@@ -7339,7 +7358,7 @@ snapshots:
       natural-compare: 1.4.0
       optionator: 0.9.4
     optionalDependencies:
-      jiti: 1.21.7
+      jiti: 2.7.0
     transitivePeerDependencies:
       - supports-color
 
@@ -8032,7 +8051,7 @@ snapshots:
     dependencies:
       klona: 2.0.6
       less: 4.2.0
-      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.5.15)
+      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35)
 
   less@4.2.0:
     dependencies:
@@ -8057,7 +8076,7 @@ snapshots:
     dependencies:
       webpack-sources: 3.5.0
     optionalDependencies:
-      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.5.15)
+      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35)
 
   lightningcss-android-arm64@1.32.0:
     optional: true
@@ -8242,7 +8261,7 @@ snapshots:
     dependencies:
       schema-utils: 4.3.3
       tapable: 2.3.3
-      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.5.15)
+      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35)
 
   minimalistic-assert@1.0.1: {}
 
@@ -8634,7 +8653,7 @@ snapshots:
       postcss: 8.4.35
       semver: 7.6.0
     optionalDependencies:
-      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.5.15)
+      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35)
     transitivePeerDependencies:
       - typescript
 
@@ -8908,7 +8927,7 @@ snapshots:
       neo-async: 2.6.2
     optionalDependencies:
       sass: 1.71.1
-      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.5.15)
+      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35)
 
   sass@1.71.1:
     dependencies:
@@ -9120,7 +9139,7 @@ snapshots:
     dependencies:
       iconv-lite: 0.6.3
       source-map-js: 1.2.1
-      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.5.15)
+      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35)
 
   source-map-support@0.5.21:
     dependencies:
@@ -9256,7 +9275,7 @@ snapshots:
       jest-worker: 27.5.1
       schema-utils: 4.3.3
       terser: 5.48.0
-      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.5.15)
+      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35)
     optionalDependencies:
       esbuild: 0.20.1
       lightningcss: 1.32.0
@@ -9332,13 +9351,13 @@ snapshots:
 
   typed-assert@1.0.9: {}
 
-  typescript-eslint@8.60.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5):
+  typescript-eslint@8.60.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5):
     dependencies:
-      '@typescript-eslint/eslint-plugin': 8.60.1(@typescript-eslint/parser@8.60.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5))(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
-      '@typescript-eslint/parser': 8.60.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
+      '@typescript-eslint/eslint-plugin': 8.60.1(@typescript-eslint/parser@8.60.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5))(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
+      '@typescript-eslint/parser': 8.60.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
       '@typescript-eslint/typescript-estree': 8.60.1(typescript@5.4.5)
-      '@typescript-eslint/utils': 8.60.1(eslint@10.5.0(jiti@1.21.7))(typescript@5.4.5)
-      eslint: 10.5.0(jiti@1.21.7)
+      '@typescript-eslint/utils': 8.60.1(eslint@10.5.0(jiti@2.7.0))(typescript@5.4.5)
+      eslint: 10.5.0(jiti@2.7.0)
       typescript: 5.4.5
     transitivePeerDependencies:
       - supports-color
@@ -9436,7 +9455,7 @@ snapshots:
       mime-types: 2.1.35
       range-parser: 1.2.1
       schema-utils: 4.3.3
-      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.5.15)
+      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35)
 
   webpack-dev-middleware@6.1.2(webpack@5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35)):
     dependencies:
@@ -9446,7 +9465,7 @@ snapshots:
       range-parser: 1.2.1
       schema-utils: 4.3.3
     optionalDependencies:
-      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.5.15)
+      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35)
 
   webpack-dev-server@4.15.1(webpack@5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35)):
     dependencies:
@@ -9481,7 +9500,7 @@ snapshots:
       webpack-dev-middleware: 5.3.4(webpack@5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35))
       ws: 8.21.0
     optionalDependencies:
-      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.5.15)
+      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35)
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -9499,9 +9518,9 @@ snapshots:
   webpack-subresource-integrity@5.1.0(webpack@5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35)):
     dependencies:
       typed-assert: 1.0.9
-      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.5.15)
+      webpack: 5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35)
 
-  webpack@5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.5.15):
+  webpack@5.94.0(esbuild@0.20.1)(lightningcss@1.32.0)(postcss@8.4.35):
     dependencies:
       '@types/estree': 1.0.9
       '@webassemblyjs/ast': 1.14.1
