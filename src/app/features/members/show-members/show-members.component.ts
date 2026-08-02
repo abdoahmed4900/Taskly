@@ -1,5 +1,5 @@
-import { Component, OnInit, effect, inject, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MembersFacade } from '../facade/members.facade';
 import { Subject, takeUntil } from 'rxjs';
 import { Member } from '../member';
@@ -8,14 +8,25 @@ import { MembersListMobile } from './components/members-list-mobile/members.list
 import { MembersTable } from './components/members-table/members.table.component';
 import { Project } from '../../projects/model/project';
 import { getNameInitials } from '../../../shared/utils';
+import { InviteMemberModalComponent } from './components/invite-member-modal-component/invite-member-modal-component.component';
 
 @Component({
   selector: 'app-show-members',
   standalone: true,
-  imports: [RouterLink, MembersListMobile, MembersTable],
+  imports: [MembersListMobile, MembersTable, InviteMemberModalComponent],
   templateUrl: './show-members.component.html',
 })
 export class ShowMembersComponent implements OnInit {
+  updateInviteModalState() {
+    this.isInviteModalOpen.update(v => !v);
+  }
+
+  setInviteModalState(state: boolean) {
+    this.isInviteModalOpen.set(state);
+  }
+  close() {
+    this.isInviteModalOpen.set(false);
+  }
   isLoaded = signal(false);
   destroy$ = new Subject<void>();
   membersFacade = inject(MembersFacade);
@@ -24,12 +35,7 @@ export class ShowMembersComponent implements OnInit {
   project = signal<Project>({});
   members = signal<Member[]>([]);
   toastService = inject(ToastService);
-
-  constructor() {
-    effect(() => {
-      console.log(`project : ${this.project()}`);
-    });
-  }
+  isInviteModalOpen = signal(false);
 
   getNameInitials(val: string) {
     return getNameInitials(val);
