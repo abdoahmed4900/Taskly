@@ -15,6 +15,7 @@ import { ToastService } from '../../../../../shared/service/toast.service';
 })
 export class InviteMemberModalComponent implements OnDestroy {
   projectId = input<string>('');
+  projectName = input<string>('');
   closeModalOutput = output<boolean>();
   membersFacade = inject(MembersFacade);
   destroy$ = new Subject<void>();

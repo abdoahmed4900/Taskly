@@ -52,4 +52,7 @@ export class ProjectFacade {
   getProjectTasksWithRange(projectId: string, offset: number, limit: number) {
     return this.projectApiService.getProjectTasksWithRange(projectId, offset, limit);
   }
+  searchProjectTasks(projectId: string, searchTerm: string, limit: number, offset: number) {
+    return this.projectApiService.searchProjectTasks(projectId, searchTerm, limit, offset);
+  }
 }

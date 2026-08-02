@@ -148,4 +148,50 @@ export class ProjectApiService {
         }),
       );
   }
+
+  searchProjectTasks(projectId: string, searchTerm: string, limit: number, offset: number) {
+    return this.httpClient
+      .get(
+        `rest/v1/project_tasks?project_id=eq.${projectId}&title=ilike.%25${searchTerm}%25&limit=${limit}&offset=${offset}`,
+        {
+          observe: 'response',
+          headers: {
+            Prefer: 'count=exact',
+          },
+        },
+      )
+      .pipe(
+        map(val => {
+          const value = JSON.parse(JSON.stringify(val.body)).map((e: unknown) => {
+            const task = e as {
+              id: string;
+              project_id: string;
+              title: string;
+              description: string;
+              deadline: string;
+              created_at: string;
+              created_by: CreatedBy;
+              assignee: Assignee;
+            };
+
+            return {
+              id: task.id,
+              projectId: task.project_id,
+              title: task.title,
+              description: task.description,
+              deadline: task.deadline,
+              createdAt: task.created_at.split('T')[0],
+              createdBy: task.created_by,
+              assignee: task.assignee,
+            };
+          }) as Task[];
+          return {
+            tasks: JSON.parse(JSON.stringify(value)) as Task[],
+            totalProjects: Number(val.headers.get('Content-Range')?.split('/')[1]),
+            rangeStart: Number(val.headers.get('Content-Range')?.split('/')[0].split('-')[0]),
+            rangeEnd: Number(val.headers.get('Content-Range')?.split('/')[0].split('-')[1]),
+          };
+        }),
+      );
+  }
 }
