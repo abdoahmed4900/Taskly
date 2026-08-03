@@ -8,25 +8,28 @@ import {
 } from '@angular/core';
 import { Project } from '../model/project';
 import { ProjectFacade } from '../facade/project.facade';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { Task, TaskStatus } from '../../tasks/task';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TasksBoardComponent } from './components/tasks-board/tasks-board.component';
 import { TasksListComponent } from './components/tasks-list/tasks-list.component';
 import { getNameInitials } from '../../../shared/utils';
 import { PaginationService } from '../../../shared/service/pagination.service';
+import { FormsModule } from '@angular/forms';
+import { EmptyTasksComponent } from './components/empty-tasks/empty-tasks.component';
 
 @Component({
   selector: 'app-show-project-tasks',
   standalone: true,
   providers: [PaginationService],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, TasksBoardComponent, TasksListComponent],
+  imports: [RouterLink, TasksBoardComponent, TasksListComponent, FormsModule, EmptyTasksComponent],
   templateUrl: './show-project-tasks.component.html',
 })
 export class ShowProjectTasksComponent implements OnInit, OnDestroy {
   today = new Date();
   view = signal('board');
+  isSearching = signal(false);
 
   allTasks = signal(0);
   allPages = signal(0);
@@ -63,6 +66,7 @@ export class ShowProjectTasksComponent implements OnInit, OnDestroy {
   projectFacade = inject(ProjectFacade);
   paginationService = inject(PaginationService);
   router = inject(Router);
+  searchQuery = signal('');
 
   ngOnInit(): void {
     this.paginationService.itemsPerPage.set(5);
@@ -72,15 +76,23 @@ export class ShowProjectTasksComponent implements OnInit, OnDestroy {
       });
     }
     this.view.set(this.activatedRoute.snapshot.queryParamMap.get('view') ?? 'board');
+    this.searchProjectTasks();
+  }
+
+  searchProjectTasks() {
     this.projectFacade
-      .getProjectTasksWithRange(this.project().id!, 0, this.paginationService.itemsPerPage())
-      .pipe(takeUntil(this.destroy$))
+      .searchProjectTasks(
+        this.project()!.id!,
+        this.searchQuery(),
+        this.paginationService.itemsPerPage(),
+        0,
+      )
+      .pipe(debounceTime(300), takeUntil(this.destroy$))
       .subscribe({
         next: value => {
           this.allTasks.set(Number(value.totalProjects));
           this.tasks.set(value.projects);
           this.paginationService.initializePagination(Number(value.totalProjects));
-          console.log(value);
         },
       });
   }

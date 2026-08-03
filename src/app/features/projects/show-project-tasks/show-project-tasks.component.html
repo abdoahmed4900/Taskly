@@ -44,6 +44,8 @@
             type="text"
             placeholder="Search tasks..."
             class="lg:w-72 w-full rounded-xl form-control py-3 pl-12 outline-none"
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="isSearching.set(true); searchProjectTasks()"
           />
         </div>
 
@@ -140,9 +142,18 @@
       </a>
     </div>
   </header>
-  @if (view() === 'board') {
-    <app-tasks-board [tasks]="tasks()" [projectId]="project().id!"></app-tasks-board>
-  } @else if (view() === 'list') {
-    <app-tasks-list [tasks]="tasks()" [allTasks]="allTasks()" [projectId]="project().id!"></app-tasks-list>
+  @if (allTasks() > 0) {
+    @if (view() === 'board') {
+      <app-tasks-board [searchQuery]="searchQuery()" [tasks]="tasks()" [projectId]="project().id!"></app-tasks-board>
+    } @else if (view() === 'list') {
+      <app-tasks-list
+        [searchQuery]="searchQuery()"
+        [tasks]="tasks()"
+        [allTasks]="allTasks()"
+        [projectId]="project().id!"
+      ></app-tasks-list>
+    }
+  } @else {
+    <app-empty-tasks [isSearching]="isSearching()"></app-empty-tasks>
   }
 </main>

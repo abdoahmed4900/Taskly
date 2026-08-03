@@ -165,6 +165,11 @@ export class ProjectApiService {
           const value = JSON.parse(JSON.stringify(val.body)).map((e: unknown) => {
             const task = e as {
               id: string;
+              status: string;
+              task_id: string;
+              epic_id: string;
+              epic: { id: string; title: string; epic_id: string };
+              due_date: string | null;
               project_id: string;
               title: string;
               description: string;
@@ -181,12 +186,24 @@ export class ProjectApiService {
               description: task.description,
               deadline: task.deadline,
               createdAt: task.created_at.split('T')[0],
+              epic: { id: task.epic.id, title: task.epic.title, epicId: task.epic.epic_id },
               createdBy: task.created_by,
+              dueDate: task.due_date ? task.due_date.split('T')[0] : '',
+              taskId: task.task_id,
+              epicId: task.epic_id,
+              status: task.status as TaskStatus,
               assignee: task.assignee,
             };
           }) as Task[];
+          console.log({
+            projects: JSON.parse(JSON.stringify(value)) as Task[],
+            totalProjects: Number(val.headers.get('Content-Range')?.split('/')[1]),
+            rangeStart: Number(val.headers.get('Content-Range')?.split('/')[0].split('-')[0]),
+            rangeEnd: Number(val.headers.get('Content-Range')?.split('/')[0].split('-')[1]),
+          });
+
           return {
-            tasks: JSON.parse(JSON.stringify(value)) as Task[],
+            projects: JSON.parse(JSON.stringify(value)) as Task[],
             totalProjects: Number(val.headers.get('Content-Range')?.split('/')[1]),
             rangeStart: Number(val.headers.get('Content-Range')?.split('/')[0].split('-')[0]),
             rangeEnd: Number(val.headers.get('Content-Range')?.split('/')[0].split('-')[1]),

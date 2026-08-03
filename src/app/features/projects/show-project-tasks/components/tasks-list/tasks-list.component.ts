@@ -34,6 +34,7 @@ export class TasksListComponent {
   destroy$ = new Subject<void>();
   allTasks = model(0);
   projectFacade = inject(ProjectFacade);
+  searchQuery = model<string>('');
 
   @HostListener('window:scroll', [])
   getMoreTasks() {
@@ -64,14 +65,15 @@ export class TasksListComponent {
   tasksPerPage = computed(() => {
     return this.paginationService.itemsPerPage();
   });
+
   previousPage() {
     this.paginationService.previousPage();
-    console.log('previous page');
     this.projectFacade
-      .getProjectTasksWithRange(
+      .searchProjectTasks(
         this.projectId(),
-        (this.currentPage() - 1) * this.tasksPerPage(),
+        this.searchQuery(),
         this.tasksPerPage(),
+        (this.currentPage() - 1) * this.tasksPerPage(),
       )
       .pipe(debounceTime(300), takeUntil(this.destroy$))
       .subscribe({
@@ -82,19 +84,17 @@ export class TasksListComponent {
       });
   }
   nextPage() {
-    console.log(this.currentPage());
-    console.log(this.totalPages());
-
     if (this.currentPage() === this.totalPages().at(-1)) {
       return;
     }
 
     this.paginationService.nextPage();
     this.projectFacade
-      .getProjectTasksWithRange(
+      .searchProjectTasks(
         this.projectId(),
-        (this.currentPage() - 1) * this.tasksPerPage(),
+        this.searchQuery(),
         this.tasksPerPage(),
+        (this.currentPage() - 1) * this.tasksPerPage(),
       )
       .pipe(debounceTime(300), takeUntil(this.destroy$))
       .subscribe({
@@ -110,8 +110,8 @@ export class TasksListComponent {
   }
 
   setModalStatus(item: Task) {
-    this.isModalOpened.update(v => !v);
     this.selectedItem.set(item);
+    this.isModalOpened.update(v => !v);
   }
 
   close() {
