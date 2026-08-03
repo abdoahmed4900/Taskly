@@ -74,6 +74,8 @@ export class TasksBoardComponent implements OnDestroy {
     return this.paginationService.itemsPerPage();
   });
 
+  searchQuery = model<string>('');
+
   @HostListener('window:scroll', [])
   getMoreTasks() {
     if (this.totalPages().at(-1) == this.currentPage()) {
@@ -90,10 +92,11 @@ export class TasksBoardComponent implements OnDestroy {
     }
     this.paginationService.nextPage();
     this.projectFacade
-      .getProjectTasksWithRange(
+      .searchProjectTasks(
         this.projectId(),
-        (this.currentPage() - 1) * this.tasksPerPage(),
+        this.searchQuery(),
         this.tasksPerPage(),
+        (this.currentPage() - 1) * this.tasksPerPage(),
       )
       .pipe(debounceTime(300), takeUntil(this.destroy$))
       .subscribe({
