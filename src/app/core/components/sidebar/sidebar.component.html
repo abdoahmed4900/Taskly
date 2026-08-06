@@ -10,7 +10,7 @@
     <aside appClickOutside (clickOutside)="close()" class="h-full flex flex-col justify-between">
       <div class="p-4">
         <section [class.px-4.mt-1]="!isSidebarToggled()" class="logo flex flex-row gap-1 items-center">
-          <app-website-icon></app-website-icon>
+          <app-icon-component name="logo"></app-icon-component>
           <p
             [class.lg:hidden]="!isSidebarToggled()"
             class="text-[1.25rem] font-bold leading-7 tracking-[-0.5px] text-(--slate-nature-first)"
@@ -27,15 +27,20 @@
                   [class.justify-center.items-center]="!isSidebarToggled()"
                   [class.p-4]="isSidebarToggled()"
                   [class.py-4]="!isSidebarToggled()"
-                  [class.bg-white.text-red-500.shadow-[0px_1px_2px_0px_#0000000D]]="currentUrl() === item.route"
+                  [class.bg-white.text-red-500.shadow-[0px_1px_2px_0px_#0000000D]]="
+                    isActive({ route: item.route, title: item.title })
+                  "
                 >
-                  <ng-container *ngComponentOutlet="item.icon; inputs: { isActive: currentUrl() === item.route }">
-                  </ng-container>
+                  <app-icon-component
+                    [name]="item.icon"
+                    [size]="20"
+                    [class.text-(--primary)]="isActive({ route: item.route, title: item.title })"
+                  ></app-icon-component>
 
                   <p
                     [class.lg:hidden]="!isSidebarToggled()"
                     class="ml-2 text-[0.875rem] font-medium"
-                    [class.text-(--primary)]="currentUrl() === item.route"
+                    [class.text-(--primary)]="isActive({ route: item.route, title: item.title })"
                   >
                     {{ item.title }}
                   </p>

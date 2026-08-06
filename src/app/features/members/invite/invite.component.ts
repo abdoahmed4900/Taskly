@@ -2,15 +2,15 @@ import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthFacade } from '../../auth/facade/auth.facade';
 import { MembersFacade } from '../facade/members.facade';
-import { WebsiteIconComponent } from '../../../shared/ui/components/website-icon/website-icon.component';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastService } from '../../../shared/service/toast.service';
 import { SubmitButtonComponent } from '../../auth/components/submit-button/submit-button.component';
+import { IconComponent } from '../../../shared/ui/components/icon-component/icon-component.component';
 
 @Component({
   selector: 'app-invite',
   standalone: true,
-  imports: [WebsiteIconComponent, SubmitButtonComponent],
+  imports: [SubmitButtonComponent, IconComponent],
   templateUrl: './invite.component.html',
 })
 export class InviteComponent implements OnInit, OnDestroy {
