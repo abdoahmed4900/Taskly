@@ -18,6 +18,7 @@ export interface CreatedBy {
 }
 
 export interface Assignee {
+  id?: string;
   sub: string;
   name: string;
   email: string;

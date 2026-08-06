@@ -20,4 +20,7 @@ export class TaskFacade {
   updateTaskStatus(taskId: string, status: TaskStatus) {
     return this.taskApiService.updateTaskStatus(taskId, status);
   }
+  updateTask(taskId: string, updatedFields: unknown) {
+    return this.taskApiService.updateTask(taskId, updatedFields);
+  }
 }

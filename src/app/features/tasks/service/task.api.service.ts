@@ -72,4 +72,7 @@ export class TaskApiService {
       status: status,
     });
   }
+  updateTask(taskId: string, updatedFields: unknown) {
+    return this.httpClient.patch(`rest/v1/tasks?id=eq.${taskId}`, updatedFields);
+  }
 }
