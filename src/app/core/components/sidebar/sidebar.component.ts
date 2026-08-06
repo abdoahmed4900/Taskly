@@ -4,7 +4,6 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
-  Type,
   computed,
   inject,
   model,
@@ -16,21 +15,15 @@ import { ClickOutsideDirective } from '../click-outside.directive';
 import { AuthFacade } from '../../../features/auth/facade/auth.facade';
 import { Subject, takeUntil } from 'rxjs';
 import { Router, NavigationEnd } from '@angular/router';
-import { ProjectsIconComponent } from '../../../shared/ui/components/projects-icon/projects-icon.component';
-import { EpicsIconComponent } from '../../../shared/ui/components/epics-icon/epics-icon.component';
-import { TasksIconComponent } from '../../../shared/ui/components/tasks-icon/tasks-icon.component';
-import { MemebersIconComponent } from '../../../shared/ui/components/memebers-icon/memebers-icon.component';
-import { DetailsIconComponent } from '../../../shared/ui/components/details-icon/details-icon.component';
-import { WebsiteIconComponent } from '../../../shared/ui/components/website-icon/website-icon.component';
-import { NgComponentOutlet } from '@angular/common';
 import { ToastService } from '../../../shared/service/toast.service';
 import { ProjectFacade } from '../../../features/projects/facade/project.facade';
 import { Project } from '../../../features/projects/model/project';
+import { IconComponent } from '../../../shared/ui/components/icon-component/icon-component.component';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [ClickOutsideDirective, WebsiteIconComponent, NgComponentOutlet],
+  imports: [ClickOutsideDirective, IconComponent],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -80,31 +73,37 @@ export class SidebarComponent implements OnDestroy, OnInit {
 
   isOpen = output<boolean>();
   isLoggedIn = computed(() => this.authFacade.authDomainService.isUserLoggedIn());
+  isActive(item: { route: string; title: string }) {
+    if (item.title === 'Project Tasks') {
+      return this.router.url.includes(`/project/${this.projectId()}/tasks`);
+    }
 
+    return this.router.url === item.route;
+  }
   items = computed(() => {
     return [
-      { title: 'Projects', route: '/project', icon: ProjectsIconComponent },
+      { title: 'Projects', route: '/project', icon: 'projects' },
       {
         title: 'Project Epics',
         route: `/project/${this.projectId()}/epics`,
-        icon: EpicsIconComponent,
+        icon: 'epics',
       },
       {
         title: 'Project Tasks',
         route: `/project/${this.projectId()}/tasks`,
-        icon: TasksIconComponent,
+        icon: 'tasks',
       },
       {
         title: 'Project Members',
         route: `/project/${this.projectId()}/members`,
-        icon: MemebersIconComponent,
+        icon: 'members',
       },
       {
         title: 'Project Details',
         route: `/project/${this.projectId()}/edit`,
-        icon: DetailsIconComponent,
+        icon: 'details',
       },
-    ] as { title: string; route: string; icon: Type<unknown> }[];
+    ] as { title: string; route: string; icon: string }[];
   });
 
   toggleSideBar() {

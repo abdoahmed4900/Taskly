@@ -1,16 +1,16 @@
 import { Component, OnDestroy, computed, inject, model, output, signal } from '@angular/core';
 import { AuthDomainService } from '../../../features/auth/service/auth.service.domain';
-import { WebsiteIconComponent } from '../../../shared/ui/components/website-icon/website-icon.component';
 import { AuthFacade } from '../../../features/auth/facade/auth.facade';
 import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastService } from '../../../shared/service/toast.service';
 import { getNameInitials } from '../../../shared/utils';
+import { IconComponent } from '../../../shared/ui/components/icon-component/icon-component.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [WebsiteIconComponent],
+  imports: [IconComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })
