@@ -58,69 +58,33 @@
 
       <!-- Legend -->
       <div class="w-full space-y-7">
-        @for (item of stats()?.totals; track $index) {
+        @for (item of statusOptions; track $index) {
           <div>
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-3">
-                <span class="h-4 w-4 rounded-full bg-blue-700"></span>
-                <span class="font-bold text-slate-600">{{ stats()?.daily }}</span>
+                <span
+                  class="h-4 w-4 rounded-full"
+                  [class.bg-(--error)]="item === 'BLOCKED'"
+                  [class.bg-(--primary)]="item === 'IN_PROGRESS'"
+                  [class.bg-(--success)]="item === 'DONE'"
+                  [class.bg-gray-300]="item === 'TO_DO'"
+                  [class.bg-yellow-300]="item === 'IN_REVIEW'"
+                  [class.bg-green-500]="item === 'READY_FOR_QA'"
+                  [class.bg-red-300]="item === 'REOPENED'"
+                  [class.bg-green-700]="item === 'READY_FOR_PRODUCTION'"
+                >
+                </span>
+                <span class="font-bold text-slate-600">{{ item.replaceAll('_', ' ') }}</span>
               </div>
 
-              <span class="font-bold text-[#0d2346]">{{ item }}</span>
+              <span class="font-bold text-[#0d2346]">{{ stats()!.totals[item] }}</span>
             </div>
 
             <div class="mt-2 ml-7 h-1.5 overflow-hidden rounded-full bg-blue-100">
-              <div class="h-full w-[50%] bg-blue-700"></div>
+              <div class="h-full bg-blue-700" [style.width.%]="getChartRowWidth(stats()?.totals![item] ?? 0)"></div>
             </div>
           </div>
         }
-        <!-- In Progress -->
-        <div>
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <span class="h-4 w-4 rounded-full bg-blue-700"></span>
-              <span class="font-bold text-slate-600">In Progress</span>
-            </div>
-
-            <span class="font-bold text-[#0d2346]">{{ stats()?.daily }}</span>
-          </div>
-
-          <div class="mt-2 ml-7 h-1.5 overflow-hidden rounded-full bg-blue-100">
-            <div class="h-full w-[50%] bg-blue-700"></div>
-          </div>
-        </div>
-
-        <!-- Done -->
-        <div>
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <span class="h-4 w-4 rounded-full bg-emerald-800"></span>
-              <span class="font-bold text-slate-600">Done</span>
-            </div>
-
-            <span class="font-bold text-[#0d2346]">{{ stats()?.doneTasks }}</span>
-          </div>
-
-          <div class="mt-2 ml-7 h-1.5 overflow-hidden rounded-full bg-blue-100">
-            <div class="h-full w-[38%] bg-emerald-800"></div>
-          </div>
-        </div>
-
-        <!-- Blocked -->
-        <div>
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <span class="h-4 w-4 rounded-full bg-red-700"></span>
-              <span class="font-bold text-slate-600">Blocked</span>
-            </div>
-
-            <span class="font-bold text-[#0d2346]">{{ 3 }}</span>
-          </div>
-
-          <div class="mt-2 ml-7 h-1.5 overflow-hidden rounded-full bg-blue-100">
-            <div class="h-full w-[13%] bg-red-700"></div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
