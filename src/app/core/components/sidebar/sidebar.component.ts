@@ -103,6 +103,11 @@ export class SidebarComponent implements OnDestroy, OnInit {
         route: `/project/${this.projectId()}/edit`,
         icon: 'details',
       },
+      {
+        title: 'My Statistics',
+        route: `/my-statistics`,
+        icon: 'analytics',
+      },
     ] as { title: string; route: string; icon: string }[];
   });
 
@@ -116,9 +121,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
   }
 
   navigateToPage(route: string) {
-    console.log(route);
     let extras = {};
-    console.log(route.endsWith('tasks'));
 
     if (route.endsWith('tasks')) {
       extras = {

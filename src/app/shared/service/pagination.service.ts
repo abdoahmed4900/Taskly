@@ -9,7 +9,6 @@ export class PaginationService {
   itemsPerPage = signal(2);
   allPages = signal<number[]>([]);
   initializePagination(totalItems: number) {
-    console.log(totalItems);
     this.allPages.set([]);
 
     for (let index = 1; index <= Math.ceil(totalItems / this.itemsPerPage()); index++) {

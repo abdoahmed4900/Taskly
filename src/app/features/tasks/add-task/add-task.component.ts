@@ -51,8 +51,6 @@ export class AddTaskComponent implements OnDestroy, OnInit {
   taskAssignee = signal('');
   today = new Date().toISOString().split('T')[0];
   ngOnInit(): void {
-    console.log(JSON.parse(JSON.stringify(history.state)).selectedStatus);
-
     this.addTaskForm.patchValue({
       epicId: sessionStorage.getItem('epicId'),
     });

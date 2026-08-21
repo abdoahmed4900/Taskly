@@ -42,9 +42,6 @@ export class TasksListComponent {
       return;
     }
 
-    console.log(this.totalPages().length);
-    console.log(this.currentPage());
-
     if (this.currentPage() === this.totalPages().length) {
       return;
     }

@@ -44,9 +44,6 @@ export class TaskDetailsModalComponent implements OnDestroy, OnInit {
 
     this.getProjectMembers(this.selectedItem()!.projectId!);
     this.getProjectEpics(this.selectedItem()!.projectId!);
-    console.log(this.members().length);
-
-    console.log(this.selectedItem());
   }
   isAssigneeOpen = signal(false);
   selectedMember = computed(
@@ -135,9 +132,7 @@ export class TaskDetailsModalComponent implements OnDestroy, OnInit {
             this.toastService.success('Task assignee updated successfully');
             this.close();
           },
-          error: err => {
-            console.log(err);
-
+          error: () => {
             this.selectedItem()!.assigneeId = this.previousTaskValue.assigneeId ?? '';
             this.toastService.error('Failed to update task assignee');
             this.close();

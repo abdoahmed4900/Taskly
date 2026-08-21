@@ -6,7 +6,6 @@ import {
   OnDestroy,
   OnInit,
   computed,
-  effect,
   inject,
   input,
   model,
@@ -93,8 +92,6 @@ export class ProjectEpicModalComponent implements OnInit, OnDestroy {
   }
 
   goToNewTask() {
-    console.log(this.epic()!.id);
-
     sessionStorage.setItem('epicId', this.epic()!.id!);
     this.router.navigate(['/project', this.projectId(), 'tasks', 'new']);
   }
@@ -105,7 +102,6 @@ export class ProjectEpicModalComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: value => {
-          console.log(value);
           sessionStorage.setItem('epicId', this.epic()!.id!);
           this.tasks.set(value);
         },
@@ -126,14 +122,6 @@ export class ProjectEpicModalComponent implements OnInit, OnDestroy {
         },
       });
   }
-
-  constructor() {
-    effect(() => {
-      console.log(this.createdAt());
-      console.log(this.epic());
-    });
-  }
-
   updateEpic() {
     if (this.editEpic.valid) {
       const newEpic: Epic = this.setUpNewEpic();
