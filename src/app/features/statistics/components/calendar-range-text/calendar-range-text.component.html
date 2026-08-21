@@ -1,0 +1,110 @@
+<div class="bg-(--surface-low) relative rounded-2xl p-4 flex flex-wrap items-center justify-between mb-8">
+  <div class="flex items-center gap-6">
+    @if (isCalendarOpen()) {
+      <div class="flex flex-col gap-4 absolute rounded-xl top-23 left-0 bg-white shadow-xl p-5">
+        <div class="flex flex-row justify-between items-center">
+          <h3 class="font-bold text-[1rem] leading-6 tracking-normal align-middle">
+            {{ monthName() }} {{ currentYear() }}
+          </h3>
+          <div class="buttons-section flex flex-row gap-4 items-center">
+            <svg
+              tabindex="0"
+              (keydown)="goBack()"
+              (click)="goBack()"
+              width="8"
+              height="12"
+              viewBox="0 0 8 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M6 12L0 6L6 0L7.4 1.4L2.8 6L7.4 10.6L6 12Z" fill="#4F5F7B" />
+            </svg>
+            <svg
+              tabindex="0"
+              (keydown)="goNext()"
+              (click)="goNext()"
+              width="8"
+              height="12"
+              viewBox="0 0 8 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M4.6 6L0 1.4L1.4 0L7.4 6L1.4 12L0 10.6L4.6 6Z" fill="#4F5F7B" />
+            </svg>
+          </div>
+        </div>
+        <div class="gap-2 grid grid-cols-7 pb-4 grid-rows-4">
+          <div class="col-span-7 flex flex-row justify-between p-2">
+            @for (item of days; track $index) {
+              <p
+                class="font-bold text-[0.625rem] leading-3.75 text-center text-[#94A3B8] align-middle uppercase tracking-[-0.5px]"
+              >
+                {{ item }}
+              </p>
+            }
+          </div>
+          @for (item of currentMonthDays(); track $index) {
+            <p
+              tabindex="0"
+              (click)="setRangeDate(item)"
+              (keydown)="setRangeDate(item)"
+              [class.text-(--primary)]="isDateInRange(item)"
+              [class.text-(--slate-nature-first)]="!isDateInRange(item)"
+              [class.bg-[#0052CC33]]="isDateInRange(item)"
+              [class.rounded-s-lg]="isStartDate(item)"
+              [class.rounded-e-lg]="isEndDate(item)"
+              class="p-2 text-center font-bold text-[0.75rem] leading-4 tracking-normal align-middle"
+            >
+              {{ item!.getDate() }}
+            </p>
+          }
+        </div>
+        <div class="actions-buttons flex justify-between flex-row pt-4 border-t border-[#E2E8F080]">
+          <button
+            class="font-medium w-1/2 text-[0.75rem] leading-4 tracking-normal align-middle text-center text-(--slate-nature-second)"
+            (click)="toggleCalendar()"
+          >
+            Cancel
+          </button>
+          <app-submit-button
+            buttonClass="w-1/2 font-semibold text-[0.75rem] leading-4 align-middle h-10 py-1 px-7"
+            (click)="applyRange()"
+            >Apply Range</app-submit-button
+          >
+        </div>
+      </div>
+    }
+    <button>
+      <svg class="w-6 h-6 text-slate-500">
+        <!-- left arrow -->
+      </svg>
+    </button>
+
+    <span
+      tabindex="0"
+      (keydown)="toggleCalendar()"
+      (click)="toggleCalendar()"
+      class="font-bold text-(--slate-nature-first) text-[0.875rem] leading-5 tracking-normal align-middle py-1.5"
+    >
+      @if (startDate() && endDate()) {
+        {{ formatDate(startDate()!) }} - {{ formatEndDate(endDate()!) }}
+      }
+    </span>
+
+    <button>
+      <svg class="w-6 h-6 text-slate-500">
+        <!-- right arrow -->
+      </svg>
+    </button>
+  </div>
+
+  <div class="flex gap-4">
+    <select class="bg-white min-w-55 rounded-xl px-5 py-4 text-xl border border-slate-200">
+      <option>All Projects</option>
+    </select>
+
+    <select class="bg-white min-w-45 rounded-xl px-5 py-4 text-xl border border-slate-200">
+      <option>All Statuses</option>
+    </select>
+  </div>
+</div>
