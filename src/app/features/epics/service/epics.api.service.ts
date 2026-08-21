@@ -23,7 +23,6 @@ export class EpicsApiService {
             assignee: Assignee;
           };
 
-          console.log(epic);
           return {
             id: epic.id,
             projectId: epic.project_id,

@@ -55,8 +55,6 @@ export class AddEpicComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: value => {
-          console.log(value);
-
           this.members.set(value);
         },
         error: () => {

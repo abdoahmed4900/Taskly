@@ -31,12 +31,9 @@ export class ProjectEpicsComponent implements OnInit, OnDestroy {
   searchTerm = signal('');
 
   setCurrentEpics(val: { totalProjects: number; rangeEnd: number; epics: Epic[] }) {
-    console.log('set current epics called');
-
     this.epicsLength.set(val.totalProjects);
     this.currentEpics.set(val.epics);
     this.rangeEnd.set(val.rangeEnd);
-    console.log(val);
   }
 
   setSearchTerm(val: string) {
@@ -61,7 +58,6 @@ export class ProjectEpicsComponent implements OnInit, OnDestroy {
           setTimeout(() => {
             this.isLoading.set(false);
           }, 1000);
-          console.log(value);
 
           this.setCurrentEpics(value);
         },

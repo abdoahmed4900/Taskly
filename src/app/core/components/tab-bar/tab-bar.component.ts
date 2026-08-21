@@ -36,9 +36,7 @@ export class TabBarComponent implements OnInit {
   projectId = signal('');
 
   navigateToPage(route: string) {
-    console.log(route);
     let extras = {};
-    console.log(route.endsWith('tasks'));
 
     if (route.endsWith('tasks')) {
       extras = {

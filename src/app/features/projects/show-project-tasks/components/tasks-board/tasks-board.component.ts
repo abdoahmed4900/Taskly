@@ -32,8 +32,6 @@ export class TasksBoardComponent implements OnDestroy {
     if (event.previousContainer === event.container) {
       return;
     }
-    console.log('dropped');
-
     const task = event.previousContainer.data[event.previousIndex];
     this.taskFacade
       .updateTaskStatus(task.id!, newStatus)

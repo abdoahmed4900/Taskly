@@ -4,14 +4,14 @@ import { Component, HostListener, computed, input, signal } from '@angular/core'
   selector: 'app-icon-component',
   standalone: true,
   template: `
-    <svg [attr.width]="size()" [attr.height]="size()">
+    <svg [attr.width]="size() !== 0 ? size() : 20" [attr.height]="size() !== 0 ? size() : 20">
       <use [attr.href]="iconHref()"></use>
     </svg>
   `,
 })
 export class IconComponent {
   name = input.required<string>();
-  size = input(20);
+  size = input(0);
   isDesktop = signal(window.innerWidth > 1024);
   @HostListener('window:resize', [])
   changeDesktop() {

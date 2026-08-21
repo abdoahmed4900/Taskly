@@ -195,12 +195,6 @@ export class ProjectApiService {
               assignee: task.assignee,
             };
           }) as Task[];
-          console.log({
-            projects: JSON.parse(JSON.stringify(value)) as Task[],
-            totalProjects: Number(val.headers.get('Content-Range')?.split('/')[1]),
-            rangeStart: Number(val.headers.get('Content-Range')?.split('/')[0].split('-')[0]),
-            rangeEnd: Number(val.headers.get('Content-Range')?.split('/')[0].split('-')[1]),
-          });
 
           return {
             projects: JSON.parse(JSON.stringify(value)) as Task[],

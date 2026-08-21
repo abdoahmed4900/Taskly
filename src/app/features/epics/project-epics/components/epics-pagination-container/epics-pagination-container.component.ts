@@ -59,9 +59,6 @@ export class EpicsPaginationContainerComponent implements OnInit {
           sessionStorage.setItem('project', JSON.stringify(p));
           this.project.set(p!);
         },
-        error: () => {
-          console.log('e');
-        },
       });
   }
 
@@ -92,8 +89,6 @@ export class EpicsPaginationContainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProject();
-    console.log(this.totalEpics());
-    console.log(this.currentEpics().length);
   }
   previousPage() {
     if (this.currentPage() == 1) {
