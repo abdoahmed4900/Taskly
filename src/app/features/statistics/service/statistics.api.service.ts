@@ -21,17 +21,22 @@ export class StatisticsApiService {
       .pipe(
         map(stats => {
           const s = stats as {
-            daily: [
-              {
-                day: string;
-                statuses: Partial<Record<TaskStatus, number>>;
-              },
-            ];
-            totals: number[];
+            daily: {
+              day: string;
+              statuses: Partial<Record<TaskStatus, number>>;
+            }[];
+            totals: Partial<Record<TaskStatus, number>>;
             total_tasks: number;
             done_tasks: number;
             overdue_tasks: number;
           };
+          console.log({
+            daily: s.daily,
+            doneTasks: s.done_tasks,
+            overdueTasks: s.overdue_tasks,
+            totalTasks: s.total_tasks,
+            totals: s.totals,
+          });
           return {
             daily: s.daily,
             doneTasks: s.done_tasks,

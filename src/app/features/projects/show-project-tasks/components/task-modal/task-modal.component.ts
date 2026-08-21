@@ -20,11 +20,13 @@ import { Subject, takeUntil } from 'rxjs';
 import { Member } from '../../../../members/member';
 import { Epic } from '../../../../epics/epic';
 import { EpicsFacade } from '../../../../epics/facade/epics.facade';
+import { TaskModalMobileComponent } from './task-modal-mobile/task-modal-mobile.component';
+import { statusOptions } from '../../../../../shared/constants';
 
 @Component({
   selector: 'app-task-details-modal',
   standalone: true,
-  imports: [ClickOutsideDirective, FormsModule],
+  imports: [ClickOutsideDirective, FormsModule, TaskModalMobileComponent],
   templateUrl: './task-modal.component.html',
 })
 export class TaskDetailsModalComponent implements OnDestroy, OnInit {
@@ -213,48 +215,14 @@ export class TaskDetailsModalComponent implements OnDestroy, OnInit {
     }
   }
   isModalOpened = output<boolean>();
-  startY = 0;
-  statusOptions = [
-    TaskStatus.TODO,
-    TaskStatus.INPROGRESS,
-    TaskStatus.DONE,
-    TaskStatus.BLOCKED,
-    TaskStatus.INREVIEW,
-    TaskStatus.READYFORQA,
-    TaskStatus.REOPENED,
-    TaskStatus.READYFORPRODUCTION,
-  ];
+  statusOptions = statusOptions;
 
-  onTouchStart(event: TouchEvent) {
-    this.startY = event.touches[0].clientY;
-  }
-
-  onTouchMove(event: TouchEvent) {
-    const currentY = event.touches[0].clientY;
-
-    if (currentY - this.startY > 120) {
-      this.close();
-    }
-  }
-
-  onTouchEnd() {
-    this.startY = 0;
-  }
   close() {
     this.isModalOpened.emit(false);
   }
 
   getNameInitials(val: string) {
     return getNameInitials(val);
-  }
-
-  formatDate(val: string) {
-    const formatted = new Date(val).toLocaleDateString('en-GB', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    });
-    return formatted;
   }
 
   ngOnDestroy() {

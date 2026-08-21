@@ -5,7 +5,7 @@ export interface TaskStatisticsRes {
     statuses: Partial<Record<TaskStatus, number>>;
     day: string;
   }[];
-  totals: number[];
+  totals: Partial<Record<TaskStatus, number>>;
   totalTasks: number;
   doneTasks: number;
   overdueTasks: number;
