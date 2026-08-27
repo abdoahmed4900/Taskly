@@ -44,27 +44,11 @@ export class SidebarComponent implements OnDestroy, OnInit {
         if (event.url.split('/')[2]) {
           this.projectId.set(this.currentUrl() == '/project' ? '' : event.url.split('/')[2]);
         }
-        if (this.currentUrl() == '/project') {
+        if (this.currentUrl() == '/project' || this.currentUrl() == '/statistics') {
           this.projectId.set('');
         }
-        this.loadProject();
       }
     });
-  }
-
-  private loadProject() {
-    this.projectFacade
-      .getProject(this.projectId())
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: value => {
-          this.project.set(value!);
-        },
-        error: () => {
-          this.toastService.error('Error Loading Project!');
-          this.router.navigateByUrl('/project');
-        },
-      });
   }
 
   authFacade = inject(AuthFacade);

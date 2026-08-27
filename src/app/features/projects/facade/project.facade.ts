@@ -2,6 +2,7 @@ import { Observable, map } from 'rxjs';
 import { Project } from '../model/project';
 import { ProjectApiService } from './../service/project.api.service';
 import { Injectable, inject } from '@angular/core';
+import { TaskStatisticsReq } from '../../statistics/model/task.statistics.request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -54,5 +55,24 @@ export class ProjectFacade {
   }
   searchProjectTasks(projectId: string, searchTerm: string, limit: number, offset: number) {
     return this.projectApiService.searchProjectTasks(projectId, searchTerm, limit, offset);
+  }
+
+  getProjectTasksLength(statsReq: TaskStatisticsReq) {
+    return this.projectApiService.getProjectTasksLength(statsReq).pipe(
+      map(tasks => {
+        const val = JSON.parse(JSON.stringify(tasks)) as {
+          project_id: string;
+          project_name: string;
+          tasks_count: number;
+        }[];
+        return val.map(v => {
+          return {
+            projectId: v.project_id,
+            projectName: v.project_name,
+            taskCount: v.tasks_count,
+          };
+        });
+      }),
+    );
   }
 }

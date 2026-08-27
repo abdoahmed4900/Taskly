@@ -1,5 +1,5 @@
-<div class="bg-(--surface-low) relative rounded-2xl p-4 flex flex-wrap items-center justify-between mb-8">
-  <div class="flex items-center gap-6">
+<div class="bg-(--surface-low) z-2 relative rounded-2xl p-4 flex flex-wrap items-center justify-between mb-8 gap-3">
+  <div class="flex items-start gap-6">
     @if (isCalendarOpen()) {
       <div class="flex flex-col gap-4 absolute rounded-xl top-23 left-0 bg-white shadow-xl p-5">
         <div class="flex flex-row justify-between items-center">
@@ -74,11 +74,6 @@
         </div>
       </div>
     }
-    <button>
-      <svg class="w-6 h-6 text-slate-500">
-        <!-- left arrow -->
-      </svg>
-    </button>
 
     <span
       tabindex="0"
@@ -90,21 +85,27 @@
         {{ formatDate(startDate()!) }} - {{ formatEndDate(endDate()!) }}
       }
     </span>
-
-    <button>
-      <svg class="w-6 h-6 text-slate-500">
-        <!-- right arrow -->
-      </svg>
-    </button>
   </div>
 
-  <div class="flex gap-4">
-    <select class="bg-white min-w-55 rounded-xl px-5 py-4 text-xl border border-slate-200">
-      <option>All Projects</option>
+  <div class="flex gap-4 items-start flex-row md:flex-col flex-wrap">
+    <select
+      (change)="setProjectId($event)"
+      class="bg-white rounded-xl w-full px-5 py-4 text-xl border border-slate-200"
+    >
+      <option value="All Projects">All Projects</option>
+      @for (item of projects | async; track item.id) {
+        <option [value]="item.id">{{ item.name }}</option>
+      }
     </select>
 
-    <select class="bg-white min-w-45 rounded-xl px-5 py-4 text-xl border border-slate-200">
-      <option>All Statuses</option>
+    <select
+      (change)="setStatus($event)"
+      class="bg-white w-full rounded-xl max-w-md px-5 py-4 text-xl border border-slate-200"
+    >
+      <option value="All Statuses">All Statuses</option>
+      @for (item of statusOptions; track $index) {
+        <option [value]="item">{{ item.replaceAll('_', ' ') }}</option>
+      }
     </select>
   </div>
 </div>
