@@ -1,23 +1,30 @@
-import { Component, computed, inject, signal, OnInit, output } from '@angular/core';
+import { ProjectFacade } from './../../../projects/facade/project.facade';
+import { statusOptions } from './../../../../shared/constants';
+import { Component, computed, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { ToastService } from '../../../../shared/service/toast.service';
 import { StatisticsFacade } from '../../statistics.facade';
-import { TaskStatisticsRes } from '../../model/task.statistics.response.model';
 import { SubmitButtonComponent } from '../../../auth/components/submit-button/submit-button.component';
+import { AsyncPipe } from '@angular/common';
+import { TaskStatus } from '../../../tasks/task';
+import { FormsModule } from '@angular/forms';
+import { TaskStatisticsReq } from '../../model/task.statistics.request.model';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-calendar-range-text',
   standalone: true,
-  imports: [SubmitButtonComponent],
+  imports: [SubmitButtonComponent, AsyncPipe, FormsModule],
   templateUrl: './calendar-range-text.component.html',
 })
-export class CalendarRangeTextComponent implements OnInit {
+export class CalendarRangeTextComponent implements OnInit, OnDestroy {
   statisticsFacade = inject(StatisticsFacade);
-  statsOutput = output<TaskStatisticsRes>();
+  projectFacade = inject(ProjectFacade);
   calendarViewFirstDate = computed(() => {
     return this.currentMonthDays().at(0) ?? (new Date() as Date);
   });
   currentMonthDays = signal<Date[]>([]);
   isSelectingRange = signal(false);
+  destroy$ = new Subject<void>();
 
   calendarViewEndDate = computed(() => {
     const days = this.currentMonthDays();
@@ -36,11 +43,17 @@ export class CalendarRangeTextComponent implements OnInit {
   isCalendarOpen = signal(false);
   currentYear = signal(2026);
   toastService = inject(ToastService);
+  statusOptions = statusOptions;
+  statsReq = signal<Partial<TaskStatisticsReq>>({});
+
   monthName = computed(() => {
     const date = new Date();
     date.setMonth(this.calendarViewEndDate().getMonth());
     return date.toLocaleString('en-US', { month: 'long' });
   });
+  projects = this.projectFacade.getAllProjects();
+  selectedStatus = signal<TaskStatus | null>(null);
+  selectedProjectId = signal<string | null>(null);
 
   goBack() {
     const nextDate = new Date(this.calendarViewFirstDate());
@@ -69,6 +82,18 @@ export class CalendarRangeTextComponent implements OnInit {
 
     this.currentMonthDays.set(days);
     this.currentYear.set(this.calendarViewEndDate().getFullYear());
+  }
+
+  setStatus(event: Event) {
+    const val = event.target as HTMLSelectElement;
+    this.selectedStatus.set(val.value == 'All Statuses' ? null : (val.value as TaskStatus));
+    this.applyRange();
+  }
+  setProjectId(event: Event) {
+    const val = event.target as HTMLSelectElement;
+
+    this.selectedProjectId.set(val.value == 'All Projects' ? null : val.value);
+    this.applyRange();
   }
 
   toggleCalendar() {
@@ -115,15 +140,23 @@ export class CalendarRangeTextComponent implements OnInit {
   }
 
   days = ['MON', 'TUE', 'WED', 'THR', 'FRI', 'SAT', 'SUN'];
-
   private getCurrentStats() {
+    this.statsReq.set({
+      pStartDate: `${this.startDate().getFullYear().toString()}-${(this.startDate().getMonth() + 1).toString()}-${this.startDate().getDate().toString()}`,
+      pEndDate: `${this.endDate().getFullYear().toString()}-${(this.endDate().getMonth() + 1).toString()}-${this.endDate().getDate().toString()}`,
+    });
+    if (this.selectedProjectId()) {
+      this.statsReq().pProjectId = this.selectedProjectId();
+    }
+    if (this.selectedStatus()) {
+      this.statsReq().pStatus = this.selectedStatus();
+    }
+    this.statisticsFacade.statisticsDomainService.setStatsReq(this.statsReq() as TaskStatisticsReq);
     this.statisticsFacade
-      .getTaskStats({
-        pStartDate: `${this.startDate().getFullYear().toString()}-${(this.startDate().getMonth() + 1).toString()}-${this.startDate().getDate().toString()}`,
-        pEndDate: `${this.endDate().getFullYear().toString()}-${(this.endDate().getMonth() + 1).toString()}-${this.endDate().getDate().toString()}`,
-      })
+      .getTaskStats(this.statsReq() as TaskStatisticsReq)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(val => {
-        this.statsOutput.emit(val);
+        this.statisticsFacade.statisticsDomainService.setStatsRes(val);
       });
   }
 
@@ -191,5 +224,10 @@ export class CalendarRangeTextComponent implements OnInit {
     this.toastService.error('Range should not be more than a week');
 
     return false;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

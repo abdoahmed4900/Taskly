@@ -1,6 +1,6 @@
-import { Component, input } from '@angular/core';
-import { TaskStatisticsRes } from '../../model/task.statistics.response.model';
+import { Component, computed, inject } from '@angular/core';
 import { IconComponent } from '../../../../shared/ui/components/icon-component/icon-component.component';
+import { StatisticsDomainService } from '../../service/statistics.domain.service';
 
 @Component({
   selector: 'app-calendar-stats',
@@ -9,5 +9,8 @@ import { IconComponent } from '../../../../shared/ui/components/icon-component/i
   templateUrl: './calendar-stats.component.html',
 })
 export class CalendarStatsComponent {
-  stats = input<TaskStatisticsRes>();
+  statsDomainService = inject(StatisticsDomainService);
+  isLoading = computed(() => {
+    return this.statsDomainService.isLoading();
+  });
 }

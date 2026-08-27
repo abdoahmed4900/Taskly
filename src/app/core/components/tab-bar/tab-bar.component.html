@@ -1,21 +1,22 @@
 @if (isLoggedIn()) {
-  <nav class="fixed bottom-0 left-0 right-0 z-1 bg-(--surface-low) shadow-lg lg:hidden px-7 py-3.5">
-    <ul class="flex flex-row gap-10 w-full justify-between items-center">
+  <nav class="fixed bottom-0 w-full z-1 bg-(--surface-low) shadow-lg lg:hidden px-3 py-3.5">
+    <ul class="flex flex-row gap-2 justify-around items-center">
       @for (item of items(); track $index) {
         <li
           tabindex="0"
           (keydown)="navigateToPage(item.route)"
           (click)="navigateToPage(item.route)"
-          class="flex flex-col items-center gap-2"
+          class="flex flex-1 flex-col text-center items-center gap-2"
         >
           <app-icon-component
             [class.text-(--primary)]="isActive({ route: item.route, title: item.title })"
             [name]="item.icon"
           ></app-icon-component>
 
-          <span class="text-[0.625rem] leading-3.75 font-semibold tracking-normal text-(--primary-container)">{{
-            item.title
-          }}</span>
+          <span
+            class="text-[0.625rem] line-clamp-2 leading-3.75 font-semibold tracking-normal text-(--primary-container)"
+            >{{ item.title }}</span
+          >
         </li>
       }
     </ul>

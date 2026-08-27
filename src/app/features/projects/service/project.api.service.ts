@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
 import { Task, TaskStatus } from '../../tasks/task';
 import { Assignee, CreatedBy } from '../../epics/epic';
+import { TaskStatisticsReq } from '../../statistics/model/task.statistics.request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -204,5 +205,12 @@ export class ProjectApiService {
           };
         }),
       );
+  }
+
+  getProjectTasksLength(statsReq: TaskStatisticsReq) {
+    return this.httpClient.post(`rest/v1/rpc/get_tasks_count_per_project`, {
+      p_start_date: statsReq.pStartDate,
+      p_end_date: statsReq.pEndDate,
+    });
   }
 }

@@ -1,6 +1,5 @@
-<div class="grid grid-cols-3 gap-6">
-  <!-- Total Tasks -->
-  <div class="bg-white rounded-md p-6 shadow-sm flex gap-1 items-center justify-between">
+<div class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
+  <div class="bg-white rounded-md p-6 shadow-sm flex flex-wrap gap-1 items-center justify-between">
     <div>
       <p
         class="text-(--paragraph-text-common-color) font-bold text-[0.75rem] leading-4 tracking-[0.6px] align-middle uppercase"
@@ -8,9 +7,13 @@
         Total Tasks
       </p>
 
-      <h2 class="font-bold text-(--slate-nature-first) text-[1.875rem] tracking-normal leading-9 align-middle">
-        {{ stats()?.totalTasks }}
-      </h2>
+      @if (isLoading()) {
+        <div class="skeleton-basic h-10 w-10"></div>
+      } @else {
+        <h2 class="font-bold text-(--slate-nature-first) text-[1.875rem] tracking-normal leading-9 align-middle">
+          {{ statsDomainService.taskRes()?.totalTasks }}
+        </h2>
+      }
     </div>
 
     <div class="p-3.75 rounded-xs bg-[#0052CC1A]">
@@ -18,7 +21,6 @@
     </div>
   </div>
 
-  <!-- Completed -->
   <div class="bg-white rounded-md p-6 shadow-sm flex gap-1 items-center justify-between">
     <div>
       <p
@@ -27,9 +29,13 @@
         Completed Tasks
       </p>
 
-      <h2 class="font-bold text-(--slate-nature-first) text-[1.875rem] tracking-normal leading-9 align-middle">
-        {{ stats()?.doneTasks }}
-      </h2>
+      @if (isLoading()) {
+        <div class="skeleton-basic h-10 w-10"></div>
+      } @else {
+        <h2 class="font-bold text-(--slate-nature-first) text-[1.875rem] tracking-normal leading-9 align-middle">
+          {{ statsDomainService.taskRes()?.doneTasks }}
+        </h2>
+      }
     </div>
 
     <div class="p-3.75 rounded-xs bg-[#0068441A]">
@@ -37,7 +43,6 @@
     </div>
   </div>
 
-  <!-- Overdue -->
   <div class="bg-white rounded-md p-6 shadow-sm flex gap-1 items-center justify-between">
     <div>
       <p
@@ -46,9 +51,13 @@
         Overdue Tasks
       </p>
 
-      <h2 class="font-bold text-[1.875rem] tracking-normal leading-9 align-middle text-(--error)">
-        {{ stats()?.overdueTasks }}
-      </h2>
+      @if (isLoading()) {
+        <div class="skeleton-basic h-10 w-10"></div>
+      } @else {
+        <h2 class="font-bold text-[1.875rem] tracking-normal leading-9 align-middle text-(--error)">
+          {{ statsDomainService.taskRes()?.overdueTasks }}
+        </h2>
+      }
     </div>
 
     <div class="p-3.75 rounded-xs bg-[#FFDAD633]">

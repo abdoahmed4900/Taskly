@@ -19,10 +19,12 @@ export class TabBarComponent implements OnInit {
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.currentUrl.set(event.url == '/' ? '/project' : event.url);
-        this.projectId.set(event.url.split('/')[2]);
-      }
-      if (this.currentUrl() == '/project') {
-        this.projectId.set('');
+        if (event.url.split('/')[2]) {
+          this.projectId.set(this.currentUrl() == '/project' ? '' : event.url.split('/')[2]);
+        }
+        if (this.currentUrl() == '/project' || this.currentUrl() == '/statistics') {
+          this.projectId.set('');
+        }
       }
     });
   }
@@ -56,6 +58,7 @@ export class TabBarComponent implements OnInit {
 
     return this.router.url === item.route;
   }
+
   items = computed(() => {
     return [
       { title: 'Projects', route: '/project', icon: 'projects' },
@@ -78,6 +81,11 @@ export class TabBarComponent implements OnInit {
         title: 'Project Details',
         route: `/project/${this.projectId()}/edit`,
         icon: 'details',
+      },
+      {
+        title: 'My Statistics',
+        route: `/my-statistics`,
+        icon: 'analytics',
       },
     ] as { title: string; route: string; icon: string }[];
   });
