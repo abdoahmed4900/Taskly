@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   computed,
+  effect,
   inject,
   model,
   output,
@@ -14,7 +15,7 @@ import {
 import { ClickOutsideDirective } from '../click-outside.directive';
 import { AuthFacade } from '../../../features/auth/facade/auth.facade';
 import { Subject, takeUntil } from 'rxjs';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { ToastService } from '../../../shared/service/toast.service';
 import { ProjectFacade } from '../../../features/projects/facade/project.facade';
 import { Project } from '../../../features/projects/model/project';
@@ -31,20 +32,34 @@ import { IconComponent } from '../../../shared/ui/components/icon-component/icon
 export class SidebarComponent implements OnDestroy, OnInit {
   router = inject(Router);
   isSidebarToggled = model<boolean>(false);
-  currentUrl = signal(this.router.url);
   toastService = inject(ToastService);
   sideBar = viewChild<ElementRef<HTMLElement>>('sidebar');
   projectId = signal('');
   project = signal<Project>({});
+  isActive = signal(false);
+  activatedRoute = inject(ActivatedRoute);
+  currentUrl = signal('');
+
+  constructor() {
+    effect(() => {
+      console.log(this.projectId());
+      console.log(this.currentUrl());
+    });
+  }
 
   ngOnInit() {
+    this.currentUrl.set(this.router.url);
+
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.currentUrl.set(event.url == '/' ? '/project' : event.url);
+        console.log(event.url.split('?')[0]);
+
+        this.currentUrl.set(event.url == '/' ? '/project' : event.url.split('?')[0]);
         if (event.url.split('/')[2]) {
           this.projectId.set(this.currentUrl() == '/project' ? '' : event.url.split('/')[2]);
         }
-        if (this.currentUrl() == '/project' || this.currentUrl() == '/statistics') {
+
+        if (this.currentUrl() == '/project' || this.currentUrl() == '/my-statistics') {
           this.projectId.set('');
         }
       }
@@ -55,15 +70,15 @@ export class SidebarComponent implements OnDestroy, OnInit {
   projectFacade = inject(ProjectFacade);
   destroy$ = new Subject<void>();
 
+  isRouteActive(route: string) {
+    console.log(`this.currentUrl() == route : ${this.currentUrl() == route}`);
+
+    return this.currentUrl() == route;
+  }
+
   isOpen = output<boolean>();
   isLoggedIn = computed(() => this.authFacade.authDomainService.isUserLoggedIn());
-  isActive(item: { route: string; title: string }) {
-    if (item.title === 'Project Tasks') {
-      return this.router.url.includes(`/project/${this.projectId()}/tasks`);
-    }
 
-    return this.router.url === item.route;
-  }
   items = computed(() => {
     return [
       { title: 'Projects', route: '/project', icon: 'projects' },

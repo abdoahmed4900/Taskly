@@ -1,35 +1,21 @@
-<div class="h-full flex flex-col justify-between">
+<div class="flex items-start flex-col gap-5 max-h-fit">
   @if (statsDomainService.taskRes()?.totalTasks! > 0) {
-    <div class="flex flex-row gap-2 mb-3 flex-wrap">
-      @for (item of stats(); track $index) {
-        <p
-          class="py-1 px-3 rounded-lg text-white text-[0.75rem] font-semibold"
-          [style.background-color]="colors().at($index)"
-        >
-          {{ statusOptions[$index].replaceAll('_', ' ') }}
-        </p>
-      }
-    </div>
-    <div class="chart-container relative w-full">
-      <div class="h-full w-full">
-        <canvas #chartCanvas></canvas>
+    <div class="relative w-full aspect-square">
+      <div class="absolute top-0 left-0 w-full h-full">
+        <canvas #chartCanvas class="block w-full h-full"></canvas>
       </div>
 
       <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-        @if (isLoading()) {
-          <span class="skeleton-basic h-10 w-10"></span>
-        } @else {
-          <span class="text-2xl font-bold text-slate-800">
-            {{ statsDomainService.taskRes()?.totalTasks }}
-          </span>
-        }
+        <span class="text-2xl font-bold text-slate-800">
+          {{ statsDomainService.taskRes()?.totalTasks }}
+        </span>
 
         <span class="text-lg font-semibold text-slate-400"> Total </span>
       </div>
     </div>
   } @else {
-    <div class="flex flex-col items-center">
-      <img class="self-center h-75" src="../../../../../../assets/no-tasks.png" alt="no-tasks" />
+    <div class="flex mx-auto flex-col items-center">
+      <img class="h-75" src="../../../../../../assets/no-tasks.png" alt="no-tasks" />
       <p class="font-semibold text-[1.25rem] text-[#0d2346]">No tasks in this range</p>
     </div>
   }

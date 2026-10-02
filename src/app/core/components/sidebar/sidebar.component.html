@@ -27,20 +27,18 @@
                   [class.justify-center.items-center]="!isSidebarToggled()"
                   [class.p-4]="isSidebarToggled()"
                   [class.py-4]="!isSidebarToggled()"
-                  [class.bg-white.text-red-500.shadow-[0px_1px_2px_0px_#0000000D]]="
-                    isActive({ route: item.route, title: item.title })
-                  "
+                  [class.bg-white.text-red-500.shadow-[0px_1px_2px_0px_#0000000D]]="currentUrl().endsWith(item.route)"
                 >
                   <app-icon-component
                     [name]="item.icon"
                     [size]="20"
-                    [class.text-(--primary)]="isActive({ route: item.route, title: item.title })"
+                    [class.text-(--primary)]="currentUrl().endsWith(item.route)"
                   ></app-icon-component>
 
                   <p
                     [class.lg:hidden]="!isSidebarToggled()"
                     class="ml-2 text-[0.875rem] font-medium"
-                    [class.text-(--primary)]="isActive({ route: item.route, title: item.title })"
+                    [class.text-(--primary)]="currentUrl().endsWith(item.route)"
                   >
                     {{ item.title }}
                   </p>

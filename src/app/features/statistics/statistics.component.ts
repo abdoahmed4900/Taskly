@@ -1,11 +1,9 @@
 import { statusOptions } from './../../shared/constants';
-import { TaskStatisticsRes } from './model/task.statistics.response.model';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { CalendarRangeTextComponent } from './components/calendar-range-text/calendar-range-text.component';
 import { CalendarStatsComponent } from './components/calendar-stats/calendar-stats.component';
 import { TasksChartAndProjectsComponent } from './components/tasks-chart-and-projects/tasks-chart-and-projects.component';
 import { StatisticsFacade } from './statistics.facade';
-import { TaskStatisticsReq } from './model/task.statistics.request.model';
 
 @Component({
   selector: 'app-statistics',
@@ -21,10 +19,14 @@ import { TaskStatisticsReq } from './model/task.statistics.request.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatisticsComponent {
-  statsRes = signal<TaskStatisticsRes | null>(null);
-  statsReq = signal<TaskStatisticsReq | null>(null);
   statusOptions = statusOptions;
   statisticsFacade = inject(StatisticsFacade);
+  statsRes = computed(() => {
+    return this.statisticsFacade.statisticsDomainService.taskRes();
+  });
+  statsReq = computed(() => {
+    return this.statisticsFacade.statisticsDomainService.taskReq();
+  });
   today = new Date().toISOString().split('T')[0];
 
   formatStatDay(day: string) {

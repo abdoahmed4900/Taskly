@@ -1,6 +1,5 @@
 import { ProjectFacade } from './../../../projects/facade/project.facade';
-import { Component, OnDestroy, OnInit, computed, effect, inject, signal } from '@angular/core';
-import { TaskStatus } from '../../../tasks/task';
+import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
 import { chartColors, statusOptions } from '../../../../shared/constants';
 import { Project } from '../../../projects/model/project';
 import { Subject, takeUntil } from 'rxjs';
@@ -21,6 +20,9 @@ export class TasksChartAndProjectsComponent implements OnInit, OnDestroy {
   taskFacade = inject(TaskFacade);
   projects = signal<Project[]>([]);
   areProjectsLoaded = signal(false);
+  rangeTasks = computed(() => {
+    return this.statsDomainService.taskRes()?.totalTasks;
+  });
   projectTasksnumber = signal<
     {
       projectId: string;
@@ -33,31 +35,13 @@ export class TasksChartAndProjectsComponent implements OnInit, OnDestroy {
   });
   colors = chartColors;
 
-  constructor() {
-    effect(() => {
-      if (this.statsDomainService.taskReq()) {
-        this.getProjectsTasks();
-      }
-    });
-  }
-
   destroy$ = new Subject<void>();
   statusOptions = statusOptions;
 
-  daily = signal<
-    {
-      statuses: Partial<Record<TaskStatus, number>>;
-      day: string;
-    }[]
-  >([]);
+  daily = computed(() => {
+    return this.statsDomainService.taskRes()?.daily;
+  });
   ngOnInit() {
-    const arr = [] as { statuses: Partial<Record<TaskStatus, number>>; day: string }[];
-    if (this.statsDomainService.taskRes()) {
-      this.statsDomainService.taskRes()?.daily.map(v => {
-        arr.push(v);
-      });
-      this.daily.set(arr);
-    }
     this.getProjectsTasks();
   }
 

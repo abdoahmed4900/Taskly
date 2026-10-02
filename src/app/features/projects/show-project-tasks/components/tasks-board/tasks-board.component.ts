@@ -19,6 +19,7 @@ import { PaginationService } from '../../../../../shared/service/pagination.serv
 import { ProjectFacade } from '../../../facade/project.facade';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { CdkDragDrop, CdkDropList, CdkDrag, CdkDropListGroup } from '@angular/cdk/drag-drop';
+import { statusOptions } from '../../../../../shared/constants';
 @Component({
   selector: 'app-tasks-board',
   standalone: true,
@@ -125,16 +126,7 @@ export class TasksBoardComponent implements OnDestroy {
     return this.tasks().filter(t => t.status === item).length;
   }
 
-  statusBoard = [
-    TaskStatus.INPROGRESS,
-    TaskStatus.BLOCKED,
-    TaskStatus.DONE,
-    TaskStatus.INREVIEW,
-    TaskStatus.READYFORPRODUCTION,
-    TaskStatus.READYFORQA,
-    TaskStatus.REOPENED,
-    TaskStatus.TODO,
-  ];
+  statusBoard = statusOptions;
 
   getNameInitials(val: string) {
     return getNameInitials(val);

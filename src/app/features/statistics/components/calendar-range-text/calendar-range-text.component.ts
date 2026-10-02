@@ -128,9 +128,15 @@ export class CalendarRangeTextComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.endDate()!.setDate(this.startDate()!.getDate() + 6);
-    const nextDate = this.calendarViewFirstDate();
+    const nextDate = new Date();
+    while (nextDate.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() != 'MON') {
+      nextDate.setDate(nextDate.getDate() - 1);
+      console.log(nextDate.toLocaleDateString('en-US', { weekday: 'short' }));
+    }
+
     this.currentMonthDays.set([new Date(nextDate)]);
+    this.endDate()!.setDate(this.startDate()!.getDate() + 6);
+
     for (let index = 1; index < 21; index++) {
       nextDate.setDate(nextDate.getDate() + 1);
       this.currentMonthDays.update(v => [...v, new Date(nextDate)]);
@@ -161,6 +167,7 @@ export class CalendarRangeTextComponent implements OnInit, OnDestroy {
   }
 
   applyRange() {
+    this.isCalendarOpen.set(false);
     this.getCurrentStats();
   }
 

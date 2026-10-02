@@ -7,6 +7,7 @@ import {
   computed,
   effect,
   inject,
+  signal,
   viewChild,
 } from '@angular/core';
 import { Chart, registerables } from 'chart.js/auto';
@@ -17,6 +18,9 @@ Chart.register(...registerables);
   selector: 'app-stats-chart',
   standalone: true,
   imports: [],
+  host: {
+    '(window:resize)': 'changeCutout()',
+  },
   templateUrl: './stats-chart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -29,9 +33,11 @@ export class StatsChartComponent implements OnDestroy {
   isLoading = computed(() => {
     return this.statsDomainService.isLoading();
   });
-  cutout = computed(() => {
-    return window.innerWidth > 1024 ? '70%' : '80%';
-  });
+
+  changeCutout() {
+    this.cutout.set(window.innerWidth > 1024 ? '60%' : '80%');
+  }
+  cutout = signal(window.innerWidth > 1024 ? '60%' : '80%');
   statusOptions = statusOptions;
   stats = computed(() => {
     return statusOptions.map(option => {
@@ -54,6 +60,7 @@ export class StatsChartComponent implements OnDestroy {
   private createChart(): void {
     this.chart = new Chart(this.chartCanvas()!.nativeElement, {
       type: 'doughnut',
+
       data: {
         datasets: [
           {
@@ -64,11 +71,37 @@ export class StatsChartComponent implements OnDestroy {
           },
         ],
       },
+
       options: {
-        radius: '100%',
-        cutout: this.cutout(),
-        maintainAspectRatio: false,
         responsive: true,
+        maintainAspectRatio: false,
+
+        cutout: this.cutout(),
+
+        layout: {
+          padding: 0,
+        },
+
+        elements: {
+          arc: {
+            borderWidth: 0,
+            hoverOffset: 0,
+          },
+        },
+
+        plugins: {
+          legend: {
+            display: false,
+          },
+
+          title: {
+            display: false,
+          },
+        },
+
+        hover: {
+          mode: undefined,
+        },
       },
     });
   }
