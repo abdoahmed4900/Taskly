@@ -78,10 +78,8 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
             this.toastService.success(
               'Your password has been updated successfully. You can now log in',
             );
-            setTimeout(() => {
-              this.authFacade.authDomainService.clearUserExpriedSession();
-              this.router.navigateByUrl('/login', { replaceUrl: true });
-            }, 3000);
+            this.authFacade.authDomainService.clearUserExpriedSession();
+            this.router.navigateByUrl('/login', { replaceUrl: true });
           },
           error: () => {
             this.isLoading.set(false);

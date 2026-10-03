@@ -19,7 +19,7 @@ import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { ToastService } from '../../../shared/service/toast.service';
 import { ProjectFacade } from '../../../features/projects/facade/project.facade';
 import { Project } from '../../../features/projects/model/project';
-import { IconComponent } from '../../../shared/ui/components/icon-component/icon-component.component';
+import { IconComponent } from '../../../shared/ui/components/icon-component/icon-component';
 
 @Component({
   selector: 'app-sidebar',
@@ -44,6 +44,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
     effect(() => {
       console.log(this.projectId());
       console.log(this.currentUrl());
+      console.log(this.currentUrl().endsWith('my-statistics'));
     });
   }
 
@@ -69,12 +70,6 @@ export class SidebarComponent implements OnDestroy, OnInit {
   authFacade = inject(AuthFacade);
   projectFacade = inject(ProjectFacade);
   destroy$ = new Subject<void>();
-
-  isRouteActive(route: string) {
-    console.log(`this.currentUrl() == route : ${this.currentUrl() == route}`);
-
-    return this.currentUrl() == route;
-  }
 
   isOpen = output<boolean>();
   isLoggedIn = computed(() => this.authFacade.authDomainService.isUserLoggedIn());

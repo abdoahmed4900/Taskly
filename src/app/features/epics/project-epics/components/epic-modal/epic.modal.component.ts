@@ -25,6 +25,7 @@ import { TaskFacade } from '../../../../tasks/facade/task.facade';
 import { Task } from '../../../../tasks/task';
 import { ShowEpicTasksComponent } from '../../../../tasks/show-epic-tasks/show-epic-tasks.component';
 import { getNameInitials } from '../../../../../shared/utils';
+import { ScrollLockService } from '../../../../../scroll-service';
 @Component({
   selector: 'app-project-epic-modal-component',
   standalone: true,
@@ -34,6 +35,8 @@ import { getNameInitials } from '../../../../../shared/utils';
 })
 export class ProjectEpicModalComponent implements OnInit, OnDestroy {
   isModalOpen = model(false);
+  scrollLockService = inject(ScrollLockService);
+
   fb = inject(FormBuilder);
   authFacade = inject(AuthFacade);
   epic = input<Epic>();
@@ -131,6 +134,7 @@ export class ProjectEpicModalComponent implements OnInit, OnDestroy {
         .subscribe({
           next: () => {
             this.isModalOpen.set(false);
+            this.scrollLockService.unlock();
             this.modalStatusEmitter.emit(false);
             this.toastService.success('Project Update successfully!');
           },

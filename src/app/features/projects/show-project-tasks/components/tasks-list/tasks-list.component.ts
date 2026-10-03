@@ -16,6 +16,7 @@ import { getNameInitials } from '../../../../../shared/utils';
 import { TaskDetailsModalComponent } from '../task-modal/task-modal.component';
 import { PaginationService } from '../../../../../shared/service/pagination.service';
 import { ProjectFacade } from '../../../facade/project.facade';
+import { ScrollLockService } from '../../../../../scroll-service';
 
 @Component({
   selector: 'app-tasks-list',
@@ -27,6 +28,7 @@ import { ProjectFacade } from '../../../facade/project.facade';
 })
 export class TasksListComponent {
   tasks = model<Task[]>([]);
+  scrollLockService = inject(ScrollLockService);
   projectId = input<string>('');
   isModalOpened = signal(false);
   selectedItem = signal<Task>({});
@@ -109,10 +111,12 @@ export class TasksListComponent {
   setModalStatus(item: Task) {
     this.selectedItem.set(item);
     this.isModalOpened.update(v => !v);
+    this.scrollLockService.lock();
   }
 
   close() {
     this.isModalOpened.set(false);
+    this.scrollLockService.unlock();
   }
   getNameInitials(val: string) {
     return getNameInitials(val);

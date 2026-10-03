@@ -2,7 +2,7 @@ import { AuthFacade } from './../../../features/auth/facade/auth.facade';
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, UrlSegment } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { IconComponent } from '../../../shared/ui/components/icon-component/icon-component.component';
+import { IconComponent } from '../../../shared/ui/components/icon-component/icon-component';
 
 @Component({
   selector: 'app-tab-bar',

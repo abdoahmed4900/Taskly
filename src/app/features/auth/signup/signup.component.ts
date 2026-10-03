@@ -147,9 +147,10 @@ export class SignupComponent implements OnInit, OnDestroy {
           next: () => {
             this.isLoading.set(false);
             this.toastService.success('Registered user successfully');
-            this.router.navigateByUrl('/', { replaceUrl: true });
+            this.router.navigateByUrl('/login', { replaceUrl: true });
           },
           error: () => {
+            this.router.navigateByUrl('/login', { replaceUrl: true });
             this.isLoading.set(false);
           },
         });

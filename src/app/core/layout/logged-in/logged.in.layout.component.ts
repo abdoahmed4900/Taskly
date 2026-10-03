@@ -6,7 +6,7 @@ import { SidebarComponent } from '../../components/sidebar/sidebar.component';
   selector: 'app-logged-in',
   standalone: true,
   template: `
-    <div class="flex flex-1">
+    <div class="flex flex-1 ">
       <!-- Desktop Sidebar -->
       <aside [class.hidden]="!isSideBarToggled()" class="z-3 lg:block">
         <app-sidebar

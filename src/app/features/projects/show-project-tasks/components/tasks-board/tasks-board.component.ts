@@ -20,6 +20,7 @@ import { ProjectFacade } from '../../../facade/project.facade';
 import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { CdkDragDrop, CdkDropList, CdkDrag, CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { statusOptions } from '../../../../../shared/constants';
+import { ScrollLockService } from '../../../../../scroll-service';
 @Component({
   selector: 'app-tasks-board',
   standalone: true,
@@ -29,6 +30,7 @@ import { statusOptions } from '../../../../../shared/constants';
 })
 export class TasksBoardComponent implements OnDestroy {
   toastService = inject(ToastService);
+  scrollLockService = inject(ScrollLockService);
   drop(event: CdkDragDrop<Task[]>, newStatus: TaskStatus) {
     if (event.previousContainer === event.container) {
       return;
@@ -133,7 +135,7 @@ export class TasksBoardComponent implements OnDestroy {
   }
   setModalStatus(item: Task) {
     this.isModalOpened.update(v => !v);
-
+    this.scrollLockService.lock();
     this.selectedItem.set(item);
   }
   goToAddTask(status: string) {
@@ -146,6 +148,7 @@ export class TasksBoardComponent implements OnDestroy {
 
   close() {
     this.isModalOpened.set(false);
+    this.scrollLockService.unlock();
   }
 
   ngOnDestroy(): void {

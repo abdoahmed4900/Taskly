@@ -5,7 +5,7 @@ import { MembersFacade } from '../facade/members.facade';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastService } from '../../../shared/service/toast.service';
 import { SubmitButtonComponent } from '../../auth/components/submit-button/submit-button.component';
-import { IconComponent } from '../../../shared/ui/components/icon-component/icon-component.component';
+import { IconComponent } from '../../../shared/ui/components/icon-component/icon-component';
 
 @Component({
   selector: 'app-invite',

@@ -10,17 +10,7 @@ export class AuthFacade {
   authDomainService = inject(AuthDomainService);
 
   registerUser(user: User) {
-    return this.authApiService.registerUser(user).pipe(
-      tap(u => {
-        const user = JSON.parse(JSON.stringify(u));
-        this.authDomainService.storeUserCredentials(user.access_token, user.refresh_token, true);
-
-        this.authDomainService.storeUserNameAndJob(
-          user.user.user_metadata.name,
-          user.user.user_metadata.jobTitle,
-        );
-      }),
-    );
+    return this.authApiService.registerUser(user);
   }
   login(user: User, rememberMe: boolean) {
     return this.authApiService.login(user).pipe(
@@ -44,11 +34,7 @@ export class AuthFacade {
   }
 
   resetPassword(password: string) {
-    return this.authApiService.resetPassword(password).pipe(
-      tap(() => {
-        this.authDomainService.isUserLoggedIn.set(true);
-      }),
-    );
+    return this.authApiService.resetPassword(password);
   }
 
   refreshToken() {

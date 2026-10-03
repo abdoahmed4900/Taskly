@@ -1,5 +1,5 @@
 import { Component, computed, inject } from '@angular/core';
-import { IconComponent } from '../../../../shared/ui/components/icon-component/icon-component.component';
+import { IconComponent } from '../../../../shared/ui/components/icon-component/icon-component';
 import { StatisticsDomainService } from '../../service/statistics.domain.service';
 
 @Component({

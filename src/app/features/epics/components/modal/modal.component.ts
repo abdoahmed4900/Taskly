@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject, input, output } from '@angular/core';
+import { ScrollLockService } from '../../../../scroll-service';
 
 @Component({
   selector: 'app-modal-component',
@@ -6,8 +7,15 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './modal.component.html',
 })
-export class ModalComponent {
+export class ModalComponent implements OnInit {
   opened = input.required<boolean>();
+  scrollLockService = inject(ScrollLockService);
+
+  ngOnInit() {
+    if (this.opened()) {
+      this.scrollLockService.lock();
+    }
+  }
 
   title = input('');
 
@@ -18,6 +26,7 @@ export class ModalComponent {
   padding = input<string>();
 
   close() {
+    this.scrollLockService.unlock();
     this.closed.emit();
   }
 }

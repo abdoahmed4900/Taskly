@@ -1,6 +1,6 @@
 @if (isLoggedIn()) {
   <div
-    class="fixed inset-y-0 left-0 bg-(--surface-low) shadow-xl transition duration-1000"
+    class="fixed inset-y-0 left-0 pt-5 bg-(--surface-low) shadow-xl transition-all duration-500 ease-in-out"
     [class.w-72]="isSidebarToggled()"
     [class.lg:w-20]="!isSidebarToggled()"
     [class.translate-x-0]="isSidebarToggled()"
@@ -9,7 +9,7 @@
   >
     <aside appClickOutside (clickOutside)="close()" class="h-full flex flex-col justify-between">
       <div class="p-4">
-        <section [class.px-4.mt-1]="!isSidebarToggled()" class="logo flex flex-row gap-1 items-center">
+        <section [class.mt-1]="!isSidebarToggled()" class="logo ps-3 flex flex-row gap-1 items-center">
           <app-icon-component name="logo"></app-icon-component>
           <p
             [class.lg:hidden]="!isSidebarToggled()"
@@ -23,7 +23,7 @@
             @for (item of items(); track item.route) {
               <button (click)="navigateToPage(item.route)">
                 <li
-                  class="flex items-center transition rounded-lg"
+                  class="flex transition rounded-lg"
                   [class.justify-center.items-center]="!isSidebarToggled()"
                   [class.p-4]="isSidebarToggled()"
                   [class.py-4]="!isSidebarToggled()"
@@ -31,7 +31,7 @@
                 >
                   <app-icon-component
                     [name]="item.icon"
-                    [size]="20"
+                    [size]="24"
                     [class.text-(--primary)]="currentUrl().endsWith(item.route)"
                   ></app-icon-component>
 
@@ -83,7 +83,12 @@
             Collapse
           </p>
         </button>
-        <div class="px-6 py-3 flex flex-row items-center gap-2 justify-start">
+        <div
+          tabindex="0"
+          (click)="logout()"
+          (keydown.enter)="logout()"
+          class="px-6 py-3 flex flex-row items-center gap-2 justify-start"
+        >
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M2 18C1.45 18 0.979167 17.8042 0.5875 17.4125C0.195833 17.0208 0 16.55 0 16V2C0 1.45 0.195833 0.979167 0.5875 0.5875C0.979167 0.195833 1.45 0 2 0H9V2H2V16H9V18H2ZM13 14L11.625 12.55L14.175 10H6V8H14.175L11.625 5.45L13 4L18 9L13 14Z"
@@ -92,7 +97,6 @@
           </svg>
           <button
             [class.lg:hidden]="!isSidebarToggled()"
-            (click)="logout()"
             class="text-[0.875rem] font-medium leading-5 tracking-normal text-(--error) transition"
           >
             Logout

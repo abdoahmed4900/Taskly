@@ -5,7 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastService } from '../../../shared/service/toast.service';
 import { getNameInitials } from '../../../shared/utils';
-import { IconComponent } from '../../../shared/ui/components/icon-component/icon-component.component';
+import { IconComponent } from '../../../shared/ui/components/icon-component/icon-component';
 
 @Component({
   selector: 'app-navbar',
